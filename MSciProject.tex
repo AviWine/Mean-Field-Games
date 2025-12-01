@@ -3,7 +3,18 @@
 \usepackage{amssymb}   
 \usepackage{amsfonts}  
 \usepackage{amsthm}
-\newtheorem{theorem}{Theorem}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
 
 \title{On the Existence of a Solution to the Coupled HJB - KFP System}
 \author{Avi Wine}
@@ -61,25 +72,73 @@ $${a(u, v) = l(v) \text{ for all } v \in V}$$.
 Furthermore the solution ${\|u\| \le \frac{1}{c_0}\|l(v)\|}$ 
 \end{theorem}
 
-\vspace{1em}
+\begin{remark}
 Note that this will only work for (KFP) which becomes a linear PDE in $m$ once ${u \in H^1_0(\Omega)}$ is fixed.
-\vspace{1em}
+\end{remark}
+
+\begin{proposition}
+    If $\lambda$ is sufficiently large then (KFP) is coercive
+\end{proposition}
+\begin{proof}
+    ...
+\end{proof}
 
 Our (KFP) biliniar form is ..... It's bounded... condition (3)... and coercive ... conditon (4). 
-l(v) functional is just L1 norm of G, which is bounded ... conditon (6)
+l(v) functional is just ... which is bounded ... conditon (6) + Cauchy-Schwartz 
 
-\vspace{1em}
-For future use, let 
+\begin{definition} 
 $${S: H^1_0(\Omega) \to H^1_0(\Omega)}$$  
-$${S(u) = m \text{ such that } m \text{ solves (KFP) for given } u}$$ 
+$${S(u) = m \text{ whereby } m \text{ solves (KFP) for fixed } u}$$ 
+\end{definition}
 
-We know $S$ is a well defined map since said m both exists and is unique. 
+We know $S$ is a well defined map since m both exists and is unique. We will make use of this map
+in the next section.  
 
 \subsubsection{Solving Hamilton–Jacobi–Bellman}
 
-Lax-Milgram will unfortunately not do to solve ${\Delta u + H(x, \nabla u) +\lambda u = f(x,m) \text{ in } \Omega,}$
-for fixed $m(x)$ since it doesn't reduce to a linear PDE. We must therefore resolve to adopt the following
-fixed point theorem. 
+Lax-Milgram will unfortunately not do to solve ${\Delta u + H(x, \nabla u) +\lambda u = f(x,m)}$
+for fixed $m(x)$ since it doesn't reduce to a linear PDE. We therefore resolve to adopt the following
+fixed point theorems.
+
+\begin{theorem}[Schauder's Fixed Point Theorem]
+
+\end{theorem}
+
+We follow this up with it's consequence
+
+\begin{theorem}[Schaefer's Fixed Point Theorem]
+
+
+\end{theorem}
+    
+The somewhat less restrictive nature of the fixed point theorems mean they can be applied in
+the quasi-linear PDE context.
+
+\begin{proposition}
+    If ... is a quasi linear PDE with conditions 2, 4 and part of 5 then there exists a fixed point.
+\end{proposition}
+
+The above matches the (HJB) equation and so we conclude there exists a solution 
+${u \in H^1_0(\Omega)}$ for each ${m \in H^1_0(\Omega)}$. 
+
+\begin{proposition}
+    If $\lambda$ is sufficiently large then soution $u$ is unique
+\end{proposition}
+
+We have both existence and uniqueness so the following is well defined.
+
+\begin{definition}
+$${T: H^1_0(\Omega) \to H^1_0(\Omega)}$$  
+$${T(m) = u \text{ whereby } u \text{ solves (HJB) for fixed} m}$$     
+\end{definition}
+
+We will make use of $T$ in the next section
+
+\subsection{Codependant Solution}
+An equivalent formulation to the problem of finding a solution pair (u,m) is the following. 
+\begin{definition}
+    
+\end{definition}
 \end{flushleft}
 \end{document}
 

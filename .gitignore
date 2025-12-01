@@ -19,6 +19,7 @@
 *.run.xml
 *.fls
 *.fdb_latexmk
+*.pdf
 
 # Output directories (if used)
 out/
