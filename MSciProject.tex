@@ -1,0 +1,85 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath}  
+\usepackage{amssymb}   
+\usepackage{amsfonts}  
+\usepackage{amsthm}
+\newtheorem{theorem}{Theorem}
+
+\title{On the Existence of a Solution to the Coupled HJB - KFP System}
+\author{Avi Wine}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+
+\section{Introduction}
+\begin{flushleft}
+\textit{(Italics are copied) Mean field games (MFG), which were introduced by Lasry and Lions [24, 25, 26] and independently by Huang, Caines, and Malham´e [22], 
+model Nash equilibria of rational games of stochastic optimal control in which there are infinitely many players. The equilibria are characterized by a system of partial differential equations (PDE) that consist of
+a Hamilton–Jacobi–Bellman (HJB) equation coupled with a Kolmogorov–Fokker–Planck
+(KFP) equation. Comprehensive reviews of MFG, including analysis and applications, are
+well-documented in the literature [3, 19, 20]. We consider as a model problem a quasilinear
+elliptic stationary MFG system of the form}
+$${\Delta u + H(x, \nabla u) +\lambda u = f(x,m) \text{ in } \Omega,}$$ 
+$${\Delta m + m \frac{\partial H}{\partial p}(x, \nabla u) + \lambda m = G(x) \text{ in } \Omega,}$$
+
+along with homogeneous Dirichlet boundary conditon $u=0$ and $m=0$ on $\partial \Omega$. These equations can be interpreted as ... with $m(x)$ representing player density and $u(x)$ the \textit{value function of the underlying optimal control problem faced by the players}. Here ${\frac{\partial H}{\partial p}}$ is shorthand for the partial deriative w.r.t ${\nabla u}$.
+
+In this paper I demonstrate the existence of a solution pair $(u,m)$ in  $H^1_0(\Omega)$, provided the following conditons are met: 
+\begin{enumerate}
+    \item $\Omega$ is \dots
+    \item $H(x,\nabla u) : \mathbb{R}^{n+1} \to \mathbb{R}$ is  
+    \begin{itemize}
+        \item Lipschitz continuous with respect to $\nabla u$,  
+        \item bounded by $C\bigl(|x| + |\nabla u|\bigr)$ for a given constant $C$ and for all $x \in \mathbb{R}$, $\nabla u \in \mathbb{R}^n$.
+    \end{itemize}
+    \item The partial derivative $H_p$ is continuous with respect to $\nabla u$ and essentially bounded by some constant $L$.
+    \item $\lambda$ is sufficiently large.
+    \item $f(x, m(x)) : (\Omega, L^2(\Omega)) \to L^2(\Omega)$ and is $L^2$-continuous.
+    \item $G(x) \in L^2(\Omega)$.
+\end{enumerate}
+
+\section{Method}
+Our/My? solution consists of two stages. 
+First we'll demonstrate solvability for each equation -while fixing the second free variable- 
+independant of the other. Next comes the existence of a solution pair that solves both equations simultaneously. 
+
+\subsection{Independant Solutions}
+\subsubsection{Solving Kolmogorov–Fokker–Planck}
+To solve ${\Delta m + m \frac{\partial H}{\partial p}(x, \nabla u) + \lambda m = G(x)}$ with fixed $u(x)$, we call upon the famous Lax-Milgram Thm. 
+\begin{theorem}[Lax--Milgram]
+Let $V$ be a Hilbert space, let $a : V \times V \to \mathbb{R}$ be a
+\begin{enumerate}
+    \item bounded: $|a(u,v)| \le c_1\|u\| \|v\|$
+    \item coercive: $a(v,v) \ge c_0 \|v\| \|v\|$
+
+\end{enumerate}  bilinear form for all $u,v \in V$, and let 
+$l : V \to \mathbb{R}$ be a bounded linear functional. Then there exists a unique $u \in V$ such that 
+$${a(u, v) = l(v) \text{ for all } v \in V}$$. 
+
+Furthermore the solution ${\|u\| \le \frac{1}{c_0}\|l(v)\|}$ 
+\end{theorem}
+
+\vspace{1em}
+Note that this will only work for (KFP) which becomes a linear PDE in $m$ once ${u \in H^1_0(\Omega)}$ is fixed.
+\vspace{1em}
+
+Our (KFP) biliniar form is ..... It's bounded... condition (3)... and coercive ... conditon (4). 
+l(v) functional is just L1 norm of G, which is bounded ... conditon (6)
+
+\vspace{1em}
+For future use, let 
+$${S: H^1_0(\Omega) \to H^1_0(\Omega)}$$  
+$${S(u) = m \text{ such that } m \text{ solves (KFP) for given } u}$$ 
+
+We know $S$ is a well defined map since said m both exists and is unique. 
+
+\subsubsection{Solving Hamilton–Jacobi–Bellman}
+
+Lax-Milgram will unfortunately not do to solve ${\Delta u + H(x, \nabla u) +\lambda u = f(x,m) \text{ in } \Omega,}$
+for fixed $m(x)$ since it doesn't reduce to a linear PDE. We must therefore resolve to adopt the following
+fixed point theorem. 
+\end{flushleft}
+\end{document}
+
