@@ -1,0 +1,42 @@
+#################################
+#       LaTeX build files       #
+#################################
+
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.brf
+*.idx
+*.ilg
+*.ind
+*.lof
+*.log
+*.lot
+*.out
+*.toc
+*.synctex.gz
+*.run.xml
+*.fls
+*.fdb_latexmk
+
+# Output directories (if used)
+out/
+_build/
+
+#################################
+#     Editor / IDE directories  #
+#################################
+
+# VS Code
+.vscode/
+
+# JetBrains IDEs (PyCharm, IntelliJ)
+.idea/
+*.iml
+
+#################################
+#       macOS system files      #
+#################################
+
+.DS_Store
