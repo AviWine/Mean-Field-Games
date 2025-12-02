@@ -73,7 +73,7 @@ Furthermore the solution ${\|u\| \le \frac{1}{c_0}\|l(v)\|}$
 \end{theorem}
 
 \begin{remark}
-Note that this will only work for (KFP) which becomes a linear PDE in $m$ once ${u \in H^1_0(\Omega)}$ is fixed.
+    This will only work for (KFP) which becomes a linear PDE in $m$ once ${u \in H^1_0(\Omega)}$ is fixed.
 \end{remark}
 
 \begin{proposition}
@@ -87,11 +87,11 @@ Our (KFP) biliniar form is ..... It's bounded... condition (3)... and coercive .
 l(v) functional is just ... which is bounded ... conditon (6) + Cauchy-Schwartz 
 
 \begin{definition} 
-$${S: H^1_0(\Omega) \to H^1_0(\Omega)}$$  
-$${S(u) = m \text{ whereby } m \text{ solves (KFP) for fixed } u}$$ 
+    $${S: H^1_0(\Omega) \to H^1_0(\Omega)}$$  
+    $${S(u) = m \text{ whereby } m \text{ solves (KFP) for fixed } u}$$ 
 \end{definition}
 
-We know $S$ is a well defined map since m both exists and is unique. We will make use of this map
+$S$ is a well defined map since m both exists and is unique. We will make use of this map
 in the next section.  
 
 \subsubsection{Solving Hamilton–Jacobi–Bellman}
@@ -104,7 +104,11 @@ fixed point theorems.
 
 \end{theorem}
 
-We follow this up with it's consequence
+We follow this up with it's consequence.
+
+\begin{definition}
+    A compact map is ...
+\end{definition}
 
 \begin{theorem}[Schaefer's Fixed Point Theorem]
 
@@ -125,20 +129,59 @@ ${u \in H^1_0(\Omega)}$ for each ${m \in H^1_0(\Omega)}$.
     If $\lambda$ is sufficiently large then soution $u$ is unique
 \end{proposition}
 
-We have both existence and uniqueness so the following is well defined.
+Once again, have both existence and uniqueness so the following is well defined.
 
 \begin{definition}
-$${T: H^1_0(\Omega) \to H^1_0(\Omega)}$$  
-$${T(m) = u \text{ whereby } u \text{ solves (HJB) for fixed} m}$$     
+    $${T: H^1_0(\Omega) \to H^1_0(\Omega)}$$  
+    $${T(m) = u \text{ whereby } u \text{ solves (HJB) for fixed } m}$$     
 \end{definition}
 
 We will make use of $T$ in the next section
 
 \subsection{Codependant Solution}
-An equivalent formulation to the problem of finding a solution pair (u,m) is the following. 
+An equivalent formulation to the problem of finding a solution pair (u,m) is to find a fixed point of $A$. 
+
 \begin{definition}
-    
+    Let $T$ and $S$ be the maps as defined above. 
+    $${A: H^1_0(\Omega) \to H^1_0(\Omega)}$$
+    $${A := S \circ T}$$
 \end{definition}
+
+That is, $A$ takes an ${m \in H^1_0(\Omega)}$, internally converts it to a $u \in H^1_0(\Omega)$ that solves (HJB) 
+and spits out another (possibly distinct) ${\widetilde{m}  \in H^1_0(\Omega)}$ which solves (KFP). 
+If A has a fixed point then there exists an ${m = \widetilde{m} = A(m)}$.
+It is natural to look once more to the Schauder and Schaefer theorems and see whether $A$ satisifes their
+conditions. 
+
+We'll frame the conditions for A in the context of Schaefer's Theorem. 
+\subsubsection{Continuity of A}
+$A$ is continuous if $T$ and $S$ are both continous,so we will demonstrate the continuity of $S$ and $T$.
+
+First consider $T$
+...Condition 2...
+
+Now consider the map $S$
+... Condition 3...
+
+In fact $S$ is also bounded ...
+
+\subsubsection{Compactness of A}
+Since $S$ is continuos and bounded it is sufficient to show that $T$ is compact 
+i.e ${T \text{ is compact } \implies S \circ T = A \text{ is compact.} }$
+\begin{theorem}[Rellich-Kondrachov Compactness Theorem]
+\end{theorem}
+
+...condition 5... 
+
+\subsubsection{Boundedness of the pseudo-fixed points subset}
+G is bounded in ...
+
+\begin{remark}
+    In hindsight the order of composition was chosen to give a natural bound to the subset   
+\end{remark}
+
+$A$ therefore has a fixed point and so a solution pair $(u,m) \in H^1_0(\Omega)$ to our problem exists.
+
 \end{flushleft}
 \end{document}
 
