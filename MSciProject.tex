@@ -3,6 +3,7 @@
 \usepackage{amssymb}   
 \usepackage{amsfonts}  
 \usepackage{amsthm}
+\usepackage{amsopn}
 
 \newtheorem{theorem}{Theorem}[section]
 \newtheorem{lemma}[theorem]{Lemma}
@@ -32,14 +33,16 @@ a Hamilton–Jacobi–Bellman (HJB) equation coupled with a Kolmogorov–Fokker�
 (KFP) equation. Comprehensive reviews of MFG, including analysis and applications, are
 well-documented in the literature [3, 19, 20]. We consider as a model problem a quasilinear
 elliptic stationary MFG system of the form}
-$${\Delta u + H(x, \nabla u) +\lambda u = f(x,m) \text{ in } \Omega,}$$ 
-$${\Delta m + m \frac{\partial H}{\partial p}(x, \nabla u) + \lambda m = G(x) \text{ in } \Omega,}$$
+$${-\Delta u + H(x, \nabla u) +\lambda u = f(x,m) \text{ in } \Omega \text{,}}$$ 
+$${-\Delta m - \operatorname{div}(m \frac{\partial H}{\partial p}(x, \nabla u)) + \lambda m = G(x) \text{ in } \Omega \text{,}}$$
 
-along with homogeneous Dirichlet boundary conditon $u=0$ and $m=0$ on $\partial \Omega$. These equations can be interpreted as ... with $m(x)$ representing player density and $u(x)$ the \textit{value function of the underlying optimal control problem faced by the players}. Here ${\frac{\partial H}{\partial p}}$ is shorthand for the partial deriative w.r.t ${\nabla u}$.
+along with homogeneous Dirichlet boundary conditon $u=0$ and $m=0$ on $\partial \Omega$. 
+These equations can be interpreted as ... with $m(x)$ representing player density and $u(x)$ the \textit{value function of the underlying optimal control problem faced by the players}. 
+Here ${\frac{\partial H}{\partial p}}$ is shorthand for the partial deriative w.r.t ${\nabla u}$ and $\lambda > 0$.
 
 In this paper I demonstrate the existence of a solution pair $(u,m)$ in  $H^1_0(\Omega)$, provided the following conditons are met: 
 \begin{enumerate}
-    \item $\Omega$ is \dots
+    \item $\Omega$ is bounded and $\partial \Omega$ is smooth
     \item $H(x,\nabla u) : \mathbb{R}^{n+1} \to \mathbb{R}$ is  
     \begin{itemize}
         \item Lipschitz continuous with respect to $\nabla u$,  
@@ -52,39 +55,81 @@ In this paper I demonstrate the existence of a solution pair $(u,m)$ in  $H^1_0(
 \end{enumerate}
 
 \section{Method}
-Our/My? solution consists of two stages. 
-First we'll demonstrate solvability for each equation -while fixing the second free variable- 
-independant of the other. Next comes the existence of a solution pair that solves both equations simultaneously. 
+Our solution will consists of two stages. 
+First we'll demonstrate solvability for each equation - fixing the second free variable - 
+seprately for (HJB) and (KFP). 
+Next comes the existence of a solution \emph{pair} that solves both equations simultaneously. 
 
 \subsection{Independant Solutions}
 \subsubsection{Solving Kolmogorov–Fokker–Planck}
-To solve ${\Delta m + m \frac{\partial H}{\partial p}(x, \nabla u) + \lambda m = G(x)}$ with fixed $u(x)$, we call upon the famous Lax-Milgram Thm. 
+To solve ${-\Delta m -m \operatorname{div}(\frac{\partial H}{\partial p}(x, \nabla u)) + \lambda m = G(x)}$ with fixed $u$, we note that the equation 
+is linear in $m(x)$ so we call upon the famous Lax-Milgram Theorem \cite{lax_milgram}. 
 \begin{theorem}[Lax--Milgram]
-Let $V$ be a Hilbert space, let $a : V \times V \to \mathbb{R}$ be a
+Let $V$ be a Hilbert space, and let $${a : V \times V \to \mathbb{R}}$$ 
+be a bilinear form s.t for all ${u, v \in V}$, $a$ is: 
 \begin{enumerate}
     \item bounded: $|a(u,v)| \le c_1\|u\| \|v\|$
-    \item coercive: $a(v,v) \ge c_0 \|v\| \|v\|$
+    \item coercive: $a(v,v) \ge c_0 \|v\| \|v\|$.
 
-\end{enumerate}  bilinear form for all $u,v \in V$, and let 
-$l : V \to \mathbb{R}$ be a bounded linear functional. Then there exists a unique $u \in V$ such that 
+\end{enumerate} Let ${l : V \to \mathbb{R}}$ be a bounded linear functional. Then there exists a unique ${u \in V}$
+such that 
 $${a(u, v) = l(v) \text{ for all } v \in V}$$. 
 
-Furthermore the solution ${\|u\| \le \frac{1}{c_0}\|l(v)\|}$ 
+Furthermore the solution $u$ satisfies ${\|u\|_{V} \le \frac{1}{c_0}\|l(v)\|}$. 
 \end{theorem}
 
-\begin{remark}
-    This will only work for (KFP) which becomes a linear PDE in $m$ once ${u \in H^1_0(\Omega)}$ is fixed.
-\end{remark}
+For our purposes we'll take ${a(m,v) = l(v) \text{, } \forall v \in H^1_0(\Omega)}$ to be the weak formulation of (KFP)
+i.e $${a(m,v) = \int_{\Omega} \nabla m \nabla v + m \nabla v \frac{\partial H}{\partial p} + \lambda mv \, dx }$$
+and $${l(v) = \int_{\Omega} G(x)v \, dx}$$
 
 \begin{proposition}
-    If $\lambda$ is sufficiently large then (KFP) is coercive
+    $a(m,v)$ is bounded.
 \end{proposition}
 \begin{proof}
-    ...
+    For arbitrary $m,v \in H^1_0(\Omega)$ we have 
+    \begin{align*}
+    |a(m,v)|
+    &\le \|\nabla m\|_{L^2}\|\nabla v\|_{L^2} + L \|m\|_{L^2}\| \nabla v\|_{L^2} + \lambda \|m\|_{L^2}\|v\|_{L^2}\\[1em]
+    &\le C \|m\|_{H^1}\|v\|_{H^1}\\
+    \end{align*}
 \end{proof}
+\begin{proposition}
+    If $\lambda$ is sufficiently large then (KFP) is coercive.
+\end{proposition}
+\begin{proof}
+    Consider 
+    \begin{align*}
+    a(v,v)
+    &\ge \|\nabla v\|_{L^2}^2 - L \|v\|_{L^2}\| \nabla v\|_{L^2} + \lambda \|v\|_{L^2}^2\\[1em]
+    &\ge (1-\frac{\epsilon^2}{2})\|\nabla v\|_{L^2}^2 +  (\lambda-\frac{L^2}{2\epsilon^2}) \|v\|_{L^2}^2 \qquad \forall \epsilon \in \mathbb{R}
+    && \text{(Young's Inequality)}\\
+    \end{align*}     
 
-Our (KFP) biliniar form is ..... It's bounded... condition (3)... and coercive ... conditon (4). 
-l(v) functional is just ... which is bounded ... conditon (6) + Cauchy-Schwartz 
+To ensure ${1-\frac{\epsilon^2}{2} > 0}$ we restrict ${\epsilon^2 <2}$ and conclude with the weakest requirement on
+$\lambda$ to be $${\lambda \ge \frac{L^2}{8}}$$ which guarantees coercivity. 
+\end{proof}
+\begin{remark}
+    Both proofs build on condition $3$ i.e that $|H_p| \le L$
+\end{remark}
+
+$a(m,v)$ is thus bounded and coercive. 
+
+Now consider
+    \begin{align*}
+    \|l(v)\|
+    & = \sup_{\|v\|_{H^1} \le 1} |\int_{\Omega} Gv \, dx|\\[1em]
+    & \le \sup_{\|v\|_{L^2} \le 1} \|v\|_{L^2}\|G\|_{L^2}
+    && \text{(Cauchy-Schwarz)}\\[1em]
+    & = \|G\|_{L^2(\Omega)}
+    && \text{which is bounded (conditon 6.)}\\
+    \end{align*}
+
+so $l(v)$ is thus bounded. 
+By Lax-Milgram we may conclude that a unique solution $m \in H^1_0(\Omega)$, exists.
+
+\begin{remark}
+    This method will \emph{only} work for (KFP) which becomes a linear PDE with respect to $m$ once ${u \in H^1_0(\Omega)}$ is fixed. 
+\end{remark}
 
 \begin{definition} 
     $${S: H^1_0(\Omega) \to H^1_0(\Omega)}$$  
@@ -96,30 +141,41 @@ in the next section.
 
 \subsubsection{Solving Hamilton–Jacobi–Bellman}
 
-Lax-Milgram will unfortunately not do to solve ${\Delta u + H(x, \nabla u) +\lambda u = f(x,m)}$
-for fixed $m(x)$ since it doesn't reduce to a linear PDE. We therefore resolve to adopt the following
-fixed point theorems.
+Lax-Milgram will unfortunately not do to solve ${-\Delta u + H(x, \nabla u) +\lambda u = f(x,m)}$
+for fixed $m$ so we resolve to adopt the following fixed point theorems.\\
+Throughout this section $X$ denotes a real Banach space.
 
 \begin{theorem}[Schauder's Fixed Point Theorem]
-
+Suppose $K \subset X$ is compact and convex, and assume also 
+$$A:K \to K $$
+is continuous. Then $A$ has a fixed point in $K$.
 \end{theorem}
 
 We follow this up with it's consequence.
 
 \begin{definition}
-    A compact map is ...
+    A nonlinear mapping is $A: X \to X$ is called \emph{compact} provided for each bounded sequence $(u_k)_{k=1}^\infty$
+    the sequence $(A[u_k])_{k=1}^\infty$ is precompact; that is, there exists a subsequence $(u_{k_j})_{k_j=1}^\infty$ such that
+    $(A[u_{k_j}])_{k_j=1}^\infty$ converges in $X$.
 \end{definition}
 
 \begin{theorem}[Schaefer's Fixed Point Theorem]
-
+Suppose
+$$A:X \to X$$
+is a continuous and compact mapping. Assume further that the set
+$$\{u \in X |u=\lambda A[u] \text{ for some } 0 \le \lambda \le 1 \}$$
+is bounded. Then A has a fixed point.
 
 \end{theorem}
+{\footnotesize See \cite{evans_pde} for proofs.}
     
-The somewhat less restrictive nature of the fixed point theorems mean they can be applied in
-the quasi-linear PDE context.
+The somewhat less restrictive nature of the fixed point theorems means they can be applied in
+the semilinear PDE context.\\
+Additionally, with  Schaefer's Theorem we get an added advantage over Schauder's of not having to identify a compact set. 
+In our case however, we'll find that the natural bound of our map informs us on an appropriate set to choose. 
 
 \begin{proposition}
-    If ... is a quasi linear PDE with conditions 2, 4 and part of 5 then there exists a fixed point.
+    If ... is a  non linear PDE with conditions 2, 4 and part of 5 then there exists a fixed point.
 \end{proposition}
 
 The above matches the (HJB) equation and so we conclude there exists a solution 
@@ -166,7 +222,7 @@ Now consider the map $S$
 In fact $S$ is also bounded ...
 
 \subsubsection{Compactness of A}
-Since $S$ is continuos and bounded it is sufficient to show that $T$ is compact 
+Since $S$ is continuos and bounded it is sufficient to show that $T$ is compact in $H^1_0(\Omega)$
 i.e ${T \text{ is compact } \implies S \circ T = A \text{ is compact.} }$
 \begin{theorem}[Rellich-Kondrachov Compactness Theorem]
 \end{theorem}
@@ -183,5 +239,8 @@ G is bounded in ...
 $A$ therefore has a fixed point and so a solution pair $(u,m) \in H^1_0(\Omega)$ to our problem exists.
 
 \end{flushleft}
+
+\bibliographystyle{plain}
+\bibliography{references}
 \end{document}
 
