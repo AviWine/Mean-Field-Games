@@ -46,7 +46,7 @@ In this paper I demonstrate the existence of a solution pair $(u,m)$ in  $H^1_0(
     \item $H(x,\nabla u) : \mathbb{R}^{n+1} \to \mathbb{R}$ is  
     \begin{itemize}
         \item Lipschitz continuous with respect to $\nabla u$,  
-        \item bounded by $C\bigl(|x| + |\nabla u|\bigr)$ for a given constant $C$ and for all $x \in \mathbb{R}$, $\nabla u \in \mathbb{R}^n$.
+        \item bounded by $C(|x| + |\nabla u| + 1)$ for a given constant $C$, $\forall x \in \mathbb{R}$, $\nabla u \in \mathbb{R}^n$.
     \end{itemize}
     \item The partial derivative $H_p$ is continuous with respect to $\nabla u$ and essentially bounded by some constant $L$.
     \item $\lambda$ is sufficiently large.
@@ -65,17 +65,17 @@ Next comes the existence of a solution \emph{pair} that solves both equations si
 To solve ${-\Delta m -m \operatorname{div}(\frac{\partial H}{\partial p}(x, \nabla u)) + \lambda m = G(x)}$ with fixed $u$, we note that the equation 
 is linear in $m(x)$ so we call upon the famous Lax-Milgram Theorem \cite{lax_milgram}. 
 \begin{theorem}[Lax--Milgram]
-Let $V$ be a Hilbert space, and let $${a : V \times V \to \mathbb{R}}$$ 
-be a bilinear form s.t for all ${u, v \in V}$, $a$ is: 
-\begin{enumerate}
-    \item bounded: $|a(u,v)| \le c_1\|u\| \|v\|$
-    \item coercive: $a(v,v) \ge c_0 \|v\| \|v\|$.
+    Let $V$ be a Hilbert space, and let $${a : V \times V \to \mathbb{R}}$$ 
+    be a bilinear form s.t for all ${u, v \in V}$, $a$ is: 
+    \begin{enumerate}
+        \item bounded: $|a(u,v)| \le c_1\|u\| \|v\|$
+        \item coercive: $a(v,v) \ge c_0 \|v\| \|v\|$.
 
-\end{enumerate} Let ${l : V \to \mathbb{R}}$ be a bounded linear functional. Then there exists a unique ${u \in V}$
-such that 
-$${a(u, v) = l(v) \text{ for all } v \in V}$$. 
+    \end{enumerate} Let ${l : V \to \mathbb{R}}$ be a bounded linear functional. Then there exists a unique ${u \in V}$
+    such that 
+    $${a(u, v) = l(v) \text{ for all } v \in V}$$. 
 
-Furthermore the solution $u$ satisfies ${\|u\|_{V} \le \frac{1}{c_0}\|l(v)\|}$. 
+    Furthermore the solution $u$ satisfies ${\|u\|_{V} \le \frac{1}{c_0}\|l(v)\|}$. 
 \end{theorem}
 
 For our purposes we'll take ${a(m,v) = l(v) \text{, } \forall v \in H^1_0(\Omega)}$ to be the weak formulation of (KFP)
@@ -105,8 +105,10 @@ and $${l(v) = \int_{\Omega} G(x)v \, dx}$$
     && \text{(Young's Inequality)}\\
     \end{align*}     
 
-To ensure ${1-\frac{\epsilon^2}{2} > 0}$ we restrict ${\epsilon^2 <2}$ and conclude with the weakest requirement on
-$\lambda$ to be $${\lambda \ge \frac{L^2}{8}}$$ which guarantees coercivity. 
+    To ensure ${1-\frac{\epsilon^2}{2} > 0}$ we restrict ${\epsilon^2 <2}$ and conclude with the weakest requirement on
+    $\lambda$ being 
+    $${\lambda \ge \frac{L^2}{8}}$$ 
+    which guarantees coercivity. 
 \end{proof}
 \begin{remark}
     Both proofs build on condition $3$ i.e that $|H_p| \le L$
@@ -146,9 +148,9 @@ for fixed $m$ so we resolve to adopt the following fixed point theorems.\\
 Throughout this section $X$ denotes a real Banach space.
 
 \begin{theorem}[Schauder's Fixed Point Theorem]
-Suppose $K \subset X$ is compact and convex, and assume also 
-$$A:K \to K $$
-is continuous. Then $A$ has a fixed point in $K$.
+    Suppose $K \subset X$ is compact and convex, and assume also 
+    $$A:K \to K $$
+    is continuous. Then $A$ has a fixed point in $K$.
 \end{theorem}
 
 We follow this up with it's consequence.
@@ -163,20 +165,50 @@ We follow this up with it's consequence.
 Suppose
 $$A:X \to X$$
 is a continuous and compact mapping. Assume further that the set
-$$\{u \in X |u=\lambda A[u] \text{ for some } 0 \le \lambda \le 1 \}$$
+$$\{u \in X |u=\mu A[u] \text{ for some } 0 \le \mu \le 1 \}$$
 is bounded. Then A has a fixed point.
 
 \end{theorem}
-{\footnotesize See \cite{evans_pde} for proofs.}
+{\footnotesize See \cite[Chapter~9]{evans_pde} for proofs.}
     
 The somewhat less restrictive nature of the fixed point theorems means they can be applied in
 the semilinear PDE context.\\
 Additionally, with  Schaefer's Theorem we get an added advantage over Schauder's of not having to identify a compact set. 
 In our case however, we'll find that the natural bound of our map informs us on an appropriate set to choose. 
 
-\begin{proposition}
-    If ... is a  non linear PDE with conditions 2, 4 and part of 5 then there exists a fixed point.
-\end{proposition}
+\begin{theorem}[Existence]
+    If $\lambda > 0$ is sufficiently large, there exists a
+    function $u \in H^2(\Omega)\cap H^1_0(\Omega)$ solving (HJB) with fixed $m$.
+\end{theorem}
+\begin{proof}
+    We consider a map 
+    $$A: H^1_0(\Omega) \to H^1_0(\Omega)$$
+    $$A[u] = w \text{, such that } -\Delta w +\lambda w = f(x,m) - H(x, \nabla u)$$
+    We know $w$ exists by Lax-Milgram. Our aim then is to demonstrate the existence of a fixed point of $A$ using Schaefer's Theorem.  
+    Proving continuity and compactness of $A$ is almost identical to \cite[Chapter~9]{evans_pde} (except for an $\|f\|_{L^2(\Omega)}$ term) so we'll omit it.
+    Left to show is that 
+    $$\{u \in X |u=\mu A[u] \text{ for some } 0 \le \mu \le 1 \}$$
+    is bounded.
+    
+    Subtituting $\frac{u}{\mu}$ for $w$, we find ourselves considering 
+    \begin{align*}
+        \int_\Omega (\nabla u)^2 +\lambda u^2 \, dx 
+        & = \mu \int_\Omega fu - H(x, \nabla u)u\, dx\\[1em]
+        & \le \int_\Omega |fu| +|H(x, \nabla u)u| \, dx\\[1em]
+        & \le \frac{1}{2}\int_\Omega |fu| + C(|x| + |\nabla u| + 1)u \, dx
+        && \text{(Condition 2.)}
+        & \le \frac{1}{2}\int_\Omega \frac{f^2}{\epsilon^2} + \epsilon^2 u^2 + \frac{1}{\delta^2}|Cu|^2 + \delta^2(|x|+|\nabla u| + 1)^2 \, dx, \qquad \epsilon \in \mathbb{R},\text{ } \delta \in (0,1)\\[1em]
+        & \text{(Young's Inequality)}\\[1em]
+        & \le \frac{1}{2}\int_\Omega \frac{f^2}{\epsilon^2} + (\epsilon^2 + \frac{1}{\delta^2}C^2) u^2 +\delta^2 (1+\gamma^2)(\nabla u)^2 \, dx + K, \qquad \gamma \in \mathbb{R}   
+    \end{align*}
+
+    having applied Young's Inequality once more to fully isolate $(\nabla u)^2$. We need to ensure 
+    \begin{align*}
+        \delta^2(1+\gamma^2) < 1
+        & \implies \delta^2 < 1
+    \end{align*}
+    Also, since $\epsilon$ can be arbitrarily close to $0$, this leaves $\|u\|_{H^1}$ bounded if ${\lambda > \frac{C^2}{2}}$ 
+\end{proof}
 
 The above matches the (HJB) equation and so we conclude there exists a solution 
 ${u \in H^1_0(\Omega)}$ for each ${m \in H^1_0(\Omega)}$. 
