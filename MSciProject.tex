@@ -45,7 +45,7 @@ In this paper I demonstrate the existence of a solution pair $(u,m)$ in  $H^1_0(
     \item $\Omega$ is bounded and $\partial \Omega$ is smooth
     \item $H(x,\nabla u) : \mathbb{R}^{n+1} \to \mathbb{R}$ is  
     \begin{itemize}
-        \item Lipschitz continuous with respect to $\nabla u$,  
+        \item Lipschitz continuous with respect to $\nabla u$ with Lipschitz constant $\tilde{C}$,  
         \item bounded by $C(|x| + |\nabla u| + 1)$ for a given constant $C$, $\forall x \in \mathbb{R}$, $\nabla u \in \mathbb{R}^n$.
     \end{itemize}
     \item The partial derivative $H_p$ is continuous with respect to $\nabla u$ and essentially bounded by some constant $L$.
@@ -107,11 +107,11 @@ and $${l(v) = \int_{\Omega} G(x)v \, dx}$$
 
     To ensure ${1-\frac{\epsilon^2}{2} > 0}$ we restrict ${\epsilon^2 <2}$ and conclude with the weakest requirement on
     $\lambda$ being 
-    $${\lambda \ge \frac{L^2}{8}}$$ 
+    $${\lambda > \frac{L^2}{8}}$$ 
     which guarantees coercivity. 
 \end{proof}
 \begin{remark}
-    Both proofs build on condition $3$ i.e that $|H_p| \le L$
+    Both proofs build on condition $3$ i.e that $|H_p| \le L$.
 \end{remark}
 
 $a(m,v)$ is thus bounded and coercive. 
@@ -190,19 +190,17 @@ In our case however, we'll find that the natural bound of our map informs us on 
     $$\{u \in X |u=\mu A[u] \text{ for some } 0 \le \mu \le 1 \}$$
     is bounded.
     
-    Subtituting $\frac{u}{\mu}$ for $w$, we find ourselves considering 
+    Subtituting $\frac{u}{\mu}$ for $w$, we find ourselves considering
     \begin{align*}
-        \int_\Omega (\nabla u)^2 +\lambda u^2 \, dx 
-        & = \mu \int_\Omega fu - H(x, \nabla u)u\, dx\\[1em]
-        & \le \int_\Omega |fu| +|H(x, \nabla u)u| \, dx\\[1em]
-        & \le \frac{1}{2}\int_\Omega |fu| + C(|x| + |\nabla u| + 1)u \, dx
-        && \text{(Condition 2.)}
-        & \le \frac{1}{2}\int_\Omega \frac{f^2}{\epsilon^2} + \epsilon^2 u^2 + \frac{1}{\delta^2}|Cu|^2 + \delta^2(|x|+|\nabla u| + 1)^2 \, dx, \qquad \epsilon \in \mathbb{R},\text{ } \delta \in (0,1)\\[1em]
-        & \text{(Young's Inequality)}\\[1em]
-        & \le \frac{1}{2}\int_\Omega \frac{f^2}{\epsilon^2} + (\epsilon^2 + \frac{1}{\delta^2}C^2) u^2 +\delta^2 (1+\gamma^2)(\nabla u)^2 \, dx + K, \qquad \gamma \in \mathbb{R}   
+        \int_\Omega (\nabla u)^2 +\lambda u^2 \,dx 
+        & = \mu \int_\Omega fu - H(x, \nabla u)u\,dx\\[1em]
+        & \le \int_\Omega |fu| +|H(x, \nabla u)u| \,dx\\[1em]
+        & \le \frac{1}{2}\int_\Omega |fu| + C(|x| + |\nabla u| + 1)|u| \, dx \qquad \text{(Condition 2.)}\\[1em]
+        & \le \frac{1}{2}\int_\Omega \frac{f^2}{\epsilon^2} + \epsilon^2 u^2 + \frac{1}{\delta^2}|Cu|^2 + \delta^2(|x|+|\nabla u| + 1)^2 \,dx, \qquad \epsilon \in \mathbb{R},\text{ } \delta \in (0,1)\\[1em]
+        & \le \frac{1}{2}\int_\Omega \frac{f^2}{\epsilon^2} + (\epsilon^2 + \frac{1}{\delta^2}C^2) u^2 +\delta^2 (1+\gamma^2)(\nabla u)^2 \,dx + K, \qquad \gamma \in \mathbb{R}   
     \end{align*}
 
-    having applied Young's Inequality once more to fully isolate $(\nabla u)^2$. We need to ensure 
+    having applied Young's Inequality repeatidly to fully isolate $(\nabla u)^2$ and $u^2$. We need to ensure 
     \begin{align*}
         \delta^2(1+\gamma^2) < 1
         & \implies \delta^2 < 1
@@ -210,14 +208,28 @@ In our case however, we'll find that the natural bound of our map informs us on 
     Also, since $\epsilon$ can be arbitrarily close to $0$, this leaves $\|u\|_{H^1}$ bounded if ${\lambda > \frac{C^2}{2}}$ 
 \end{proof}
 
-The above matches the (HJB) equation and so we conclude there exists a solution 
-${u \in H^1_0(\Omega)}$ for each ${m \in H^1_0(\Omega)}$. 
-
 \begin{proposition}
-    If $\lambda$ is sufficiently large then soution $u$ is unique
+    If $\lambda > 0$ is sufficiently large then soution $u$ is unique
 \end{proposition}
-
-Once again, have both existence and uniqueness so the following is well defined.
+\begin{proof}
+    Suppose $\exists u_1, u_2$ both solving the HJB equation. Then
+    taking their difference yields 
+    \begin{align*}
+        \|\nabla(u_1 - u_2)\|_{L^2}^2 +\lambda\|(u_1-u_2)\|_{L^2}^2
+        & \le \int_\Omega |(u_1-u_2)||H_1 - H_2|\,dx\\[1em]
+        & \le \tilde{C}^2\|(u_1-u_2)\|_{L^2} \|\nabla(u_1-u_2)\|_{L^2}\\[1em]
+        & \text{(Condition 2.) and (Cauchy-Schwarz)}
+    \end{align*}
+    So 
+    \begin{align*}
+        \lambda > \frac{\tilde{C}^4}{4}
+        & \implies u_1 = u_2 \text{ in } L^2(\Omega)\\[1em]
+        &&\text{(Young's Inequality)}\\[1em]
+        & \iff u_1 = u_2 \text{ in } H^1_0(\Omega)\\
+    \end{align*}
+    Note that $\tilde{C}$ denotes the Lipschitz constant of $H(x, \nabla u)$.
+\end{proof}
+Once again we have both existence and uniqueness so the following is well defined.
 
 \begin{definition}
     $${T: H^1_0(\Omega) \to H^1_0(\Omega)}$$  
@@ -230,23 +242,46 @@ We will make use of $T$ in the next section
 An equivalent formulation to the problem of finding a solution pair (u,m) is to find a fixed point of $A$. 
 
 \begin{definition}
-    Let $T$ and $S$ be the maps as defined above. 
+    Let $T$ and $S$ be the maps defined above. 
     $${A: H^1_0(\Omega) \to H^1_0(\Omega)}$$
     $${A := S \circ T}$$
 \end{definition}
 
-That is, $A$ takes an ${m \in H^1_0(\Omega)}$, internally converts it to a $u \in H^1_0(\Omega)$ that solves (HJB) 
-and spits out another (possibly distinct) ${\widetilde{m}  \in H^1_0(\Omega)}$ which solves (KFP). 
+That is, $A$ takes an ${m \in H^1_0(\Omega)}$, internally converts it to $u \in H^1_0(\Omega)$ which solves (HJB) 
+and converts that to another (possibly distinct) ${\widetilde{m}  \in H^1_0(\Omega)}$ which solves (KFP).\\[1em]
 If A has a fixed point then there exists an ${m = \widetilde{m} = A(m)}$.
 It is natural to look once more to the Schauder and Schaefer theorems and see whether $A$ satisifes their
 conditions. 
 
 We'll frame the conditions for A in the context of Schaefer's Theorem. 
 \subsubsection{Continuity of A}
-$A$ is continuous if $T$ and $S$ are both continous,so we will demonstrate the continuity of $S$ and $T$.
+$A$ is continuous if $T$ and $S$ are both continous, so we will demonstrate the continuity of $S$ and $T$.
 
-First consider $T$
-...Condition 2...
+First consider $T$.\\[1em]
+Let $(m_k)_{k=1}^\infty$ be a convergent sequence in $H^1_0(\Omega)$ and $m = \lim_{k \to \infty} m_k$.
+Lable $u = T[m]$ and $u_k = T[m_k]$.\\
+Taking the weak formulation of their difference in (HJB) gives
+\begin{align*}
+        \|\nabla(u - u_k)\|_{L^2}^2 +\lambda\|(u-u_k)\|_{L^2}^2
+        & \le \int_\Omega |(u-u_k)||H - H_k| + |(u-u_k)||f - f_k| \,dx\\[1em]
+        & \le \tilde{C}^2\|(u-u_k)\|_{L^2} \|\nabla(u-u_k)\|_{L^2} + \|u-u_k\|_{L^2}\|f-f_k\|_{L^2}\\[1em]
+        & \text{(Condition 2.) and (Cauchy-Schwarz)}
+    \end{align*}
+
+Recall that $f$ is $L^2$ continuos (Condition 5.) so ${\|f-f_k\|_{L^2} \to 0 \text{ as } k \to \infty}$.
+Note also that
+\begin{align*}
+    \|\nabla u_k\|_{L^2}^2 + \lambda\|u_k\|_{L^2}^2
+    & \le \int_\Omega |u_k||H_k| + |u_k||f_k| \,dx\\[1em]
+\end{align*}
+
+By previous, we already know that $\lambda$ is sufficiently large to surmount
+the growth condition constant of $H$. ... Thus $u_k$ are bounded and in particular $\|u_k - u\|_{L^2}$ is bounded.
+We may say therefore 
+$$\|u-u_k\|_{L^2}\|f-f_k\|_{L^2} \to 0$$ and repeating the argument above
+$\implies u_k \to u \text{ as } k \to \infty$.
+
+
 
 Now consider the map $S$
 ... Condition 3...
