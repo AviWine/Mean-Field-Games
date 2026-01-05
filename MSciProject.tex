@@ -4,6 +4,7 @@
 \usepackage{amsfonts}  
 \usepackage{amsthm}
 \usepackage{amsopn}
+\usepackage{enumitem}
 
 \newtheorem{theorem}{Theorem}[section]
 \newtheorem{lemma}[theorem]{Lemma}
@@ -49,7 +50,7 @@ In this paper I demonstrate the existence of a solution pair $(u,m)$ in  $H^1_0(
         \item bounded by $C(|x| + |\nabla u| + 1)$ for a given constant $C$, $\forall x \in \mathbb{R}$, $\nabla u \in \mathbb{R}^n$.
     \end{itemize}
     \item The partial derivative $H_p$ is continuous with respect to $\nabla u$ and essentially bounded by some constant $L$.
-    \item $\lambda$ is sufficiently large.
+    \item $\lambda$ is sufficiently large. Particularly $\lambda > \max()$
     \item $f(x, m(x)) : (\Omega, L^2(\Omega)) \to L^2(\Omega)$ and is $L^2$-continuous.
     \item $G(x) \in L^2(\Omega)$.
 \end{enumerate}
@@ -248,17 +249,17 @@ An equivalent formulation to the problem of finding a solution pair (u,m) is to 
 \end{definition}
 
 That is, $A$ takes an ${m \in H^1_0(\Omega)}$, internally converts it to $u \in H^1_0(\Omega)$ which solves (HJB) 
-and converts that to another (possibly distinct) ${\widetilde{m}  \in H^1_0(\Omega)}$ which solves (KFP).\\[1em]
+and converts that to another, possibly distinct, ${\widetilde{m}  \in H^1_0(\Omega)}$ which solves (KFP).\\[1em]
 If A has a fixed point then there exists an ${m = \widetilde{m} = A(m)}$.
 It is natural to look once more to the Schauder and Schaefer theorems and see whether $A$ satisifes their
 conditions. 
 
 We'll frame the conditions for A in the context of Schaefer's Theorem. 
 \subsubsection{Continuity of A}
-$A$ is continuous if $T$ and $S$ are both continous, so we will demonstrate the continuity of $S$ and $T$.
+$A$ is continuous if $T$ and $S$ are both continous, so we will consider the continuity $S$ and $T$ individually.
 
-First consider $T$.\\[1em]
-Let $(m_k)_{k=1}^\infty$ be a convergent sequence in $H^1_0(\Omega)$ and $m = \lim_{k \to \infty} m_k$.
+\underline{First consider $T$.}\\[1em]
+Let $(m_k)_{k=1}^\infty$ be a convergent sequence in $H^1_0(\Omega)$ to some limit $m$.
 Lable $u = T[m]$ and $u_k = T[m_k]$.\\
 Taking the weak formulation of their difference in (HJB) gives
 \begin{align*}
@@ -275,36 +276,84 @@ Note also that
     & \le \int_\Omega |u_k||H_k| + |u_k||f_k| \,dx\\[1em]
 \end{align*}
 
-$H$ and $f_k$ are both bounded. Applying Young's Inequality Thus $u_k$ are bounded and in particular $\|u_k - u\|_{L^2}$ is bounded.
-We may say therefore 
+$H_k$ and $f_k$ are both bounded. The inequality tells us that $u_k$ is bounded in $H^1_0(\Omega)$ since 
+$\Omega$ is bounded. In particular $\|u_k - u\|_{L^2}$ is bounded.
+Therefore,
 $$\|u-u_k\|_{L^2}\|f-f_k\|_{L^2} \to 0$$ 
-and repeating the argument above
-$\implies u_k \to u \text{ as } k \to \infty$.\\
+and repeating the argument for the uniqueness of u above implies 
+$$u_k \to u \text{ as } k \to \infty \text{.}$$\\[1em]
 
 
+\underline{Now consider $S$.}\\[1em]
+As before, let $(u_k)_{k=1}^\infty$ be a convergent sequence in $H^1_0(\Omega)$ and $u = \lim_{k \to \infty} u_k$.
+Lable $m = S[u]$ and $m_k = S[u_k]$.\\
 
-Now consider the map $S$
-... Condition 3...
+Taking the weak formulation of their difference in (KFP) gives
+\begin{align*}
+    \|\nabla(m - m_k)\|_{L^2}^2 + \int_\Omega \nabla(m-m_k)[m \frac{\partial H}{\partial p} - m_k \frac{\partial H_k}{\partial p}] \,dx + \lambda\|(m-m_k)\|_{L^2}^2 = 0\\[1em]
+    \implies \\[1em]
+    \|\nabla(m - m_k)\|_{L^2}^2 + \lambda\|(m-m_k)\|_{L^2}^2
+    \le \int_\Omega |\nabla(m-m_k)||m \frac{\partial H}{\partial p} - m_k \frac{\partial H_k}{\partial p}| \,dx\\[1em]
+\end{align*}
 
-In fact $S$ is also bounded ...
+Recall that $m$ and $m_k$ are both bounded by Lax-Milgram (indeed S is bounded) and that $\partial_p H_k \to \partial_p H$. $\partial_p H_k$ are bounded by $L$ as well. This, Young's Inequality and our condition on $\lambda$ means
+$m_k \to m$ as $k \to \infty$ so $S$ is continuous.
 
 \subsubsection{Compactness of A}
 Since $S$ is continuos and bounded it is sufficient to show that $T$ is compact in $H^1_0(\Omega)$
-i.e ${T \text{ is compact } \implies S \circ T = A \text{ is compact.} }$
+i.e 
+$${T \text{ is compact } \implies S \circ T = A \text{ is compact.} }$$
+\begin{definition}
+    Let $X$ and $Y$ be Banach spaces, $X \subset Y$. We say that $X$ is compactly embedded in $Y$, written
+    $$X \subset \subset Y \text{,}$$
+    provided
+    \begin{enumerate}[label=(\roman*)]
+        \item $\|x\|_Y \le C\|x\|_X$ for some constant $C$,
+        \item each bounded sequence in $X$ is precompact in $Y$.
+    \end{enumerate}
+\end{definition}
 \begin{theorem}[Rellich-Kondrachov Compactness Theorem]
+Assume $U$ is a bounded open subset of $\mathbb{R}^n$, and $\partial U$ is $C^1$. Suppose $1<p< n$. Then
+$$W^{1,p} \subset \subset L^q$$
+for each $1 \le q< p^*$.
 \end{theorem}
-
-...condition 5... 
-
-\subsubsection{Boundedness of the pseudo-fixed points subset}
-G is bounded in ...
+Note $p^* = \frac{np}{n-p}$
 
 \begin{remark}
-    In hindsight the order of composition was chosen to give a natural bound to the subset   
+    Observe that $p^* > p$ and that we have in particular 
+    $$W^{1,p} \subset \subset L^p$$
+    for all $1 \le p < n$
+\end{remark}
+
+Let $(m_k)_{k=1}^\infty$ be a bounded sequence in $H^1_0(\Omega)$. $\Omega$ is ... (condition 1.) so by the Compactness Theorem there exists
+$(m_{k_j})_{k_j=1}^\infty$ which is convergent in $L^2(\Omega)$ to some limit $m \in L^2(\Omega)$.
+
+We want to show that $T(m_{k_j}) \to T(m)$.
+Recall that $f$ is $L^2$ continous (condition 5.) and so $L^2$ convergence is sufficent. We repeat the argument
+for the continuity of $T$ - this time with respect to $m_{k_j}$.
+Thus, 
+$$T(m_{k_j}) \to T(m) \text{ as } j \to \infty$$
+and $A$ is compact. 
+
+\subsubsection{Boundedness of the pseudo-fixed points Subset}
+Consider 
+$$\{m \in H^1_0(\Omega) | m = \mu A(m), \mu /in [0,1]\} \text{.}$$
+The corresponding equation pair with $A(m)$ substituted for $\frac{m}{\mu}$ is 
+$${-\Delta u + H(x, \nabla u) +\lambda u = f(x,m) \text{,}}$$ 
+$${\frac{1}{\mu}(-\Delta m - \operatorname{div}(m \frac{\partial H}{\partial p}(x, \nabla u)) + \lambda m) = G(x)}$$
+
+Rearranging the latter and calling upon the Lax-Milgram bound implies
+$m \le \mu \|G\|_{L^2} \le \|G\|_{L^2}$ which is bounded in $L^2(\Omega)$ (conditon 6.).
+By Schaefer's Theorem there exists a fixed point of $A$ and so the solution pair $(u,m)$ exists.
+
+\begin{remark}
+    We can now say that in hindsight the order of composition was chosen to give a natural bound of the subset. 
 \end{remark}
 
 $A$ therefore has a fixed point and so a solution pair $(u,m) \in H^1_0(\Omega)$ to our problem exists.
 
+\subsection{Swapping Coimposition order}
+\subsection{Non-linear (KFP)}
 \end{flushleft}
 
 \bibliographystyle{plain}
