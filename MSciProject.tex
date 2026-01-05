@@ -1,10 +1,21 @@
 \documentclass[11pt]{article}
-\usepackage{amsmath}  
-\usepackage{amssymb}   
-\usepackage{amsfonts}  
-\usepackage{amsthm}
-\usepackage{amsopn}
+
+% ---------- Fonts & page ----------
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[a4paper,margin=1.15in]{geometry}
+\usepackage{microtype}
+
+% ---------- Math ----------
+\usepackage{mathtools}   % includes amsmath
+\usepackage{amssymb,amsfonts,amsthm,amsopn}
+
+% ---------- Lists / links ----------
 \usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+
+% ---------- Theorems ----------
+\numberwithin{equation}{section}
 
 \newtheorem{theorem}{Theorem}[section]
 \newtheorem{lemma}[theorem]{Lemma}
@@ -17,346 +28,351 @@
 \theoremstyle{remark}
 \newtheorem{remark}[theorem]{Remark}
 
+% ---------- Notation helpers ----------
+\DeclareMathOperator{\diver}{div}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Ltwo}{L^2(\Omega)}
+\newcommand{\Honez}{H_0^1(\Omega)}
+\newcommand{\Hp}{\frac{\partial H}{\partial p}}
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
 
-\title{On the Existence of a Solution to the Coupled HJB - KFP System}
+% Allow page breaks inside long align blocks (prevents ugly overflow)
+\allowdisplaybreaks
+
+\title{On the Existence of a Solution to the Coupled HJB--KFP System}
 \author{Avi Wine}
 \date{\today}
 
 \begin{document}
 \maketitle
 
-
 \section{Introduction}
-\begin{flushleft}
-\textit{(Italics are copied) Mean field games (MFG), which were introduced by Lasry and Lions [24, 25, 26] and independently by Huang, Caines, and Malham´e [22], 
+
+\begin{quote}
+\emph{(Italics are copied.) Mean field games (MFG), which were introduced by Lasry and Lions [24, 25, 26] and independently by Huang, Caines, and Malham\'e [22],
 model Nash equilibria of rational games of stochastic optimal control in which there are infinitely many players. The equilibria are characterized by a system of partial differential equations (PDE) that consist of
-a Hamilton–Jacobi–Bellman (HJB) equation coupled with a Kolmogorov–Fokker–Planck
-(KFP) equation. Comprehensive reviews of MFG, including analysis and applications, are
-well-documented in the literature [3, 19, 20]. We consider as a model problem a quasilinear
-elliptic stationary MFG system of the form}
-$${-\Delta u + H(x, \nabla u) +\lambda u = f(x,m) \text{ in } \Omega \text{,}}$$ 
-$${-\Delta m - \operatorname{div}(m \frac{\partial H}{\partial p}(x, \nabla u)) + \lambda m = G(x) \text{ in } \Omega \text{,}}$$
+a Hamilton--Jacobi--Bellman (HJB) equation coupled with a Kolmogorov--Fokker--Planck (KFP) equation. Comprehensive reviews of MFG, including analysis and applications, are
+well-documented in the literature [3, 19, 20]. We consider as a model problem a quasilinear elliptic stationary MFG system of the form}
+\end{quote}
 
-along with homogeneous Dirichlet boundary conditon $u=0$ and $m=0$ on $\partial \Omega$. 
-These equations can be interpreted as ... with $m(x)$ representing player density and $u(x)$ the \textit{value function of the underlying optimal control problem faced by the players}. 
-Here ${\frac{\partial H}{\partial p}}$ is shorthand for the partial deriative w.r.t ${\nabla u}$ and $\lambda > 0$.
+\begin{equation}
+\label{eq:system}
+\begin{aligned}
+-\Delta u + H(x,\nabla u) + \lambda u &= f(x,m) && \text{in } \Omega,\\
+-\Delta m - \diver\!\bigl(m\,\Hp(x,\nabla u)\bigr) + \lambda m &= G(x) && \text{in } \Omega,
+\end{aligned}
+\end{equation}
+together with homogeneous Dirichlet boundary conditions $u=0$ and $m=0$ on $\partial\Omega$.
+These equations can be interpreted as \dots, with $m(x)$ representing the player density and $u(x)$ the \emph{value function of the underlying optimal control problem faced by the players}.
+Here $\Hp$ denotes the partial derivative of $H$ with respect to the momentum variable (i.e.\ the $\nabla u$ argument), and $\lambda>0$.
 
-In this paper I demonstrate the existence of a solution pair $(u,m)$ in  $H^1_0(\Omega)$, provided the following conditons are met: 
-\begin{enumerate}
-    \item $\Omega$ is bounded and $\partial \Omega$ is smooth
-    \item $H(x,\nabla u) : \mathbb{R}^{n+1} \to \mathbb{R}$ is  
-    \begin{itemize}
-        \item Lipschitz continuous with respect to $\nabla u$ with Lipschitz constant $\tilde{C}$,  
-        \item bounded by $C(|x| + |\nabla u| + 1)$ for a given constant $C$, $\forall x \in \mathbb{R}$, $\nabla u \in \mathbb{R}^n$.
-    \end{itemize}
-    \item The partial derivative $H_p$ is continuous with respect to $\nabla u$ and essentially bounded by some constant $L$.
-    \item $\lambda$ is sufficiently large. Particularly $\lambda > \max()$
-    \item $f(x, m(x)) : (\Omega, L^2(\Omega)) \to L^2(\Omega)$ and is $L^2$-continuous.
-    \item $G(x) \in L^2(\Omega)$.
+In this paper I demonstrate the existence of a solution pair $(u,m)$ in $\Honez$, provided the following conditions are met:
+\begin{enumerate}[label=\arabic*., leftmargin=*, itemsep=0.35em]
+  \item $\Omega$ is bounded and $\partial\Omega$ is smooth.
+  \item $H(x,\nabla u):\R^{n+1}\to\R$ is
+  \begin{itemize}[leftmargin=*, itemsep=0.25em]
+    \item Lipschitz continuous with respect to $\nabla u$ with Lipschitz constant $\tilde{C}$,
+    \item bounded by $C\bigl(|x|+|\nabla u|+1\bigr)$ for a given constant $C$, for all $x\in\R$ and $\nabla u\in\R^n$.
+  \end{itemize}
+  \item The partial derivative $H_p$ is continuous with respect to $\nabla u$ and essentially bounded by some constant $L$.
+  \item $\lambda$ is sufficiently large (in particular $\lambda>\max(\,)$).
+  \item $f(x,m(x)):(\Omega,\Ltwo)\to \Ltwo$ and is $\Ltwo$-continuous.
+  \item $G(x)\in \Ltwo$.
 \end{enumerate}
 
 \section{Method}
-Our solution will consists of two stages. 
-First we'll demonstrate solvability for each equation - fixing the second free variable - 
-seprately for (HJB) and (KFP). 
-Next comes the existence of a solution \emph{pair} that solves both equations simultaneously. 
 
-\subsection{Independant Solutions}
-\subsubsection{Solving Kolmogorov–Fokker–Planck}
-To solve ${-\Delta m -m \operatorname{div}(\frac{\partial H}{\partial p}(x, \nabla u)) + \lambda m = G(x)}$ with fixed $u$, we note that the equation 
-is linear in $m(x)$ so we call upon the famous Lax-Milgram Theorem \cite{lax_milgram}. 
+Our solution consists of two stages. First, we show solvability for each equation separately, by fixing the other variable (HJB with fixed $m$, and KFP with fixed $u$).
+Second, we prove the existence of a solution \emph{pair} solving both equations simultaneously.
+
+\subsection{Independent solutions}
+
+\subsubsection{Solving Kolmogorov--Fokker--Planck}
+
+To solve
+\[
+-\Delta m - \diver\!\bigl(m\,\Hp(x,\nabla u)\bigr) + \lambda m = G(x)
+\]
+with fixed $u$, we note that the equation is linear in $m(x)$, so we appeal to the Lax--Milgram theorem \cite{lax_milgram}.
+
 \begin{theorem}[Lax--Milgram]
-    Let $V$ be a Hilbert space, and let $${a : V \times V \to \mathbb{R}}$$ 
-    be a bilinear form s.t for all ${u, v \in V}$, $a$ is: 
-    \begin{enumerate}
-        \item bounded: $|a(u,v)| \le c_1\|u\| \|v\|$
-        \item coercive: $a(v,v) \ge c_0 \|v\| \|v\|$.
-
-    \end{enumerate} Let ${l : V \to \mathbb{R}}$ be a bounded linear functional. Then there exists a unique ${u \in V}$
-    such that 
-    $${a(u, v) = l(v) \text{ for all } v \in V}$$. 
-
-    Furthermore the solution $u$ satisfies ${\|u\|_{V} \le \frac{1}{c_0}\|l(v)\|}$. 
+\label{thm:lax-milgram}
+Let $V$ be a Hilbert space and let $a:V\times V\to\R$ be a bilinear form such that for all $u,v\in V$,
+\begin{enumerate}[label=(\roman*), leftmargin=*, itemsep=0.25em]
+  \item (boundedness) $|a(u,v)|\le c_1\norm{u}\,\norm{v}$,
+  \item (coercivity) $a(v,v)\ge c_0\norm{v}^2$.
+\end{enumerate}
+Let $l:V\to\R$ be a bounded linear functional. Then there exists a unique $u\in V$ such that
+\[
+a(u,v)=l(v)\qquad\text{for all }v\in V.
+\]
+Moreover, $\norm{u}_V \le \frac{1}{c_0}\norm{l}_{V^\ast}$.
 \end{theorem}
 
-For our purposes we'll take ${a(m,v) = l(v) \text{, } \forall v \in H^1_0(\Omega)}$ to be the weak formulation of (KFP)
-i.e $${a(m,v) = \int_{\Omega} \nabla m \nabla v + m \nabla v \frac{\partial H}{\partial p} + \lambda mv \, dx }$$
-and $${l(v) = \int_{\Omega} G(x)v \, dx}$$
+For our purposes, we take $a(m,v)=l(v)$ for all $v\in\Honez$ to be the weak formulation of (KFP), i.e.
+\[
+a(m,v)=\int_\Omega \nabla m\cdot\nabla v + m\,\nabla v\cdot\Hp(x,\nabla u)+\lambda mv\,dx,
+\qquad
+l(v)=\int_\Omega G(x)\,v\,dx.
+\]
 
 \begin{proposition}
-    $a(m,v)$ is bounded.
+\label{prop:kfp-bounded}
+The form $a(m,v)$ is bounded on $\Honez\times\Honez$.
 \end{proposition}
 \begin{proof}
-    For arbitrary $m,v \in H^1_0(\Omega)$ we have 
-    \begin{align*}
-    |a(m,v)|
-    &\le \|\nabla m\|_{L^2}\|\nabla v\|_{L^2} + L \|m\|_{L^2}\| \nabla v\|_{L^2} + \lambda \|m\|_{L^2}\|v\|_{L^2}\\[1em]
-    &\le C \|m\|_{H^1}\|v\|_{H^1}\\
-    \end{align*}
+For arbitrary $m,v\in\Honez$,
+\begin{align*}
+|a(m,v)|
+&\le \norm{\nabla m}_{L^2}\norm{\nabla v}_{L^2}
+   + L\norm{m}_{L^2}\norm{\nabla v}_{L^2}
+   + \lambda\norm{m}_{L^2}\norm{v}_{L^2}\\
+&\le C\,\norm{m}_{H^1}\,\norm{v}_{H^1}.
+\end{align*}
 \end{proof}
+
 \begin{proposition}
-    If $\lambda$ is sufficiently large then (KFP) is coercive.
+\label{prop:kfp-coercive}
+If $\lambda$ is sufficiently large, then (KFP) is coercive.
 \end{proposition}
 \begin{proof}
-    Consider 
-    \begin{align*}
-    a(v,v)
-    &\ge \|\nabla v\|_{L^2}^2 - L \|v\|_{L^2}\| \nabla v\|_{L^2} + \lambda \|v\|_{L^2}^2\\[1em]
-    &\ge (1-\frac{\epsilon^2}{2})\|\nabla v\|_{L^2}^2 +  (\lambda-\frac{L^2}{2\epsilon^2}) \|v\|_{L^2}^2 \qquad \forall \epsilon \in \mathbb{R}
-    && \text{(Young's Inequality)}\\
-    \end{align*}     
-
-    To ensure ${1-\frac{\epsilon^2}{2} > 0}$ we restrict ${\epsilon^2 <2}$ and conclude with the weakest requirement on
-    $\lambda$ being 
-    $${\lambda > \frac{L^2}{8}}$$ 
-    which guarantees coercivity. 
+Consider
+\begin{align*}
+a(v,v)
+&\ge \norm{\nabla v}_{L^2}^2 - L\norm{v}_{L^2}\norm{\nabla v}_{L^2} + \lambda\norm{v}_{L^2}^2\\
+&\ge \Bigl(1-\frac{\varepsilon^2}{2}\Bigr)\norm{\nabla v}_{L^2}^2
+  + \Bigl(\lambda-\frac{L^2}{2\varepsilon^2}\Bigr)\norm{v}_{L^2}^2,
+  \qquad \forall \varepsilon\in\R,
+\end{align*}
+by Young's inequality. To ensure $1-\varepsilon^2/2>0$, impose $\varepsilon^2<2$.
+Choosing $\varepsilon^2=2$ (as a limiting choice) gives the weakest requirement
+\[
+\lambda>\frac{L^2}{8},
+\]
+which ensures coercivity.
 \end{proof}
-\begin{remark}
-    Both proofs build on condition $3$ i.e that $|H_p| \le L$.
-\end{remark}
-
-$a(m,v)$ is thus bounded and coercive. 
-
-Now consider
-    \begin{align*}
-    \|l(v)\|
-    & = \sup_{\|v\|_{H^1} \le 1} |\int_{\Omega} Gv \, dx|\\[1em]
-    & \le \sup_{\|v\|_{L^2} \le 1} \|v\|_{L^2}\|G\|_{L^2}
-    && \text{(Cauchy-Schwarz)}\\[1em]
-    & = \|G\|_{L^2(\Omega)}
-    && \text{which is bounded (conditon 6.)}\\
-    \end{align*}
-
-so $l(v)$ is thus bounded. 
-By Lax-Milgram we may conclude that a unique solution $m \in H^1_0(\Omega)$, exists.
 
 \begin{remark}
-    This method will \emph{only} work for (KFP) which becomes a linear PDE with respect to $m$ once ${u \in H^1_0(\Omega)}$ is fixed. 
+Both proofs use Condition 3, namely $\lvert H_p\rvert\le L$.
 \end{remark}
 
-\begin{definition} 
-    $${S: H^1_0(\Omega) \to H^1_0(\Omega)}$$  
-    $${S(u) = m \text{ whereby } m \text{ solves (KFP) for fixed } u}$$ 
-\end{definition}
+Thus $a(\cdot,\cdot)$ is bounded and coercive. Next,
+\begin{align*}
+\norm{l}
+&= \sup_{\norm{v}_{H^1}\le 1}\left|\int_\Omega Gv\,dx\right|
+\le \sup_{\norm{v}_{L^2}\le 1}\norm{v}_{L^2}\,\norm{G}_{L^2}
+= \norm{G}_{L^2(\Omega)},
+\end{align*}
+so $l$ is bounded. By Theorem \ref{thm:lax-milgram}, there exists a unique solution $m\in\Honez$.
 
-$S$ is a well defined map since m both exists and is unique. We will make use of this map
-in the next section.  
-
-\subsubsection{Solving Hamilton–Jacobi–Bellman}
-
-Lax-Milgram will unfortunately not do to solve ${-\Delta u + H(x, \nabla u) +\lambda u = f(x,m)}$
-for fixed $m$ so we resolve to adopt the following fixed point theorems.\\
-Throughout this section $X$ denotes a real Banach space.
-
-\begin{theorem}[Schauder's Fixed Point Theorem]
-    Suppose $K \subset X$ is compact and convex, and assume also 
-    $$A:K \to K $$
-    is continuous. Then $A$ has a fixed point in $K$.
-\end{theorem}
-
-We follow this up with it's consequence.
+\begin{remark}
+This method applies here because (KFP) is linear in $m$ once $u\in\Honez$ is fixed.
+\end{remark}
 
 \begin{definition}
-    A nonlinear mapping is $A: X \to X$ is called \emph{compact} provided for each bounded sequence $(u_k)_{k=1}^\infty$
-    the sequence $(A[u_k])_{k=1}^\infty$ is precompact; that is, there exists a subsequence $(u_{k_j})_{k_j=1}^\infty$ such that
-    $(A[u_{k_j}])_{k_j=1}^\infty$ converges in $X$.
+\label{def:S-map}
+Define $S:\Honez\to\Honez$ by $S(u)=m$, where $m$ solves (KFP) for fixed $u$.
 \end{definition}
 
-\begin{theorem}[Schaefer's Fixed Point Theorem]
-Suppose
-$$A:X \to X$$
-is a continuous and compact mapping. Assume further that the set
-$$\{u \in X |u=\mu A[u] \text{ for some } 0 \le \mu \le 1 \}$$
-is bounded. Then A has a fixed point.
+\subsubsection{Solving Hamilton--Jacobi--Bellman}
 
+Lax--Milgram does not apply directly to
+\[
+-\Delta u + H(x,\nabla u) + \lambda u = f(x,m)
+\]
+with fixed $m$, so we use fixed point methods. Throughout this section, $X$ denotes a real Banach space.
+
+\begin{theorem}[Schauder's fixed point theorem]
+If $K\subset X$ is compact and convex, and $A:K\to K$ is continuous, then $A$ has a fixed point in $K$.
+\end{theorem}
+
+\begin{definition}
+A mapping $A:X\to X$ is called \emph{compact} if for every bounded sequence $(u_k)_{k=1}^\infty$,
+the sequence $(A[u_k])_{k=1}^\infty$ is precompact in $X$.
+\end{definition}
+
+\begin{theorem}[Schaefer's fixed point theorem]
+\label{thm:schaefer}
+Suppose $A:X\to X$ is continuous and compact, and assume the set
+\[
+\{u\in X: u=\mu A[u]\ \text{for some }0\le\mu\le 1\}
+\]
+is bounded. Then $A$ has a fixed point.
 \end{theorem}
 {\footnotesize See \cite[Chapter~9]{evans_pde} for proofs.}
-    
-The somewhat less restrictive nature of the fixed point theorems means they can be applied in
-the semilinear PDE context.\\
-Additionally, with  Schaefer's Theorem we get an added advantage over Schauder's of not having to identify a compact set. 
-In our case however, we'll find that the natural bound of our map informs us on an appropriate set to choose. 
 
 \begin{theorem}[Existence]
-    If $\lambda > 0$ is sufficiently large, there exists a
-    function $u \in H^2(\Omega)\cap H^1_0(\Omega)$ solving (HJB) with fixed $m$.
+If $\lambda>0$ is sufficiently large, there exists $u\in H^2(\Omega)\cap \Honez$ solving (HJB) with fixed $m$.
 \end{theorem}
 \begin{proof}
-    We consider a map 
-    $$A: H^1_0(\Omega) \to H^1_0(\Omega)$$
-    $$A[u] = w \text{, such that } -\Delta w +\lambda w = f(x,m) - H(x, \nabla u)$$
-    We know $w$ exists by Lax-Milgram. Our aim then is to demonstrate the existence of a fixed point of $A$ using Schaefer's Theorem.  
-    Proving continuity and compactness of $A$ is almost identical to \cite[Chapter~9]{evans_pde} (except for an $\|f\|_{L^2(\Omega)}$ term) so we'll omit it.
-    Left to show is that 
-    $$\{u \in X |u=\mu A[u] \text{ for some } 0 \le \mu \le 1 \}$$
-    is bounded.
-    
-    Subtituting $\frac{u}{\mu}$ for $w$, we find ourselves considering
-    \begin{align*}
-        \int_\Omega (\nabla u)^2 +\lambda u^2 \,dx 
-        & = \mu \int_\Omega fu - H(x, \nabla u)u\,dx\\[1em]
-        & \le \int_\Omega |fu| +|H(x, \nabla u)u| \,dx\\[1em]
-        & \le \frac{1}{2}\int_\Omega |fu| + C(|x| + |\nabla u| + 1)|u| \, dx \qquad \text{(Condition 2.)}\\[1em]
-        & \le \frac{1}{2}\int_\Omega \frac{f^2}{\epsilon^2} + \epsilon^2 u^2 + \frac{1}{\delta^2}|Cu|^2 + \delta^2(|x|+|\nabla u| + 1)^2 \,dx, \qquad \epsilon \in \mathbb{R},\text{ } \delta \in (0,1)\\[1em]
-        & \le \frac{1}{2}\int_\Omega \frac{f^2}{\epsilon^2} + (\epsilon^2 + \frac{1}{\delta^2}C^2) u^2 +\delta^2 (1+\gamma^2)(\nabla u)^2 \,dx + K, \qquad \gamma \in \mathbb{R}   
-    \end{align*}
+Consider
+\[
+A:\Honez\to\Honez,\qquad A[u]=w
+\quad\text{where}\quad
+-\Delta w+\lambda w = f(x,m)-H(x,\nabla u).
+\]
+We know $w$ exists by Lax--Milgram. We apply Theorem \ref{thm:schaefer}.
+Continuity and compactness are as in \cite[Chapter~9]{evans_pde} (with the addition of an $\norm{f}_{L^2(\Omega)}$ term), so we omit them.
+It remains to show
+\[
+\{u\in X: u=\mu A[u]\ \text{for some }0\le\mu\le 1\}
+\]
+is bounded.
 
-    having applied Young's Inequality repeatidly to fully isolate $(\nabla u)^2$ and $u^2$. We need to ensure 
-    \begin{align*}
-        \delta^2(1+\gamma^2) < 1
-        & \implies \delta^2 < 1
-    \end{align*}
-    Also, since $\epsilon$ can be arbitrarily close to $0$, this leaves $\|u\|_{H^1}$ bounded if ${\lambda > \frac{C^2}{2}}$ 
+Substituting $w=u/\mu$, we obtain
+\begin{align*}
+\int_\Omega |\nabla u|^2 + \lambda |u|^2\,dx
+&= \mu\int_\Omega f u - H(x,\nabla u)u\,dx\\
+&\le \int_\Omega |fu| + |H(x,\nabla u)u|\,dx\\
+&\le \frac12\int_\Omega |fu| + C(|x|+|\nabla u|+1)|u|\,dx \qquad \text{(Condition 2)}\\
+&\le \frac12\int_\Omega \frac{f^2}{\varepsilon^2} + \varepsilon^2 u^2
+ + \frac{1}{\delta^2}|Cu|^2 + \delta^2(|x|+|\nabla u|+1)^2\,dx,\\
+&\hspace{7.3cm}\varepsilon\in\R,\ \delta\in(0,1)\\
+&\le \frac12\int_\Omega \frac{f^2}{\varepsilon^2}
+ + \Bigl(\varepsilon^2+\frac{C^2}{\delta^2}\Bigr)u^2
+ + \delta^2(1+\gamma^2)|\nabla u|^2\,dx + K, \qquad \gamma\in\R,
+\end{align*}
+after repeated applications of Young's inequality to isolate $|\nabla u|^2$ and $u^2$.
+We require $\delta^2(1+\gamma^2)<1$ (in particular $\delta^2<1$ suffices).
+Since $\varepsilon$ can be arbitrarily small, this yields a bound on $\norm{u}_{H^1}$ provided $\lambda>\frac{C^2}{2}$.
 \end{proof}
 
 \begin{proposition}
-    If $\lambda > 0$ is sufficiently large then soution $u$ is unique
+If $\lambda>0$ is sufficiently large, then the solution $u$ is unique.
 \end{proposition}
 \begin{proof}
-    Suppose $\exists u_1, u_2$ both solving the HJB equation. Then
-    taking their difference yields 
-    \begin{align*}
-        \|\nabla(u_1 - u_2)\|_{L^2}^2 +\lambda\|(u_1-u_2)\|_{L^2}^2
-        & \le \int_\Omega |(u_1-u_2)||H_1 - H_2|\,dx\\[1em]
-        & \le \tilde{C}^2\|(u_1-u_2)\|_{L^2} \|\nabla(u_1-u_2)\|_{L^2}\\[1em]
-        & \text{(Condition 2.) and (Cauchy-Schwarz)}
-    \end{align*}
-    So 
-    \begin{align*}
-        \lambda > \frac{\tilde{C}^4}{4}
-        & \implies u_1 = u_2 \text{ in } L^2(\Omega)\\[1em]
-        &&\text{(Young's Inequality)}\\[1em]
-        & \iff u_1 = u_2 \text{ in } H^1_0(\Omega)\\
-    \end{align*}
-    Note that $\tilde{C}$ denotes the Lipschitz constant of $H(x, \nabla u)$.
+Suppose $u_1,u_2$ both solve (HJB). Taking the difference gives
+\begin{align*}
+\norm{\nabla(u_1-u_2)}_{L^2}^2+\lambda\norm{u_1-u_2}_{L^2}^2
+&\le \int_\Omega |u_1-u_2|\,|H_1-H_2|\,dx\\
+&\le \tilde{C}^{\,2}\,\norm{u_1-u_2}_{L^2}\,\norm{\nabla(u_1-u_2)}_{L^2},
+\end{align*}
+using Condition 2 and Cauchy--Schwarz. Hence, by Young's inequality,
+\[
+\lambda>\frac{\tilde{C}^{\,4}}{4}\implies u_1=u_2 \text{ in }L^2(\Omega)
+\iff u_1=u_2 \text{ in }\Honez.
+\]
 \end{proof}
-Once again we have both existence and uniqueness so the following is well defined.
 
 \begin{definition}
-    $${T: H^1_0(\Omega) \to H^1_0(\Omega)}$$  
-    $${T(m) = u \text{ whereby } u \text{ solves (HJB) for fixed } m}$$     
+\label{def:T-map}
+Define $T:\Honez\to\Honez$ by $T(m)=u$, where $u$ solves (HJB) for fixed $m$.
 \end{definition}
 
-We will make use of $T$ in the next section
+\subsection{Codependent solution}
 
-\subsection{Codependant Solution}
-An equivalent formulation to the problem of finding a solution pair (u,m) is to find a fixed point of $A$. 
+An equivalent formulation of finding a solution pair $(u,m)$ is to find a fixed point of a suitable map.
 
 \begin{definition}
-    Let $T$ and $S$ be the maps defined above. 
-    $${A: H^1_0(\Omega) \to H^1_0(\Omega)}$$
-    $${A := S \circ T}$$
+Let $T$ and $S$ be as in Definitions \ref{def:S-map} and \ref{def:T-map}. Define
+\[
+A:\Honez\to\Honez,\qquad A \coloneqq S\circ T.
+\]
 \end{definition}
 
-That is, $A$ takes an ${m \in H^1_0(\Omega)}$, internally converts it to $u \in H^1_0(\Omega)$ which solves (HJB) 
-and converts that to another, possibly distinct, ${\widetilde{m}  \in H^1_0(\Omega)}$ which solves (KFP).\\[1em]
-If A has a fixed point then there exists an ${m = \widetilde{m} = A(m)}$.
-It is natural to look once more to the Schauder and Schaefer theorems and see whether $A$ satisifes their
-conditions. 
+That is, $A$ takes $m\in\Honez$, produces $u=T(m)$ solving (HJB), and then produces $\widetilde m=S(u)$ solving (KFP).
+If $A$ has a fixed point, then $m=\widetilde m = A(m)$, and the coupled system has a solution pair.
 
-We'll frame the conditions for A in the context of Schaefer's Theorem. 
-\subsubsection{Continuity of A}
-$A$ is continuous if $T$ and $S$ are both continous, so we will consider the continuity $S$ and $T$ individually.
+We verify the hypotheses of Schaefer's theorem.
 
-\underline{First consider $T$.}\\[1em]
-Let $(m_k)_{k=1}^\infty$ be a convergent sequence in $H^1_0(\Omega)$ to some limit $m$.
-Lable $u = T[m]$ and $u_k = T[m_k]$.\\
-Taking the weak formulation of their difference in (HJB) gives
+\subsubsection{Continuity of $A$}
+Since $A=S\circ T$, it suffices to show $S$ and $T$ are continuous.
+
+\paragraph{Continuity of $T$.}
+Let $(m_k)_{k=1}^\infty\to m$ in $\Honez$. Write $u=T[m]$ and $u_k=T[m_k]$.
+Taking the weak formulation of the difference in (HJB) gives
 \begin{align*}
-        \|\nabla(u - u_k)\|_{L^2}^2 +\lambda\|(u-u_k)\|_{L^2}^2
-        & \le \int_\Omega |(u-u_k)||H - H_k| + |(u-u_k)||f - f_k| \,dx\\[1em]
-        & \le \tilde{C}^2\|(u-u_k)\|_{L^2} \|\nabla(u-u_k)\|_{L^2} + \|u-u_k\|_{L^2}\|f-f_k\|_{L^2}\\[1em]
-        & \text{(Condition 2.) and (Cauchy-Schwarz)}
-    \end{align*}
-
-Recall that $f$ is $L^2$ continuos (Condition 5.) so ${\|f-f_k\|_{L^2} \to 0 \text{ as } k \to \infty}$.
-Note also that
-\begin{align*}
-    \|\nabla u_k\|_{L^2}^2 + \lambda\|u_k\|_{L^2}^2
-    & \le \int_\Omega |u_k||H_k| + |u_k||f_k| \,dx\\[1em]
+\norm{\nabla(u-u_k)}_{L^2}^2+\lambda\norm{u-u_k}_{L^2}^2
+&\le \int_\Omega |u-u_k|\,|H-H_k| + |u-u_k|\,|f-f_k|\,dx\\
+&\le \tilde{C}^{\,2}\norm{u-u_k}_{L^2}\norm{\nabla(u-u_k)}_{L^2}
+ + \norm{u-u_k}_{L^2}\norm{f-f_k}_{L^2}.
 \end{align*}
+Since $f$ is $\Ltwo$-continuous (Condition 5), $\norm{f-f_k}_{L^2}\to 0$.
+Also, from the energy estimate
+\[
+\norm{\nabla u_k}_{L^2}^2+\lambda\norm{u_k}_{L^2}^2
+\le \int_\Omega |u_k|\,|H_k| + |u_k|\,|f_k|\,dx,
+\]
+and boundedness of $H_k$ and $f_k$, we get that $(u_k)$ is bounded in $\Honez$ (since $\Omega$ is bounded).
+Thus $\norm{u-u_k}_{L^2}\norm{f-f_k}_{L^2}\to 0$, and the uniqueness argument above implies $u_k\to u$.
 
-$H_k$ and $f_k$ are both bounded. The inequality tells us that $u_k$ is bounded in $H^1_0(\Omega)$ since 
-$\Omega$ is bounded. In particular $\|u_k - u\|_{L^2}$ is bounded.
-Therefore,
-$$\|u-u_k\|_{L^2}\|f-f_k\|_{L^2} \to 0$$ 
-and repeating the argument for the uniqueness of u above implies 
-$$u_k \to u \text{ as } k \to \infty \text{.}$$\\[1em]
-
-
-\underline{Now consider $S$.}\\[1em]
-As before, let $(u_k)_{k=1}^\infty$ be a convergent sequence in $H^1_0(\Omega)$ and $u = \lim_{k \to \infty} u_k$.
-Lable $m = S[u]$ and $m_k = S[u_k]$.\\
-
-Taking the weak formulation of their difference in (KFP) gives
+\paragraph{Continuity of $S$.}
+Let $(u_k)_{k=1}^\infty\to u$ in $\Honez$. Write $m=S[u]$ and $m_k=S[u_k]$.
+Taking the weak formulation of the difference in (KFP) yields
 \begin{align*}
-    \|\nabla(m - m_k)\|_{L^2}^2 + \int_\Omega \nabla(m-m_k)[m \frac{\partial H}{\partial p} - m_k \frac{\partial H_k}{\partial p}] \,dx + \lambda\|(m-m_k)\|_{L^2}^2 = 0\\[1em]
-    \implies \\[1em]
-    \|\nabla(m - m_k)\|_{L^2}^2 + \lambda\|(m-m_k)\|_{L^2}^2
-    \le \int_\Omega |\nabla(m-m_k)||m \frac{\partial H}{\partial p} - m_k \frac{\partial H_k}{\partial p}| \,dx\\[1em]
+\norm{\nabla(m-m_k)}_{L^2}^2+\lambda\norm{m-m_k}_{L^2}^2
+&\le \int_\Omega |\nabla(m-m_k)|\,\bigl|m\,\Hp - m_k\,\Hp_k\bigr|\,dx.
 \end{align*}
+Using boundedness of $m,m_k$ (Lax--Milgram), $\Hp_k\to \Hp$, and $|\Hp_k|\le L$, then applying Young's inequality together with the condition on $\lambda$ gives $m_k\to m$.
+Hence $S$ is continuous.
 
-Recall that $m$ and $m_k$ are both bounded by Lax-Milgram (indeed S is bounded) and that $\partial_p H_k \to \partial_p H$. $\partial_p H_k$ are bounded by $L$ as well. This, Young's Inequality and our condition on $\lambda$ means
-$m_k \to m$ as $k \to \infty$ so $S$ is continuous.
+\subsubsection{Compactness of $A$}
 
-\subsubsection{Compactness of A}
-Since $S$ is continuos and bounded it is sufficient to show that $T$ is compact in $H^1_0(\Omega)$
-i.e 
-$${T \text{ is compact } \implies S \circ T = A \text{ is compact.} }$$
+Since $S$ is continuous and bounded, it suffices to show that $T$ is compact in $\Honez$:
+\[
+T \text{ compact } \implies A=S\circ T \text{ compact.}
+\]
+
 \begin{definition}
-    Let $X$ and $Y$ be Banach spaces, $X \subset Y$. We say that $X$ is compactly embedded in $Y$, written
-    $$X \subset \subset Y \text{,}$$
-    provided
-    \begin{enumerate}[label=(\roman*)]
-        \item $\|x\|_Y \le C\|x\|_X$ for some constant $C$,
-        \item each bounded sequence in $X$ is precompact in $Y$.
-    \end{enumerate}
+Let $X$ and $Y$ be Banach spaces with $X\subset Y$. We say that $X$ is compactly embedded in $Y$, written $X\subset\subset Y$, provided:
+\begin{enumerate}[label=(\roman*), leftmargin=*, itemsep=0.25em]
+  \item $\norm{x}_Y \le C\norm{x}_X$ for some constant $C$,
+  \item each bounded sequence in $X$ is precompact in $Y$.
+\end{enumerate}
 \end{definition}
-\begin{theorem}[Rellich-Kondrachov Compactness Theorem]
-Assume $U$ is a bounded open subset of $\mathbb{R}^n$, and $\partial U$ is $C^1$. Suppose $1<p< n$. Then
-$$W^{1,p} \subset \subset L^q$$
-for each $1 \le q< p^*$.
+
+\begin{theorem}[Rellich--Kondrachov compactness theorem]
+Assume $U$ is a bounded open subset of $\R^n$ and $\partial U$ is $C^1$. Suppose $1<p<n$. Then
+\[
+W^{1,p}\subset\subset L^q
+\quad\text{for each }1\le q<p^\ast,
+\qquad
+p^\ast=\frac{np}{n-p}.
+\]
 \end{theorem}
-Note $p^* = \frac{np}{n-p}$
 
 \begin{remark}
-    Observe that $p^* > p$ and that we have in particular 
-    $$W^{1,p} \subset \subset L^p$$
-    for all $1 \le p < n$
+Observe $p^\ast>p$. In particular,
+\[
+W^{1,p}\subset\subset L^p
+\quad\text{for all }1\le p<n.
+\]
 \end{remark}
 
-Let $(m_k)_{k=1}^\infty$ be a bounded sequence in $H^1_0(\Omega)$. $\Omega$ is ... (condition 1.) so by the Compactness Theorem there exists
-$(m_{k_j})_{k_j=1}^\infty$ which is convergent in $L^2(\Omega)$ to some limit $m \in L^2(\Omega)$.
+Let $(m_k)_{k=1}^\infty$ be a bounded sequence in $\Honez$.
+Since $\Omega$ satisfies Condition 1, there exists a subsequence $(m_{k_j})_{j=1}^\infty$ converging in $\Ltwo$ to some $m\in\Ltwo$.
+We want to show $T(m_{k_j})\to T(m)$.
+Because $f$ is $\Ltwo$-continuous (Condition 5), $\Ltwo$ convergence is sufficient, and the continuity argument for $T$ applies with $m_{k_j}$.
+Thus $T$ is compact, and hence $A$ is compact.
 
-We want to show that $T(m_{k_j}) \to T(m)$.
-Recall that $f$ is $L^2$ continous (condition 5.) and so $L^2$ convergence is sufficent. We repeat the argument
-for the continuity of $T$ - this time with respect to $m_{k_j}$.
-Thus, 
-$$T(m_{k_j}) \to T(m) \text{ as } j \to \infty$$
-and $A$ is compact. 
+\subsubsection{Boundedness of the pseudo-fixed point set}
 
-\subsubsection{Boundedness of the pseudo-fixed points Subset}
-Consider 
-$$\{m \in H^1_0(\Omega) | m = \mu A(m), \mu /in [0,1]\} \text{.}$$
-The corresponding equation pair with $A(m)$ substituted for $\frac{m}{\mu}$ is 
-$${-\Delta u + H(x, \nabla u) +\lambda u = f(x,m) \text{,}}$$ 
-$${\frac{1}{\mu}(-\Delta m - \operatorname{div}(m \frac{\partial H}{\partial p}(x, \nabla u)) + \lambda m) = G(x)}$$
-
-Rearranging the latter and calling upon the Lax-Milgram bound implies
-$m \le \mu \|G\|_{L^2} \le \|G\|_{L^2}$ which is bounded in $L^2(\Omega)$ (conditon 6.).
-By Schaefer's Theorem there exists a fixed point of $A$ and so the solution pair $(u,m)$ exists.
+Consider
+\[
+\{m\in\Honez: m=\mu A(m)\ \text{for some }\mu\in[0,1]\}.
+\]
+The corresponding system, with $A(m)$ substituted for $m/\mu$, is
+\[
+-\Delta u + H(x,\nabla u) + \lambda u = f(x,m),
+\qquad
+\frac{1}{\mu}\Bigl(-\Delta m - \diver\!\bigl(m\,\Hp(x,\nabla u)\bigr) + \lambda m\Bigr)=G(x).
+\]
+Rearranging the latter and using the Lax--Milgram bound implies
+\[
+\norm{m}_{L^2}\le \mu \norm{G}_{L^2}\le \norm{G}_{L^2},
+\]
+which is bounded in $L^2(\Omega)$ (Condition 6). By Schaefer's theorem, $A$ has a fixed point, hence a solution pair $(u,m)$ exists.
 
 \begin{remark}
-    We can now say that in hindsight the order of composition was chosen to give a natural bound of the subset. 
+In hindsight, the order of composition is convenient because it provides a natural bound for the pseudo-fixed point set.
 \end{remark}
 
-$A$ therefore has a fixed point and so a solution pair $(u,m) \in H^1_0(\Omega)$ to our problem exists.
+Therefore $A$ has a fixed point and a solution pair $(u,m)\in \Honez$ exists.
 
-\subsection{Swapping Coimposition order}
+\subsection{Swapping Composition Order}
 \subsection{Non-linear (KFP)}
-\end{flushleft}
 
 \bibliographystyle{plain}
 \bibliography{references}
-\end{document}
 
+\end{document}
