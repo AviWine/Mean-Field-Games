@@ -6,9 +6,22 @@
 \usepackage[a4paper,margin=1.15in]{geometry}
 \usepackage{microtype}
 
+% ---------- Global line spacing ----------
+\usepackage{setspace}
+\setstretch{1.18} % try 1.12–1.18
+
 % ---------- Math ----------
 \usepackage{mathtools}   % includes amsmath
 \usepackage{amssymb,amsfonts,amsthm,amsopn}
+
+% ---------- Spacing for display math ----------
+\setlength{\abovedisplayskip}{14pt}
+\setlength{\belowdisplayskip}{14pt}
+\setlength{\abovedisplayshortskip}{10pt}
+\setlength{\belowdisplayshortskip}{10pt}
+
+% ---------- Extra breathing room inside align/gather (optional) ----------
+\setlength{\jot}{8pt}
 
 % ---------- Lists / links ----------
 \usepackage{enumitem}
@@ -202,6 +215,7 @@ is bounded. Then $A$ has a fixed point.
 {\footnotesize See \cite[Chapter~9]{evans_pde} for proofs.}
 
 \begin{theorem}[Existence]
+\label{thm:existence}  
 If $\lambda>0$ is sufficiently large, there exists $u\in H^2(\Omega)\cap \Honez$ solving (HJB) with fixed $m$.
 \end{theorem}
 \begin{proof}
@@ -227,13 +241,13 @@ Substituting $w=u/\mu$, we obtain
 &\le \frac12\int_\Omega |fu| + C(|x|+|\nabla u|+1)|u|\,dx \qquad \text{(Condition 2)}\\
 &\le \frac12\int_\Omega \frac{f^2}{\varepsilon^2} + \varepsilon^2 u^2
  + \frac{1}{\delta^2}|Cu|^2 + \delta^2(|x|+|\nabla u|+1)^2\,dx,\\
-&\hspace{7.3cm}\varepsilon\in\R,\ \delta\in(0,1)\\
+&\hspace{7.3cm}\varepsilon\in (0, \infty),\ \delta\in(0,1)\\
 &\le \frac12\int_\Omega \frac{f^2}{\varepsilon^2}
  + \Bigl(\varepsilon^2+\frac{C^2}{\delta^2}\Bigr)u^2
- + \delta^2(1+\gamma^2)|\nabla u|^2\,dx + K, \qquad \gamma\in\R,
+ + \delta^2(1+\gamma^2)|\nabla u|^2\,dx + K, \qquad \gamma\in (0, \infty),
 \end{align*}
 after repeated applications of Young's inequality to isolate $|\nabla u|^2$ and $u^2$.
-We require $\delta^2(1+\gamma^2)<1$ (in particular $\delta^2<1$ suffices).
+We require $\delta^2(1+\gamma^2)<1$ (in particular sufficiently small $\delta^2<1$ suffices for any $\gamma >0$).
 Since $\varepsilon$ can be arbitrarily small, this yields a bound on $\norm{u}_{H^1}$ provided $\lambda>\frac{C^2}{2}$.
 \end{proof}
 
@@ -265,9 +279,7 @@ An equivalent formulation of finding a solution pair $(u,m)$ is to find a fixed 
 
 \begin{definition}
 Let $T$ and $S$ be as in Definitions \ref{def:S-map} and \ref{def:T-map}. Define
-\[
-A:\Honez\to\Honez,\qquad A \coloneqq S\circ T.
-\]
+\[A:\Honez\to\Honez,\qquad A \coloneqq S\circ T.\]
 \end{definition}
 
 That is, $A$ takes $m\in\Honez$, produces $u=T(m)$ solving (HJB), and then produces $\widetilde m=S(u)$ solving (KFP).
@@ -323,12 +335,7 @@ Let $X$ and $Y$ be Banach spaces with $X\subset Y$. We say that $X$ is compactly
 
 \begin{theorem}[Rellich--Kondrachov compactness theorem]
 Assume $U$ is a bounded open subset of $\R^n$ and $\partial U$ is $C^1$. Suppose $1<p<n$. Then
-\[
-W^{1,p}\subset\subset L^q
-\quad\text{for each }1\le q<p^\ast,
-\qquad
-p^\ast=\frac{np}{n-p}.
-\]
+\[W^{1,p}\subset\subset L^q \quad\text{for each }1\le q<p^\ast, \qquad p^\ast=\frac{np}{n-p}.\]
 \end{theorem}
 
 \begin{remark}
@@ -348,19 +355,11 @@ Thus $T$ is compact, and hence $A$ is compact.
 \subsubsection{Boundedness of the pseudo-fixed point set}
 
 Consider
-\[
-\{m\in\Honez: m=\mu A(m)\ \text{for some }\mu\in[0,1]\}.
-\]
+\[\{m\in\Honez: m=\mu A(m)\ \text{for some }\mu\in[0,1]\}.\]
 The corresponding system, with $A(m)$ substituted for $m/\mu$, is
-\[
--\Delta u + H(x,\nabla u) + \lambda u = f(x,m),
-\qquad
-\frac{1}{\mu}\Bigl(-\Delta m - \diver\!\bigl(m\,\Hp(x,\nabla u)\bigr) + \lambda m\Bigr)=G(x).
-\]
+\[-\Delta u + H(x,\nabla u) + \lambda u = f(x,m), \qquad \frac{1}{\mu}\Bigl(-\Delta m - \diver\!\bigl(m\,\Hp(x,\nabla u)\bigr) + \lambda m\Bigr)=G(x).\]
 Rearranging the latter and using the Lax--Milgram bound implies
-\[
-\norm{m}_{L^2}\le \mu \norm{G}_{L^2}\le \norm{G}_{L^2},
-\]
+\[\norm{m}_{L^2}\le \mu \norm{G}_{L^2}\le \norm{G}_{L^2},\]
 which is bounded in $L^2(\Omega)$ (Condition 6). By Schaefer's theorem, $A$ has a fixed point, hence a solution pair $(u,m)$ exists.
 
 \begin{remark}
@@ -370,6 +369,16 @@ In hindsight, the order of composition is convenient because it provides a natur
 Therefore $A$ has a fixed point and a solution pair $(u,m)\in \Honez$ exists.
 
 \subsection{Swapping Composition Order}
+An equaly valid construction for $A$ is the reverse composition \[A \coloneqq S\circ T.\] $S$ and $T$ are unchanged so the compactness of $A$ still holds. 
+In the proof of theorem \ref{thm:existence} we demonstrated that $\lambda > \frac{C^2}{2} \implies \norm{u}_{\Honez}$ is bounded when $m$ is fixed. 
+Under this construction we must consider 
+\[\{u\in\Honez: u=\mu A(u)\ \text{for some }\mu\in[0,1]\}.\]
+The corresponding system, with $A(u)$ substituted for $u/\mu$, is
+\[\frac{1}{\mu}\Bigl(-\Delta u + H(x,\nabla u) + \lambda u)\Bigr) = f(x,m), \qquad -\Delta m - \diver \bigl(m\,\Hp(x,\nabla u)\bigr) + \lambda m=G(x).\]
+
+We note that allowing $m(x)$ to be variable makes no difference in this respect since $\norm{f(x,m(x))}_{L^2}$ is always bounded on $\Omega$ (Condition 5).
+Thus the set of pseudo-fixed points is still bounded and Schaefer's Theorem carries over. 
+
 \subsection{Non-linear (KFP)}
 
 \bibliographystyle{plain}
