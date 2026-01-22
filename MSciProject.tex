@@ -62,10 +62,10 @@
 \section{Introduction}
 
 \begin{quote}
-\emph{(Italics are copied.) Mean field games (MFG), which were introduced by Lasry and Lions [24, 25, 26] and independently by Huang, Caines, and Malham\'e [22],
+(Italics are copied.) Mean field games (MFG), which were introduced by Lasry and Lions [24, 25, 26] and independently by Huang, Caines, and Malham\'e [22],
 model Nash equilibria of rational games of stochastic optimal control in which there are infinitely many players. The equilibria are characterized by a system of partial differential equations (PDE) that consist of
 a Hamilton--Jacobi--Bellman (HJB) equation coupled with a Kolmogorov--Fokker--Planck (KFP) equation. Comprehensive reviews of MFG, including analysis and applications, are
-well-documented in the literature [3, 19, 20]. We consider as a model problem a quasilinear elliptic stationary MFG system of the form}
+well-documented in the literature [3, 19, 20]. We consider as a model problem a quasilinear elliptic stationary MFG system of the form
 \end{quote}
 
 \begin{equation}
@@ -159,9 +159,7 @@ a(v,v)
 \end{align*}
 by Young's inequality. To ensure $1-\varepsilon^2/2>0$, impose $\varepsilon^2<2$.
 Choosing $\varepsilon^2=2$ (as a limiting choice) gives the weakest requirement
-\[
-\lambda>\frac{L^2}{8},
-\]
+\[\lambda>\frac{L^2}{4},\]
 which ensures coercivity.
 \end{proof}
 
@@ -190,9 +188,7 @@ Define $S:\Honez\to\Honez$ by $S(u)=m$, where $m$ solves (KFP) for fixed $u$.
 \subsubsection{Solving Hamilton--Jacobi--Bellman}
 
 Lax--Milgram does not apply directly to
-\[
--\Delta u + H(x,\nabla u) + \lambda u = f(x,m)
-\]
+\[-\Delta u + H(x,\nabla u) + \lambda u = f(x,m)\]
 with fixed $m$, so we use fixed point methods. Throughout this section, $X$ denotes a real Banach space.
 
 \begin{theorem}[Schauder's fixed point theorem]
@@ -228,9 +224,7 @@ A:\Honez\to\Honez,\qquad A[u]=w
 We know $w$ exists by Lax--Milgram. We apply Theorem \ref{thm:schaefer}.
 Continuity and compactness are as in \cite[Chapter~9]{evans_pde} (with the addition of an $\norm{f}_{L^2(\Omega)}$ term), so we omit them.
 It remains to show
-\[
-\{u\in X: u=\mu A[u]\ \text{for some }0\le\mu\le 1\}
-\]
+\[\{u\in X: u=\mu A[u]\ \text{for some }0\le\mu\le 1\}\]
 is bounded.
 
 Substituting $w=u/\mu$, we obtain
@@ -248,24 +242,23 @@ Substituting $w=u/\mu$, we obtain
 \end{align*}
 after repeated applications of Young's inequality to isolate $|\nabla u|^2$ and $u^2$.
 We require $\delta^2(1+\gamma^2)<1$ (in particular sufficiently small $\delta^2<1$ suffices for any $\gamma >0$).
-Since $\varepsilon$ can be arbitrarily small, this yields a bound on $\norm{u}_{H^1}$ provided $\lambda>\frac{C^2}{2}$.
+Since $\varepsilon$ can be arbitrarily small, this yields a bound on $\norm{u}_{\Honez}$ provided $\lambda>\frac{C^2}{2}$.
 \end{proof}
 
 \begin{proposition}
-If $\lambda>0$ is sufficiently large, then the solution $u$ is unique.
+If $\lambda>0$ is sufficiently large, then the fixed point $u$ is unique.
 \end{proposition}
 \begin{proof}
 Suppose $u_1,u_2$ both solve (HJB). Taking the difference gives
 \begin{align*}
 \norm{\nabla(u_1-u_2)}_{L^2}^2+\lambda\norm{u_1-u_2}_{L^2}^2
 &\le \int_\Omega |u_1-u_2|\,|H_1-H_2|\,dx\\
-&\le \tilde{C}^{\,2}\,\norm{u_1-u_2}_{L^2}\,\norm{\nabla(u_1-u_2)}_{L^2},
+&\le \tilde{C}\,\norm{u_1-u_2}_{L^2}\,\norm{\nabla(u_1-u_2)}_{L^2}\\
+&\le \frac12 \bigl(\frac{\tilde{C}^{\,2}}{\varepsilon^2}\,\norm{u_1-u_2}^2_{L^2} +\varepsilon^2 \norm{\nabla(u_1-u_2)}^2_{L^2}\bigr)
+\qquad \varepsilon\in (0, \sqrt{2})\\
 \end{align*}
 using Condition 2 and Cauchy--Schwarz. Hence, by Young's inequality,
-\[
-\lambda>\frac{\tilde{C}^{\,4}}{4}\implies u_1=u_2 \text{ in }L^2(\Omega)
-\iff u_1=u_2 \text{ in }\Honez.
-\]
+\[\lambda>\frac{\tilde{C}^{\,2}}{4}\implies u_1=u_2 \text{ in }L^2(\Omega)\iff u_1=u_2 \text{ in }\Honez.\]
 \end{proof}
 
 \begin{definition}
@@ -296,7 +289,7 @@ Taking the weak formulation of the difference in (HJB) gives
 \begin{align*}
 \norm{\nabla(u-u_k)}_{L^2}^2+\lambda\norm{u-u_k}_{L^2}^2
 &\le \int_\Omega |u-u_k|\,|H-H_k| + |u-u_k|\,|f-f_k|\,dx\\
-&\le \tilde{C}^{\,2}\norm{u-u_k}_{L^2}\norm{\nabla(u-u_k)}_{L^2}
+&\le \tilde{C}\norm{u-u_k}_{L^2}\norm{\nabla(u-u_k)}_{L^2}
  + \norm{u-u_k}_{L^2}\norm{f-f_k}_{L^2}.
 \end{align*}
 Since $f$ is $\Ltwo$-continuous (Condition 5), $\norm{f-f_k}_{L^2}\to 0$.
@@ -335,13 +328,13 @@ Let $X$ and $Y$ be Banach spaces with $X\subset Y$. We say that $X$ is compactly
 
 \begin{theorem}[Rellich--Kondrachov compactness theorem]
 Assume $U$ is a bounded open subset of $\R^n$ and $\partial U$ is $C^1$. Suppose $1<p<n$. Then
-\[W^{1,p}\subset\subset L^q \quad\text{for each }1\le q<p^\ast, \qquad p^\ast=\frac{np}{n-p}.\]
+\[W^{1,p}(U)\subset\subset L^q(U) \quad\text{for each }1\le q<p^\ast, \qquad p^\ast=\frac{np}{n-p}.\]
 \end{theorem}
 
 \begin{remark}
 Observe $p^\ast>p$. In particular,
 \[
-W^{1,p}\subset\subset L^p
+W^{1,p}(U)\subset\subset L^p(U)
 \quad\text{for all }1\le p<n.
 \]
 \end{remark}
@@ -379,7 +372,49 @@ The corresponding system, with $A(u)$ substituted for $u/\mu$, is
 We note that allowing $m(x)$ to be variable makes no difference in this respect since $\norm{f(x,m(x))}_{L^2}$ is always bounded on $\Omega$ (Condition 5).
 Thus the set of pseudo-fixed points is still bounded and Schaefer's Theorem carries over. 
 
-\subsection{Non-linear (KFP)}
+\section{Non-linear (KFP)}
+The following is an analysis on a variation of \ref{eq:system} with the $G(\cdot)$ in question being dependent on $m$. 
+Our new system of equations reads
+\begin{equation}
+\label{eq:system2}
+\begin{aligned}
+-\Delta u + H(x,\nabla u) + \lambda u &= f(x,m) && \text{in } \Omega,\\
+-\Delta m - \diver\!\bigl(m\,\Hp(x,\nabla u)\bigr) + \lambda m &= G(x,m) && \text{in } \Omega.
+\end{aligned}
+\end{equation}
+
+In this scenario we cannot apply the Lax-Milgram Theorem to (KFP). We will therefore adopt fixed point theorems 
+to find a solution but as with $f(x,m(x))$ we must impose conditions on $G(x,m(x))$.
+\begin{enumerate}[label=\arabic*., leftmargin=*, itemsep=0.35em, resume]
+\item $G(x,m):(\Omega,L^2(\Omega))\to L^2(\Omega)$ is
+  \begin{itemize}[leftmargin=*, itemsep=0.25em]
+    \item Lipschitz continuous with respect to $m$ with Lipschitz constant $\tilde{B}$,
+    \item bounded by $B\bigl(|x|+|m|+1\bigr)$ for a given constant $B$, for all $x\in \Omega$ and $m \in L^2(\Omega)$.
+  \end{itemize}
+\end{enumerate}
+
+\begin{theorem}[Existence of KFP Solution]
+\label{thm:existence2}  
+If $\lambda>0$ is sufficiently large, there exists $m\in H^2(\Omega)\cap \Honez$ solving (KFP) with fixed $u$.
+\end{theorem}
+\begin{proof}
+  See \ref{thm:existence} and \cite[Chapter~9]{evans_pde}.
+  The only difference is in the thershold of $\lambda$ which we'll now derive. As in \ref{thm:existence} we want to show
+  \[\{u\in X: u=\mu A[u]\ \text{for some }0\le\mu\le 1\}\]
+  is bounded.
+  Substituting $w=m/\mu$, we obtain
+  \begin{align*}
+  \int_\Omega |\nabla m|^2 + \lambda |m|^2\,dx
+  &= \mu\int_\Omega G(x,m)m - m \nabla m \Hp  \,dx\\
+  &\le \int_\Omega |G(x,m)||m| + L|m||\nabla m|\,dx\\
+  &\le \int_\Omega B(|x|+|m|+1)|m| + L|m||\nabla m|\,dx \qquad \text{(Condition 7)}\\
+  &\le \int_\Omega B|m|^2 + \frac12(\frac{L^2}{\varepsilon^2}|m|^2 + \varepsilon^2|\nabla m|^2) + K \,dx 
+  \qquad \varepsilon\in (0, \sqrt{2})\\
+  &\le \int_\Omega (B +\frac{L^2}{2 \varepsilon^2})|m|^2 + \frac12(\varepsilon^2|\nabla m|^2) + K \,dx.\\
+  \end{align*}
+  Once more using Young's inequality. This yields a bound on $\norm{m}_{\Honez}$ provided ${\lambda> B +\frac{L^2}{4}}$.
+\end{proof}
+
 
 \bibliographystyle{plain}
 \bibliography{references}
