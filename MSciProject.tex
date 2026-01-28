@@ -172,7 +172,7 @@ Thus $a(\cdot,\cdot)$ is bounded and coercive. Next,
 \norm{l}
 &= \sup_{\norm{v}_{H^1}\le 1}\left|\int_\Omega Gv\,dx\right|
 \le \sup_{\norm{v}_{L^2}\le 1}\norm{v}_{L^2}\,\norm{G}_{L^2}
-= \norm{G}_{L^2(\Omega)},
+= \norm{G}_{\Ltwo},
 \end{align*}
 so $l$ is bounded. By Theorem \ref{thm:lax-milgram}, there exists a unique solution $m\in\Honez$.
 
@@ -222,7 +222,7 @@ A:\Honez\to\Honez,\qquad A[u]=w
 -\Delta w+\lambda w = f(x,m)-H(x,\nabla u).
 \]
 We know $w$ exists by Lax--Milgram. We apply Theorem \ref{thm:schaefer}.
-Continuity and compactness are as in \cite[Chapter~9]{evans_pde} (with the addition of an $\norm{f}_{L^2(\Omega)}$ term), so we omit them.
+Continuity and compactness are as in \cite[Chapter~9]{evans_pde} (with the addition of an $\norm{f}_{\Ltwo}$ term), so we omit them.
 It remains to show
 \[\{u\in X: u=\mu A[u]\ \text{for some }0\le\mu\le 1\}\]
 is bounded.
@@ -258,7 +258,7 @@ Suppose $u_1,u_2$ both solve (HJB). Taking the difference gives
 \qquad \varepsilon\in (0, \sqrt{2})\\
 \end{align*}
 using Condition 2 and Cauchy--Schwarz. Hence, by Young's inequality,
-\[\lambda>\frac{\tilde{C}^{\,2}}{4}\implies u_1=u_2 \text{ in }L^2(\Omega)\iff u_1=u_2 \text{ in }\Honez.\]
+\[\lambda>\frac{\tilde{C}^{\,2}}{4}\implies u_1=u_2 \text{ in }\Ltwo\iff u_1=u_2 \text{ in }\Honez.\]
 \end{proof}
 
 \begin{definition}
@@ -353,7 +353,7 @@ The corresponding system, with $A(m)$ substituted for $m/\mu$, is
 \[-\Delta u + H(x,\nabla u) + \lambda u = f(x,m), \qquad \frac{1}{\mu}\Bigl(-\Delta m - \diver\!\bigl(m\,\Hp(x,\nabla u)\bigr) + \lambda m\Bigr)=G(x).\]
 Rearranging the latter and using the Lax--Milgram bound implies
 \[\norm{m}_{L^2}\le \mu \norm{G}_{L^2}\le \norm{G}_{L^2},\]
-which is bounded in $L^2(\Omega)$ (Condition 6). By Schaefer's theorem, $A$ has a fixed point, hence a solution pair $(u,m)$ exists.
+which is bounded in $\Ltwo$ (Condition 6). By Schaefer's theorem, $A$ has a fixed point, hence a solution pair $(u,m)$ exists.
 
 \begin{remark}
 In hindsight, the order of composition is convenient because it provides a natural bound for the pseudo-fixed point set.
@@ -386,14 +386,14 @@ Our new system of equations reads
 In this scenario we cannot apply the Lax-Milgram Theorem to (KFP). We will therefore adopt fixed point theorems 
 to find a solution but as with $f(x,m(x))$ we must impose conditions on $G(x,m(x))$.
 \begin{enumerate}[label=\arabic*., leftmargin=*, itemsep=0.35em, resume]
-\item $G(x,m):(\Omega,L^2(\Omega))\to L^2(\Omega)$ is
+\item $G(x,m):(\Omega,\Ltwo)\to \Ltwo$ is
   \begin{itemize}[leftmargin=*, itemsep=0.25em]
     \item Lipschitz continuous with respect to $m$ with Lipschitz constant $\tilde{B}$,
-    \item bounded by $B\bigl(|x|+|m|+1\bigr)$ for a given constant $B$, for all $x\in \Omega$ and $m \in L^2(\Omega)$.
+    \item bounded by $B\bigl(|x|+|m|+1\bigr)$ for a given constant $B$, for all $x\in \Omega$ and $m \in \Ltwo$.
   \end{itemize}
 \end{enumerate}
 
-\begin{theorem}[Existence of KFP Solution]
+\begin{theorem}[Existence of Non-linear KFP Solution]
 \label{thm:existence2}  
 If $\lambda>0$ is sufficiently large, there exists $m\in H^2(\Omega)\cap \Honez$ solving (KFP) with fixed $u$.
 \end{theorem}
@@ -414,7 +414,19 @@ If $\lambda>0$ is sufficiently large, there exists $m\in H^2(\Omega)\cap \Honez$
   \end{align*}
   Once more using Young's inequality. This yields a bound on $\norm{m}_{\Honez}$ provided ${\lambda> B +\frac{L^2}{4}}$.
 \end{proof}
-
+\begin{proposition}
+If $\lambda>0$ is sufficiently large, then the fixed point $m$ is unique.
+\end{proposition}
+\begin{proof}
+Suppose $m_1,m_2$ both solve (HJB). Taking the difference gives
+\begin{align*}
+\norm{\nabla(m_1-m_2)}_{L^2}^2 +\lambda\norm{m_1-m_2}_{L^2}^2
+&\le \int_\Omega |\Hp|\,|m_1-m_2|\,|\nabla(m_1 -m_2)| + |G_1-G_2|\,|m_1-m_2|\,dx\\
+&\le L \norm{m_1-m_2}_{L^2}\norm{\nabla(m_1-m_2)}_{L^2} + \tilde{B}\,\norm{m_1-m_2}_{L^2}^2\\
+\end{align*}
+using Conditions 2, 7 and Cauchy--Schwarz. Hence, by our previous use of Young's inequality in \ref{prop:kfp-coercive},
+\[\lambda - \tilde{B} >\frac{L^{\,2}}{4}\implies m_1=m_2 \text{ in }\Honez.\]
+\end{proof}
 
 \bibliographystyle{plain}
 \bibliography{references}
