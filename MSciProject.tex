@@ -5,7 +5,7 @@
 \usepackage{lmodern}
 \usepackage[a4paper,margin=1.15in]{geometry}
 \usepackage{microtype}
-
+\usepackage{soul}
 % ---------- Global line spacing ----------
 \usepackage{setspace}
 \setstretch{1.18} % try 1.12–1.18
@@ -60,6 +60,18 @@
 \maketitle
 
 \section{Introduction}
+\paragraph{Context and Motivation}
+Mean field games is a branch of game theory devoted to the analysis of a special subset of 'games' within the field. 
+These systems or 'games' are distinguished by having a very large number of players, each of whom is considered an almost
+insignificant actor with minimal influence on the system as whole. In measure theory this corresponds to nullifying sets with countable measure and 
+thinking of functions in the distributional sense. Furthemore, each player is a rational observer and the general trend happening around them will inform their decision on how to act 
+in the hopes of acheiving the most optimal outcome.
+Suitable examples of such games come up in all kinds of scenarios-
+one might choose to model the behaviour of voters at the ballot, foraging ants or cars in a traffic jam. 
+\cite{pierre,lasry_lions}
+
+\paragraph{Interpretation of Equations}
+\paragraph{Mathematical Contribution}
 
 \begin{quote}
 (Italics are copied.) Mean field games (MFG), which were introduced by Lasry and Lions [24, 25, 26] and independently by Huang, Caines, and Malham\'e [22],
@@ -88,7 +100,7 @@ In this paper I demonstrate the existence of a solution pair $(u,m)$ in $\Honez$
     \item bounded by $C\bigl(|x|+|\nabla u|+1\bigr)$ for a given constant $C$, for all $x\in\R$ and $\nabla u\in\R^n$.
   \end{itemize}
   \item The partial derivative $H_p$ is continuous with respect to $\nabla u$ and essentially bounded by some constant $L$.
-  \item $\lambda$ is sufficiently large (in particular $\lambda>\max(\,)$).
+  \item $\lambda$ is sufficiently large (in particular $\lambda>\max(\,\frac{L^2}{4},\,\frac{C^2}{2},\,\frac{\tilde{C}^2}{4})$).
   \item $f(x,m(x)):(\Omega,\Ltwo)\to \Ltwo$ and is $\Ltwo$-continuous.
   \item $G(x)\in \Ltwo$.
 \end{enumerate}
@@ -298,7 +310,7 @@ Also, from the energy estimate
 \norm{\nabla u_k}_{L^2}^2+\lambda\norm{u_k}_{L^2}^2
 \le \int_\Omega |u_k|\,|H_k| + |u_k|\,|f_k|\,dx,
 \]
-and boundedness of $H_k$ and $f_k$, we get that $(u_k)$ is bounded in $\Honez$ (since $\Omega$ is bounded).
+and \hl{boundedness of} $H_k$ and $f_k$, we get that $(u_k)$ is bounded in $\Honez$ (since $\Omega$ is bounded).
 Thus $\norm{u-u_k}_{L^2}\norm{f-f_k}_{L^2}\to 0$, and the uniqueness argument above implies $u_k\to u$.
 
 \paragraph{Continuity of $S$.}
@@ -391,6 +403,7 @@ to find a solution but as with $f(x,m(x))$ we must impose conditions on $G(x,m(x
     \item Lipschitz continuous with respect to $m$ with Lipschitz constant $\tilde{B}$,
     \item bounded by $B\bigl(|x|+|m|+1\bigr)$ for a given constant $B$, for all $x\in \Omega$ and $m \in \Ltwo$.
   \end{itemize}
+\item In addition to our previous constraint on $\lambda$, we have $\lambda > \max(\,B + \frac{L^2}{4},\,\tilde{B} +\frac{L^2}{4})$
 \end{enumerate}
 
 \begin{theorem}[Existence of Non-linear KFP Solution]
@@ -427,6 +440,8 @@ Suppose $m_1,m_2$ both solve (HJB). Taking the difference gives
 using Conditions 2, 7 and Cauchy--Schwarz. Hence, by our previous use of Young's inequality in \ref{prop:kfp-coercive},
 \[\lambda - \tilde{B} >\frac{L^{\,2}}{4}\implies m_1=m_2 \text{ in }\Honez.\]
 \end{proof}
+
+Thus our definition of $S(\,\cdot\,)$ in \ref{def:S-map} remains well defined for (KFP) in its new form.
 
 \bibliographystyle{plain}
 \bibliography{references}
