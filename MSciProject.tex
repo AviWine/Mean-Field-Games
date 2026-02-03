@@ -61,37 +61,37 @@
 
 \section{Introduction}
 \paragraph{Context and Motivation}
-Mean field games is a branch of game theory devoted to the analysis of a special subset of 'games' within the field. 
-These systems or 'games' are distinguished by having a very large number of players, each of whom is considered an almost
-insignificant actor with minimal influence on the system as whole. In measure theory this corresponds to nullifying sets with countable measure and 
-thinking of functions in the distributional sense. Furthemore, each player is a rational observer and the general trend happening around them will inform their decision on how to act 
-in the hopes of acheiving the most optimal outcome.
-Suitable examples of such games come up in all kinds of scenarios-
-one might choose to model the behaviour of voters at the ballot, foraging ants or cars in a traffic jam. 
-\cite{pierre,lasry_lions}
-
-\paragraph{Interpretation of Equations}
-\paragraph{Mathematical Contribution}
-
-\begin{quote}
-(Italics are copied.) Mean field games (MFG), which were introduced by Lasry and Lions [24, 25, 26] and independently by Huang, Caines, and Malham\'e [22],
-model Nash equilibria of rational games of stochastic optimal control in which there are infinitely many players. The equilibria are characterized by a system of partial differential equations (PDE) that consist of
-a Hamilton--Jacobi--Bellman (HJB) equation coupled with a Kolmogorov--Fokker--Planck (KFP) equation. Comprehensive reviews of MFG, including analysis and applications, are
-well-documented in the literature [3, 19, 20]. We consider as a model problem a quasilinear elliptic stationary MFG system of the form
-\end{quote}
+Mean field games is a branch of game theory devoted to the analysis of a special subset of 'games' within the discipline. 
+These systems or 'games' are distinguished by having a very large number of players, each of whom is considered almost
+insignificant with minimal influence on the system as a whole. In measure theory this corresponds to nullifying sets with countable measure and 
+thinking of functions in the distributional sense. Furthemore, each player is a rational observer and the general trend around them will inform their decision on how to act, 
+with the aim of acheiving the most optimal outcome.
+The famous example in economics of such a game, introduced by Aumann, is the behaviour of stock traders whom we treat as a continuum \cite{aumann}.
+\\
+In this paper we consider the equilibrium problem characterised by a coupled pair of equations. These are a Hamilton--Jacobi--Bellman (HJB) equation with a Kolmogorov--Fokker--Planck (KFP) equation
 
 \begin{equation}
 \label{eq:system}
 \begin{aligned}
--\Delta u + H(x,\nabla u) + \lambda u &= f(x,m) && \text{in } \Omega,\\
--\Delta m - \diver\!\bigl(m\,\Hp(x,\nabla u)\bigr) + \lambda m &= G(x) && \text{in } \Omega,
+-\Delta u + H(x,\nabla u) + \lambda u &= f(x,m) && \text{in } \Omega \text{ (HJB)},\\
+-\Delta m - \diver\!\bigl(m\,\Hp(x,\nabla u)\bigr) + \lambda m &= G(x) && \text{in } \Omega \text{ (KFP)},
 \end{aligned}
 \end{equation}
 together with homogeneous Dirichlet boundary conditions $u=0$ and $m=0$ on $\partial\Omega$.
-These equations can be interpreted as \dots, with $m(x)$ representing the player density and $u(x)$ the \emph{value function of the underlying optimal control problem faced by the players}.
-Here $\Hp$ denotes the partial derivative of $H$ with respect to the momentum variable (i.e.\ the $\nabla u$ argument), and $\lambda>0$.
 
-In this paper I demonstrate the existence of a solution pair $(u,m)$ in $\Honez$, provided the following conditions are met:
+\paragraph{Interpretation of Equations}
+$m(x)$ represents the player density and $u(x)$ the value function of a representative agent in the mean field game. In other words, $u(x)$ is a player's optimal solution achieved by minimising the expected cost at position $x$.
+Here $\Hp$ denotes the partial derivative of $H$ with respect to the momentum variable (i.e.\ the $\nabla u$ argument), and $\lambda>0$.
+\\
+(HJB) describes a representative player's optimal control behaviour for a given player density, $m$, in the game. Whereas the (KFP) equation takes the macroscopic view and gives us the evolution of $m(\cdot)$ when every individual player satisfies the optimal control $u$.\\
+Each player tries to minimise their cost function $f(x,m)$ (in HJB) and the optimal control for an individual player is given by $\alpha^* = -\Hp (x, \nabla u)$ which we can see makes up the (KFP).
+The $\Delta$ terms are called 'diffusion’ terms which account for the randomness in the game (determined by Brownian motion) and prevent the perfect alignment of players even if they all adopt the same strategy. 
+Lastly, $G()$ is an exogenous function, controlling the entry /exit of players to and from the system and as such will directly affect $m$ which is why it appears in the (KFP).
+\cite{lasry_lions, pierre}
+
+\paragraph{Mathematical Contribution}
+
+In this paper we analyse this coupled system of equations and in particular we prove the existence of a solution pair $(u,m)$ in $\Honez$, provided the following conditions are met:
 \begin{enumerate}[label=\arabic*., leftmargin=*, itemsep=0.35em]
   \item $\Omega$ is bounded and $\partial\Omega$ is smooth.
   \item $H(x,\nabla u):\R^{n+1}\to\R$ is
@@ -145,7 +145,8 @@ l(v)=\int_\Omega G(x)\,v\,dx.
 \label{prop:kfp-bounded}
 The form $a(m,v)$ is bounded on $\Honez\times\Honez$.
 \end{proposition}
-\begin{proof}
+\begin{proof} 
+\emph{Illustrate everything the first time for both u and m}
 For arbitrary $m,v\in\Honez$,
 \begin{align*}
 |a(m,v)|
