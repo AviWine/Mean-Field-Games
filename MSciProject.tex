@@ -91,7 +91,7 @@ Lastly, $G()$ is an exogenous function, controlling the entry /exit of players t
 
 \paragraph{Mathematical Contribution}
 
-In this paper we analyse this coupled system of equations and in particular we prove the existence of a solution pair $(u,m)$ in $\Honez$, provided the following conditions are met:
+In this paper we analyse this coupled system of equations and in particular we prove the existence of a solution pair $(u,m)$ in $\Honez \times \Honez$, provided the following conditions are met:
 \begin{enumerate}[label=\arabic*., leftmargin=*, itemsep=0.35em]
   \item $\Omega$ is bounded and $\partial\Omega$ is smooth.
   \item $H(x,\nabla u):\R^{n+1}\to\R$ is
@@ -107,11 +107,25 @@ In this paper we analyse this coupled system of equations and in particular we p
 
 \section{Method}
 
-Our solution consists of two stages. First, we show solvability for each equation separately, by fixing the other variable (HJB with fixed $m$, and KFP with fixed $u$).
-Second, we prove the existence of a solution \emph{pair} solving both equations simultaneously.
+Our proof consists of two stages. First, we demonstrate solvability for each equation separately, while fixing the other variable (HJB with fixed $m$, and KFP with fixed $u$).
+Second, we show the existence of a solution \emph{pair} solving both equations simultaneously.
 
 \subsection{Independent solutions}
+Before launching forward it's important to introduce the following inequalities. These inequalities will lend themselves
+to almost every proof throughout this paper.
 
+\begin{definition}
+  $p,\,q \in [1, \infty)$ are \emph{conjugate parameters} if ${\frac{1}{q}+ \frac{1}{p} = 1}$ 
+\end{definition}
+\begin{theorem}[Hölder's inequality]
+\label{thm:holder}
+
+\end{theorem}
+In particular when .. we get the Cauchy-Schwarz inequality. 
+\begin{theorem}
+\label{thm:youngs}
+
+\end{theorem}
 \subsubsection{Solving Kolmogorov--Fokker--Planck}
 
 To solve
@@ -146,15 +160,14 @@ l(v)=\int_\Omega G(x)\,v\,dx.
 The form $a(m,v)$ is bounded on $\Honez\times\Honez$.
 \end{proposition}
 \begin{proof} 
-\emph{Illustrate everything the first time for both u and m}
 For arbitrary $m,v\in\Honez$,
 \begin{align*}
 |a(m,v)|
-&\le \norm{\nabla m}_{L^2}\norm{\nabla v}_{L^2}
-   + L\norm{m}_{L^2}\norm{\nabla v}_{L^2}
-   + \lambda\norm{m}_{L^2}\norm{v}_{L^2}\\
+&\le \int_{\Omega} |\nabla m||\nabla v| +|\nabla v||m||\Hp| + \lambda |m||v| \,dx\\
+&\le \norm{\nabla m}_{L^2}\norm{\nabla v}_{L^2} + L\norm{m}_{L^2}\norm{\nabla v}_{L^2} + \lambda\norm{m}_{L^2}\norm{v}_{L^2}\\
 &\le C\,\norm{m}_{H^1}\,\norm{v}_{H^1}.
 \end{align*}
+Making use of the Cauchy--Schwarz inequality in the second line.
 \end{proof}
 
 \begin{proposition}
@@ -237,7 +250,7 @@ A:\Honez\to\Honez,\qquad A[u]=w
 We know $w$ exists by Lax--Milgram. We apply Theorem \ref{thm:schaefer}.
 Continuity and compactness are as in \cite[Chapter~9]{evans_pde} (with the addition of an $\norm{f}_{\Ltwo}$ term), so we omit them.
 It remains to show
-\[\{u\in X: u=\mu A[u]\ \text{for some }0\le\mu\le 1\}\]
+\[\{u\in \Honez: u=\mu A[u]\ \text{for some }0\le\mu\le 1\}\]
 is bounded.
 
 Substituting $w=u/\mu$, we obtain
@@ -251,14 +264,18 @@ Substituting $w=u/\mu$, we obtain
 &\hspace{7.3cm}\varepsilon\in (0, \infty),\ \delta\in(0,1)\\
 &\le \frac12\int_\Omega \frac{f^2}{\varepsilon^2}
  + \Bigl(\varepsilon^2+\frac{C^2}{\delta^2}\Bigr)u^2
- + \delta^2(1+\gamma^2)|\nabla u|^2\,dx + K, \qquad \gamma\in (0, \infty),
+ + \delta^2(1+\gamma^2)|\nabla u|^2\,dx + K(\gamma), \qquad \gamma\in (0, \infty),
 \end{align*}
 after repeated applications of Young's inequality to isolate $|\nabla u|^2$ and $u^2$.
 We require $\delta^2(1+\gamma^2)<1$ (in particular sufficiently small $\delta^2<1$ suffices for any $\gamma >0$).
 Since $\varepsilon$ can be arbitrarily small, this yields a bound on $\norm{u}_{\Honez}$ provided $\lambda>\frac{C^2}{2}$.
 \end{proof}
-
+\begin{remark}
+  We can always tune $\epsilon, \delta \text{ and } \gamma$ for given $\lambda>\frac{C^2}{2}$ to satisfy boundedness. This utilises the
+  strictness of the inequality.
+\end{remark}
 \begin{proposition}
+\label{prop:uniqueness}
 If $\lambda>0$ is sufficiently large, then the fixed point $u$ is unique.
 \end{proposition}
 \begin{proof}
@@ -281,7 +298,7 @@ Define $T:\Honez\to\Honez$ by $T(m)=u$, where $u$ solves (HJB) for fixed $m$.
 
 \subsection{Codependent solution}
 
-An equivalent formulation of finding a solution pair $(u,m)$ is to find a fixed point of a suitable map.
+An equivalent formulation of finding a weak solution pair $(u,m)$ is to find a fixed point of a suitable map.
 
 \begin{definition}
 Let $T$ and $S$ be as in Definitions \ref{def:S-map} and \ref{def:T-map}. Define
@@ -297,7 +314,7 @@ We verify the hypotheses of Schaefer's theorem.
 Since $A=S\circ T$, it suffices to show $S$ and $T$ are continuous.
 
 \paragraph{Continuity of $T$.}
-Let $(m_k)_{k=1}^\infty\to m$ in $\Honez$. Write $u=T[m]$ and $u_k=T[m_k]$.
+Let $(m_k)_{k=1}^\infty\to m$ in $\Honez$. Denote $u=T[m]$, $u_k=T[m_k]$ and $f_k = f(x, m_k)$.
 Taking the weak formulation of the difference in (HJB) gives
 \begin{align*}
 \norm{\nabla(u-u_k)}_{L^2}^2+\lambda\norm{u-u_k}_{L^2}^2
@@ -307,15 +324,15 @@ Taking the weak formulation of the difference in (HJB) gives
 \end{align*}
 Since $f$ is $\Ltwo$-continuous (Condition 5), $\norm{f-f_k}_{L^2}\to 0$.
 Also, from the energy estimate
-\[
+\begin{align*}
 \norm{\nabla u_k}_{L^2}^2+\lambda\norm{u_k}_{L^2}^2
-\le \int_\Omega |u_k|\,|H_k| + |u_k|\,|f_k|\,dx,
-\]
-and \hl{boundedness of} $H_k$ and $f_k$, we get that $(u_k)$ is bounded in $\Honez$ (since $\Omega$ is bounded).
-Thus $\norm{u-u_k}_{L^2}\norm{f-f_k}_{L^2}\to 0$, and the uniqueness argument above implies $u_k\to u$.
+& \le \int_\Omega  |u_k|\,|f_k| + |u_k|\,|H_k|\,dx\\
+\end{align*}
+Reapplying the boundedness argument from \ref{thm:existence} and noting that by it's convegence to $f, \, f_k$ is bounded, we get that $(u_k)$ is bounded in $\Honez$.
+Thus $\norm{u-u_k}_{L^2}\norm{f-f_k}_{L^2}\to 0$, and the uniqueness argument above (\ref{prop:uniqueness}) implies $u_k\to u$.
 
 \paragraph{Continuity of $S$.}
-Let $(u_k)_{k=1}^\infty\to u$ in $\Honez$. Write $m=S[u]$ and $m_k=S[u_k]$.
+Let $(u_k)_{k=1}^\infty\to u$ in $\Honez$. Denote $m=S[u]$, $m_k=S[u_k]$ and $\Hp_k=\Hp(x,\nabla u_k)$.
 Taking the weak formulation of the difference in (KFP) yields
 \begin{align*}
 \norm{\nabla(m-m_k)}_{L^2}^2+\lambda\norm{m-m_k}_{L^2}^2
@@ -443,6 +460,8 @@ using Conditions 2, 7 and Cauchy--Schwarz. Hence, by our previous use of Young's
 \end{proof}
 
 Thus our definition of $S(\,\cdot\,)$ in \ref{def:S-map} remains well defined for (KFP) in its new form.
+
+We have left to prove that $S$ is still continuous after which our previous results will hold for compactness of $A$.
 
 \bibliographystyle{plain}
 \bibliography{references}
