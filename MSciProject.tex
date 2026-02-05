@@ -91,7 +91,7 @@ Lastly, $G()$ is an exogenous function, controlling the entry /exit of players t
 
 \paragraph{Mathematical Contribution}
 
-In this paper we analyse this coupled system of equations and in particular we prove the existence of a solution pair $(u,m)$ in $\Honez \times \Honez$, provided the following conditions are met:
+In this paper we analyse this coupled system of equations and in particular we prove the existence of a  weak solution pair $(u,m)$ in $\Honez \times \Honez$, provided the following conditions are met:
 \begin{enumerate}[label=\arabic*., leftmargin=*, itemsep=0.35em]
   \item $\Omega$ is bounded and $\partial\Omega$ is smooth.
   \item $H(x,\nabla u):\R^{n+1}\to\R$ is
@@ -111,7 +111,7 @@ Our proof consists of two stages. First, we demonstrate solvability for each equ
 Second, we show the existence of a solution \emph{pair} solving both equations simultaneously.
 
 \subsection{Independent solutions}
-Before launching forward it's important to introduce the following inequalities. These inequalities will lend themselves
+Before launching forward it's important to introduce the following inequalities. These are essential and will lend themselves
 to almost every proof throughout this paper.
 
 \begin{definition}
@@ -119,12 +119,17 @@ to almost every proof throughout this paper.
 \end{definition}
 \begin{theorem}[Hölder's inequality]
 \label{thm:holder}
-
+Let $f \in L^p(\Omega) \text{ and } g \in L^q(\Omega)$ where $p, \,q$ are conjugate parameters. Then
+\[\norm{fg}_1 \le \norm{f}_p\,\norm{g}_q\]
 \end{theorem}
-In particular when .. we get the Cauchy-Schwarz inequality. 
-\begin{theorem}
+\begin{remark}
+  In particular, when $p,\,q = 2$ we get the Cauchy--Schwarz inequality
+  \[\norm{fg}_1 \le \norm{f}_2\,\norm{g}_2\]
+\end{remark}
+\begin{theorem}[Young's inequality]
 \label{thm:youngs}
-
+Let $a,\, b \in \R$ then 
+\[2ab \le \frac{a^2}{\varepsilon^2} + \varepsilon^2 b^2 \qquad \forall \varepsilon > 0\]
 \end{theorem}
 \subsubsection{Solving Kolmogorov--Fokker--Planck}
 
@@ -271,7 +276,7 @@ We require $\delta^2(1+\gamma^2)<1$ (in particular sufficiently small $\delta^2<
 Since $\varepsilon$ can be arbitrarily small, this yields a bound on $\norm{u}_{\Honez}$ provided $\lambda>\frac{C^2}{2}$.
 \end{proof}
 \begin{remark}
-  We can always tune $\epsilon, \delta \text{ and } \gamma$ for given $\lambda>\frac{C^2}{2}$ to satisfy boundedness. This utilises the
+  We can always tune $\varepsilon, \delta \text{ and } \gamma$ for given $\lambda>\frac{C^2}{2}$ to satisfy boundedness. This utilises the
   strictness of the inequality.
 \end{remark}
 \begin{proposition}
@@ -298,10 +303,10 @@ Define $T:\Honez\to\Honez$ by $T(m)=u$, where $u$ solves (HJB) for fixed $m$.
 
 \subsection{Codependent solution}
 
-An equivalent formulation of finding a weak solution pair $(u,m)$ is to find a fixed point of a suitable map.
+An equivalent formulation of finding a solution pair $(u,m)$ is to find a fixed point of a suitable map.
 
 \begin{definition}
-Let $T$ and $S$ be as in Definitions \ref{def:S-map} and \ref{def:T-map}. Define
+Let $T$ and $S$ be as in definitions \ref{def:S-map} and \ref{def:T-map}. Define
 \[A:\Honez\to\Honez,\qquad A \coloneqq S\circ T.\]
 \end{definition}
 
@@ -326,7 +331,7 @@ Since $f$ is $\Ltwo$-continuous (Condition 5), $\norm{f-f_k}_{L^2}\to 0$.
 Also, from the energy estimate
 \begin{align*}
 \norm{\nabla u_k}_{L^2}^2+\lambda\norm{u_k}_{L^2}^2
-& \le \int_\Omega  |u_k|\,|f_k| + |u_k|\,|H_k|\,dx\\
+&\le \int_\Omega  |u_k|\,|f_k| + |u_k|\,|H_k|\,dx.\\
 \end{align*}
 Reapplying the boundedness argument from \ref{thm:existence} and noting that by it's convegence to $f, \, f_k$ is bounded, we get that $(u_k)$ is bounded in $\Honez$.
 Thus $\norm{u-u_k}_{L^2}\norm{f-f_k}_{L^2}\to 0$, and the uniqueness argument above (\ref{prop:uniqueness}) implies $u_k\to u$.
@@ -338,8 +343,19 @@ Taking the weak formulation of the difference in (KFP) yields
 \norm{\nabla(m-m_k)}_{L^2}^2+\lambda\norm{m-m_k}_{L^2}^2
 &\le \int_\Omega |\nabla(m-m_k)|\,\bigl|m\,\Hp - m_k\,\Hp_k\bigr|\,dx.
 \end{align*}
-Using boundedness of $m,m_k$ (Lax--Milgram), $\Hp_k\to \Hp$, and $|\Hp_k|\le L$, then applying Young's inequality together with the condition on $\lambda$ gives $m_k\to m$.
-Hence $S$ is continuous.
+
+Define the correction factor $\varepsilon_k \coloneqq \Hp - \Hp_k$. Then, 
+\begin{align*}
+\norm{\nabla(m-m_k)}_{L^2}^2+\lambda\norm{m-m_k}_{L^2}^2
+&\le \int_\Omega |\nabla(m-m_k)|\,|m\,\Hp - m_k\, \Hp| +|m_k||\varepsilon_k|\,dx\\
+&\le L \int_\Omega |\nabla(m-m_k)|\,|m - m_k|\,dx + \int_\Omega |m_k|\,|\varepsilon_k|\,dx.
+\end{align*}
+$m$ and $m_k$ are bounded (\ref{thm:lax-milgram}) so as $k$ gets large $|m_k||\varepsilon_k| \to 0$. Therefore, by the largeness of
+$\lambda$ (see \ref{prop:kfp-coercive}), we get $m_k \to m$ i.e $S$ is continuous.
+
+\begin{remark}
+  The image of $S$ is bounded as a direct consequence of Lax-Milgram. 
+\end{remark}
 
 \subsubsection{Compactness of $A$}
 
