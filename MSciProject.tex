@@ -41,6 +41,9 @@
 \theoremstyle{remark}
 \newtheorem{remark}[theorem]{Remark}
 
+% ---------- Footnotes ----------
+\usepackage[bottom]{footmisc}
+
 % ---------- Notation helpers ----------
 \DeclareMathOperator{\diver}{div}
 \newcommand{\R}{\mathbb{R}}
@@ -59,6 +62,7 @@
 \begin{document}
 \maketitle
 
+\newpage
 \section{Introduction}
 \paragraph{Context and Motivation}
 Mean field games is a branch of game theory devoted to the analysis of a special subset of 'games' within the discipline. 
@@ -239,7 +243,7 @@ Suppose $A:X\to X$ is continuous and compact, and assume the set
 \]
 is bounded. Then $A$ has a fixed point.
 \end{theorem}
-{\footnotesize See \cite[Chapter~9]{evans_pde} for proofs.}
+\footnote{See \cite[Chapter~9]{evans_pde} for proofs.}
 
 \begin{theorem}[Existence]
 \label{thm:existence}  
@@ -319,6 +323,7 @@ We verify the hypotheses of Schaefer's theorem.
 Since $A=S\circ T$, it suffices to show $S$ and $T$ are continuous.
 
 \paragraph{Continuity of $T$.}
+\label{pf:t-cont}
 Let $(m_k)_{k=1}^\infty\to m$ in $\Honez$. Denote $u=T[m]$, $u_k=T[m_k]$ and $f_k = f(x, m_k)$.
 Taking the weak formulation of the difference in (HJB) gives
 \begin{align*}
@@ -337,6 +342,7 @@ Reapplying the boundedness argument from \ref{thm:existence} and noting that by 
 Thus $\norm{u-u_k}_{L^2}\norm{f-f_k}_{L^2}\to 0$, and the uniqueness argument above (\ref{prop:uniqueness}) implies $u_k\to u$.
 
 \paragraph{Continuity of $S$.}
+\label{pf:s-cont}
 Let $(u_k)_{k=1}^\infty\to u$ in $\Honez$. Denote $m=S[u]$, $m_k=S[u_k]$ and $\Hp_k=\Hp(x,\nabla u_k)$.
 Taking the weak formulation of the difference in (KFP) yields
 \begin{align*}
@@ -347,7 +353,7 @@ Taking the weak formulation of the difference in (KFP) yields
 Define the correction factor $\varepsilon_k \coloneqq \Hp - \Hp_k$. Then, 
 \begin{align*}
 \norm{\nabla(m-m_k)}_{L^2}^2+\lambda\norm{m-m_k}_{L^2}^2
-&\le \int_\Omega |\nabla(m-m_k)|\,|m\,\Hp - m_k\, \Hp| +|m_k||\varepsilon_k|\,dx\\
+&\le \int_\Omega |\nabla(m-m_k)|\,\bigl|m\,\Hp - m_k\, \Hp\bigr| +|m_k||\varepsilon_k|\,dx\\
 &\le L \int_\Omega |\nabla(m-m_k)|\,|m - m_k|\,dx + \int_\Omega |m_k|\,|\varepsilon_k|\,dx.
 \end{align*}
 $m$ and $m_k$ are bounded (\ref{thm:lax-milgram}) so as $k$ gets large $|m_k||\varepsilon_k| \to 0$. Therefore, by the largeness of
@@ -360,9 +366,7 @@ $\lambda$ (see \ref{prop:kfp-coercive}), we get $m_k \to m$ i.e $S$ is continuou
 \subsubsection{Compactness of $A$}
 
 Since $S$ is continuous and bounded, it suffices to show that $T$ is compact in $\Honez$:
-\[
-T \text{ compact } \implies A=S\circ T \text{ compact.}
-\]
+\[T \text{ compact } \implies A=S\circ T \text{ compact.}\]
 
 \begin{definition}
 Let $X$ and $Y$ be Banach spaces with $X\subset Y$. We say that $X$ is compactly embedded in $Y$, written $X\subset\subset Y$, provided:
@@ -379,10 +383,7 @@ Assume $U$ is a bounded open subset of $\R^n$ and $\partial U$ is $C^1$. Suppose
 
 \begin{remark}
 Observe $p^\ast>p$. In particular,
-\[
-W^{1,p}(U)\subset\subset L^p(U)
-\quad\text{for all }1\le p<n.
-\]
+\[W^{1,p}(U)\subset\subset L^p(U) \quad\text{for all }1\le p<n.\]
 \end{remark}
 
 Let $(m_k)_{k=1}^\infty$ be a bounded sequence in $\Honez$.
@@ -394,28 +395,30 @@ Thus $T$ is compact, and hence $A$ is compact.
 \subsubsection{Boundedness of the pseudo-fixed point set}
 
 Consider
-\[\{m\in\Honez: m=\mu A(m)\ \text{for some }\mu\in[0,1]\}.\]
-The corresponding system, with $A(m)$ substituted for $m/\mu$, is
+\[\{m\in\Honez: m=\mu A[m]\ \text{for some }\mu\in[0,1]\}.\]
+The corresponding system, with $A[m]$ substituted for $m/\mu$, is
 \[-\Delta u + H(x,\nabla u) + \lambda u = f(x,m), \qquad \frac{1}{\mu}\Bigl(-\Delta m - \diver\!\bigl(m\,\Hp(x,\nabla u)\bigr) + \lambda m\Bigr)=G(x).\]
 Rearranging the latter and using the Lax--Milgram bound implies
 \[\norm{m}_{L^2}\le \mu \norm{G}_{L^2}\le \norm{G}_{L^2},\]
 which is bounded in $\Ltwo$ (Condition 6). By Schaefer's theorem, $A$ has a fixed point, hence a solution pair $(u,m)$ exists.
 
 \begin{remark}
-In hindsight, the order of composition is convenient because it provides a natural bound for the pseudo-fixed point set.
+In hindsight, we see the order of composition was convenient because it provides a natural bound for the pseudo-fixed point set.
 \end{remark}
 
 Therefore $A$ has a fixed point and a solution pair $(u,m)\in \Honez$ exists.
 
 \subsection{Swapping Composition Order}
-An equaly valid construction for $A$ is the reverse composition \[A \coloneqq S\circ T.\] $S$ and $T$ are unchanged so the compactness of $A$ still holds. 
+An equaly valid construction for $A$ is the reverse composition 
+\[A \coloneqq S\circ T.\] 
+$S$ and $T$ are unchanged so the compactness of $A$ still holds. 
 In the proof of theorem \ref{thm:existence} we demonstrated that $\lambda > \frac{C^2}{2} \implies \norm{u}_{\Honez}$ is bounded when $m$ is fixed. 
-Under this construction we must consider 
-\[\{u\in\Honez: u=\mu A(u)\ \text{for some }\mu\in[0,1]\}.\]
-The corresponding system, with $A(u)$ substituted for $u/\mu$, is
+Under this new construction we must consider 
+\[\{u\in\Honez: u=\mu A[u]\ \text{for some }\mu\in[0,1]\}.\]
+The corresponding system, with $A[u]$ substituted for $u/\mu$, is
 \[\frac{1}{\mu}\Bigl(-\Delta u + H(x,\nabla u) + \lambda u)\Bigr) = f(x,m), \qquad -\Delta m - \diver \bigl(m\,\Hp(x,\nabla u)\bigr) + \lambda m=G(x).\]
 
-We note that allowing $m(x)$ to be variable makes no difference in this respect since $\norm{f(x,m(x))}_{L^2}$ is always bounded on $\Omega$ (Condition 5).
+\emph{wrong -} We note that allowing $m(x)$ to be variable makes no difference in this respect since $\norm{f(x,m(x))}_{L^2}$ is always bounded on $\Omega$ (Condition 5).
 Thus the set of pseudo-fixed points is still bounded and Schaefer's Theorem carries over. 
 
 \section{Non-linear (KFP)}
@@ -447,8 +450,9 @@ If $\lambda>0$ is sufficiently large, there exists $m\in H^2(\Omega)\cap \Honez$
 \begin{proof}
   See \ref{thm:existence} and \cite[Chapter~9]{evans_pde}.
   The only difference is in the thershold of $\lambda$ which we'll now derive. As in \ref{thm:existence} we want to show
-  \[\{u\in X: u=\mu A[u]\ \text{for some }0\le\mu\le 1\}\]
+  \[\{m\in \Honez: m=\mu A[m]\ \text{for some }0\le\mu\le 1\}\]
   is bounded.
+  \footnote{$A(\cdot)$ here is the map defined for fixed $u$ not to be confused with the composition of $S$ and $T$.}
   Substituting $w=m/\mu$, we obtain
   \begin{align*}
   \int_\Omega |\nabla m|^2 + \lambda |m|^2\,dx
@@ -476,9 +480,19 @@ using Conditions 2, 7 and Cauchy--Schwarz. Hence, by our previous use of Young's
 \end{proof}
 
 Thus our definition of $S(\,\cdot\,)$ in \ref{def:S-map} remains well defined for (KFP) in its new form.
-
 We have left to prove that $S$ is still continuous after which our previous results will hold for compactness of $A$.
 
+\paragraph{Continuity of S \#2}
+\label{pf:s-cont2}
+Oncemore, let $(u_k)_{k=1}^\infty\to u$ in $\Honez$. Denote $m=S[u]$, $m_k=S[u_k]$, $\Hp_k=\Hp(x,\nabla u_k)$ and $G_k = G(x,m_k)$.
+Taking the weak formulation of the difference in (KFP) yields
+\begin{align*}
+\norm{\nabla(m-m_k)}_{L^2}^2+\lambda\norm{m-m_k}_{L^2}^2
+&\le \int_\Omega |\nabla(m-m_k)|\,\bigl|m\,\Hp - m_k\,\Hp_k\bigr| + |G - G_k|\,|m-m_k|\,dx\\
+&\le \int_\Omega |\nabla(m-m_k)|\,\bigl|m\,\Hp - m_k\,\Hp_k\bigr| + \tilde{B}|m-m_k|^2\,dx.
+\end{align*}
+By $\lambda$ being sufficiently large to account for $\tilde{B}$ and following the same line of reasoning in \ref{pf:s-cont} we conclude that 
+$S$ is continuous. 
 \bibliographystyle{plain}
 \bibliography{references}
 
