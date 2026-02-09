@@ -350,13 +350,14 @@ Taking the weak formulation of the difference in (KFP) yields
 &\le \int_\Omega |\nabla(m-m_k)|\,\bigl|m\,\Hp - m_k\,\Hp_k\bigr|\,dx.
 \end{align*}
 
-Define the correction factor $\varepsilon_k \coloneqq \Hp - \Hp_k$. Then, 
+Define the correction factor $\varepsilon_k \coloneqq \Hp - \Hp_k$. Note that since $\Hp_k$ is continuous w.r.t. $u_k$ we have
+$\lim_{k \to \infty} \varepsilon_k = 0$. Then, 
 \begin{align*}
 \norm{\nabla(m-m_k)}_{L^2}^2+\lambda\norm{m-m_k}_{L^2}^2
-&\le \int_\Omega |\nabla(m-m_k)|\,\bigl|m\,\Hp - m_k\, \Hp\bigr| +|m_k||\varepsilon_k|\,dx\\
-&\le L \int_\Omega |\nabla(m-m_k)|\,|m - m_k|\,dx + \int_\Omega |m_k|\,|\varepsilon_k|\,dx.
+&\le \int_\Omega |\nabla(m-m_k)|\,\bigl|m\,\Hp - m_k\, \Hp\bigr| +|\nabla(m-m_k)|\,|m_k||\varepsilon_k|\,dx\\
+&\le L \int_\Omega |\nabla(m-m_k)|\,|m - m_k|\,dx + \int_\Omega |\nabla(m-m_k)|\,|m_k|\,|\varepsilon_k|\,dx.
 \end{align*}
-$m$ and $m_k$ are bounded (\ref{thm:lax-milgram}) so as $k$ gets large $|m_k||\varepsilon_k| \to 0$. Therefore, by the largeness of
+$m$ and $m_k$ are bounded in $\Honez$ by \ref{thm:lax-milgram} so as $k$ gets large $|\nabla(m-m_k)|\,|m_k||\varepsilon_k| \to 0$. Therefore, by the largeness of
 $\lambda$ (see \ref{prop:kfp-coercive}), we get $m_k \to m$ i.e $S$ is continuous.
 
 \begin{remark}
@@ -365,7 +366,7 @@ $\lambda$ (see \ref{prop:kfp-coercive}), we get $m_k \to m$ i.e $S$ is continuou
 
 \subsubsection{Compactness of $A$}
 
-Since $S$ is continuous and bounded, it suffices to show that $T$ is compact in $\Honez$:
+Since $S$ is continuous, it suffices to show that $T$ is compact in $\Honez$:
 \[T \text{ compact } \implies A=S\circ T \text{ compact.}\]
 
 \begin{definition}
@@ -410,8 +411,8 @@ Therefore $A$ has a fixed point and a solution pair $(u,m)\in \Honez$ exists.
 
 \subsection{Swapping Composition Order}
 An equaly valid construction for $A$ is the reverse composition 
-\[A \coloneqq S\circ T.\] 
-$S$ and $T$ are unchanged so the compactness of $A$ still holds. 
+\[A \coloneqq T\circ S.\] 
+$S$ and $T$ are unchanged yet crucially, we recall that $S$ is bounded. This ensures that bounded sets will remain bounded under $S$ and so the compactness of $A$ still holds. 
 In the proof of theorem \ref{thm:existence} we demonstrated that $\lambda > \frac{C^2}{2} \implies \norm{u}_{\Honez}$ is bounded when $m$ is fixed. 
 Under this new construction we must consider 
 \[\{u\in\Honez: u=\mu A[u]\ \text{for some }\mu\in[0,1]\}.\]
@@ -491,7 +492,7 @@ Taking the weak formulation of the difference in (KFP) yields
 &\le \int_\Omega |\nabla(m-m_k)|\,\bigl|m\,\Hp - m_k\,\Hp_k\bigr| + |G - G_k|\,|m-m_k|\,dx\\
 &\le \int_\Omega |\nabla(m-m_k)|\,\bigl|m\,\Hp - m_k\,\Hp_k\bigr| + \tilde{B}|m-m_k|^2\,dx.
 \end{align*}
-By $\lambda$ being sufficiently large to account for $\tilde{B}$ and following the same line of reasoning in \ref{pf:s-cont} we conclude that 
+By $\lambda$ being sufficiently large to account for the $\tilde{B}$ term and following the same line of reasoning in \ref{pf:s-cont} we conclude that 
 $S$ is continuous. 
 \bibliographystyle{plain}
 \bibliography{references}
