@@ -37,6 +37,7 @@
 
 \theoremstyle{definition}
 \newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}{Example}
 
 \theoremstyle{remark}
 \newtheorem{remark}[theorem]{Remark}
@@ -71,7 +72,6 @@ insignificant with minimal influence on the system as a whole. In measure theory
 thinking of functions in the distributional sense. Furthemore, each player is a rational observer and the general trend around them will inform their decision on how to act, 
 with the aim of acheiving the most optimal outcome.
 The famous example in economics of such a game, introduced by Aumann, is the behaviour of stock traders whom we treat as a continuum \cite{aumann}.
-\\
 In this paper we consider the equilibrium problem characterised by a coupled pair of equations. These are a Hamilton--Jacobi--Bellman (HJB) equation with a Kolmogorov--Fokker--Planck (KFP) equation
 
 \begin{equation}
@@ -81,13 +81,13 @@ In this paper we consider the equilibrium problem characterised by a coupled pai
 -\Delta m - \diver\!\bigl(m\,\Hp(x,\nabla u)\bigr) + \lambda m &= G(x) && \text{in } \Omega \text{ (KFP)},
 \end{aligned}
 \end{equation}
-together with homogeneous Dirichlet boundary conditions $u=0$ and $m=0$ on $\partial\Omega$.
+together with homogeneous Dirichlet boundary Assumptions $u=0$ and $m=0$ on $\partial\Omega$.
 
 \paragraph{Interpretation of Equations}
 $m(x)$ represents the player density and $u(x)$ the value function of a representative agent in the mean field game. In other words, $u(x)$ is a player's optimal solution achieved by minimising the expected cost at position $x$.
 Here $\Hp$ denotes the partial derivative of $H$ with respect to the momentum variable (i.e.\ the $\nabla u$ argument), and $\lambda>0$.
 \\
-(HJB) describes a representative player's optimal control behaviour for a given player density, $m$, in the game. Whereas the (KFP) equation takes the macroscopic view and gives us the evolution of $m(\cdot)$ when every individual player satisfies the optimal control $u$.\\
+(HJB) describes a representative player's optimal control behaviour for a given player density, $m$, in the game. On the other hand, (KFP) takes the macroscopic view and gives us the evolution of $m(\cdot)$ when every individual player satisfies the optimal solution $u$.\\
 Each player tries to minimise their cost function $f(x,m)$ (in HJB) and the optimal control for an individual player is given by $\alpha^* = -\Hp (x, \nabla u)$ which we can see makes up the (KFP).
 The $\Delta$ terms are called 'diffusion’ terms which account for the randomness in the game (determined by Brownian motion) and prevent the perfect alignment of players even if they all adopt the same strategy. 
 Lastly, $G()$ is an exogenous function, controlling the entry /exit of players to and from the system and as such will directly affect $m$ which is why it appears in the (KFP).
@@ -95,20 +95,42 @@ Lastly, $G()$ is an exogenous function, controlling the entry /exit of players t
 
 \paragraph{Mathematical Contribution}
 
-In this paper we analyse this coupled system of equations and in particular we prove the existence of a  weak solution pair $(u,m)$ in $\Honez \times \Honez$, provided the following conditions are met:
+In this paper we analyse this coupled system of equations and in particular we investigate the existence of a  weak solution pair $(u,m)$ in $\Honez \times \Honez$. 
+In addition, we consider a more general formulation of the system and prove an existence result in this extended setting, which constitutes an original contribution of this work.
+\newpage
+\paragraph{Assumptions}
 \begin{enumerate}[label=\arabic*., leftmargin=*, itemsep=0.35em]
   \item $\Omega$ is bounded and $\partial\Omega$ is smooth.
   \item $H(x,\nabla u):\R^{n+1}\to\R$ is
   \begin{itemize}[leftmargin=*, itemsep=0.25em]
     \item Lipschitz continuous with respect to $\nabla u$ with Lipschitz constant $\tilde{C}$,
-    \item bounded by $C\bigl(|x|+|\nabla u|+1\bigr)$ for a given constant $C$, for all $x\in\R$ and $\nabla u\in\R^n$.
+    \item bounded by $C\bigl(|\nabla u|+1\bigr)$ for a given constant $C$, for all $x\in\R$ and $\nabla u\in\R^n$.
   \end{itemize}
   \item The partial derivative $H_p$ is continuous with respect to $\nabla u$ and essentially bounded by some constant $L$.
   \item $\lambda$ is sufficiently large (in particular $\lambda>\max(\,\frac{L^2}{4},\,\frac{C^2}{2},\,\frac{\tilde{C}^2}{4})$).
-  \item $f(x,m(x)):(\Omega,\Ltwo)\to \Ltwo$ and is $\Ltwo$-continuous.
-  \item $G(x)\in \Ltwo$.
+  \item $f(x,m(x)):\Omega \times \Ltwo \to \Ltwo$ and is continuous w.r.t. $m$.
+  \item $G(x): \Omega \to \Ltwo$.
 \end{enumerate}
 
+\begin{example}
+  A Hamiltonian satisfying Assumption 2 is
+  \[H(x,p) = p + V(x) \text{ on } \Omega = (0,1),\] 
+  where $V \in L^\infty(\Omega)$. In this case, the associated drift, $\Hp$, is constant.
+\end{example}
+\begin{example}
+  For a coupling term satisfying Assumption 3, one may consider
+  \[f(x,m) = a(x)\,\phi(m),\]
+  where $a(x) \in L^\infty(\Omega) \text{ and } \phi \in \Ltwo \text{ is continuous.}$
+
+\end{example}
+
+\paragraph{Main Result}
+\begin{theorem}[Existence of the MFG system solution]
+Let the Mean Field Game system be characterised by \ref{eq:system} and suppose the assumptions above are true. 
+Then a solution $(u,m) \in \Honez \times \Honez$ exists. 
+\end{theorem}
+
+We will prove this theorem throughout the rest of this paper. 
 \section{Method}
 
 Our proof consists of two stages. First, we demonstrate solvability for each equation separately, while fixing the other variable (HJB with fixed $m$, and KFP with fixed $u$).
@@ -199,7 +221,7 @@ which ensures coercivity.
 \end{proof}
 
 \begin{remark}
-Both proofs use Condition 3, namely $\lvert H_p\rvert\le L$.
+Both proofs use Assumption 3, namely $\lvert H_p\rvert\le L$.
 \end{remark}
 
 Thus $a(\cdot,\cdot)$ is bounded and coercive. Next,
@@ -267,7 +289,7 @@ Substituting $w=u/\mu$, we obtain
 \int_\Omega |\nabla u|^2 + \lambda |u|^2\,dx
 &= \mu\int_\Omega f u - H(x,\nabla u)u\,dx\\
 &\le \int_\Omega |fu| + |H(x,\nabla u)u|\,dx\\
-&\le \frac12\int_\Omega |fu| + C(|x|+|\nabla u|+1)|u|\,dx \qquad \text{(Condition 2)}\\
+&\le \frac12\int_\Omega |fu| + C(|x|+|\nabla u|+1)|u|\,dx \qquad \text{(Assumption 2)}\\
 &\le \frac12\int_\Omega \frac{f^2}{\varepsilon^2} + \varepsilon^2 u^2
  + \frac{1}{\delta^2}|Cu|^2 + \delta^2(|x|+|\nabla u|+1)^2\,dx,\\
 &\hspace{7.3cm}\varepsilon\in (0, \infty),\ \delta\in(0,1)\\
@@ -296,7 +318,7 @@ Suppose $u_1,u_2$ both solve (HJB). Taking the difference gives
 &\le \frac12 \bigl(\frac{\tilde{C}^{\,2}}{\varepsilon^2}\,\norm{u_1-u_2}^2_{L^2} +\varepsilon^2 \norm{\nabla(u_1-u_2)}^2_{L^2}\bigr)
 \qquad \varepsilon\in (0, \sqrt{2})\\
 \end{align*}
-using Condition 2 and Cauchy--Schwarz. Hence, by Young's inequality,
+using Assumption 2 and Cauchy--Schwarz. Hence, by Young's inequality,
 \[\lambda>\frac{\tilde{C}^{\,2}}{4}\implies u_1=u_2 \text{ in }\Ltwo\iff u_1=u_2 \text{ in }\Honez.\]
 \end{proof}
 
@@ -332,7 +354,7 @@ Taking the weak formulation of the difference in (HJB) gives
 &\le \tilde{C}\norm{u-u_k}_{L^2}\norm{\nabla(u-u_k)}_{L^2}
  + \norm{u-u_k}_{L^2}\norm{f-f_k}_{L^2}.
 \end{align*}
-Since $f$ is $\Ltwo$-continuous (Condition 5), $\norm{f-f_k}_{L^2}\to 0$.
+Since $f$ is $\Ltwo$-continuous (Assumption 5), $\norm{f-f_k}_{L^2}\to 0$.
 Also, from the energy estimate
 \begin{align*}
 \norm{\nabla u_k}_{L^2}^2+\lambda\norm{u_k}_{L^2}^2
@@ -388,9 +410,9 @@ Observe $p^\ast>p$. In particular,
 \end{remark}
 
 Let $(m_k)_{k=1}^\infty$ be a bounded sequence in $\Honez$.
-Since $\Omega$ satisfies Condition 1, there exists a subsequence $(m_{k_j})_{j=1}^\infty$ converging in $\Ltwo$ to some $m\in\Ltwo$.
+Since $\Omega$ satisfies Assumption 1, there exists a subsequence $(m_{k_j})_{j=1}^\infty$ converging in $\Ltwo$ to some $m\in\Ltwo$.
 We want to show $T(m_{k_j})\to T(m)$.
-Because $f$ is $\Ltwo$-continuous (Condition 5), $\Ltwo$ convergence is sufficient, and the continuity argument for $T$ applies with $m_{k_j}$.
+Because $f$ is $\Ltwo$-continuous (Assumption 5), $\Ltwo$ convergence is sufficient, and the continuity argument for $T$ applies with $m_{k_j}$.
 Thus $T$ is compact, and hence $A$ is compact.
 
 \subsubsection{Boundedness of the pseudo-fixed point set}
@@ -401,7 +423,7 @@ The corresponding system, with $A[m]$ substituted for $m/\mu$, is
 \[-\Delta u + H(x,\nabla u) + \lambda u = f(x,m), \qquad \frac{1}{\mu}\Bigl(-\Delta m - \diver\!\bigl(m\,\Hp(x,\nabla u)\bigr) + \lambda m\Bigr)=G(x).\]
 Rearranging the latter and using the Lax--Milgram bound implies
 \[\norm{m}_{L^2}\le \mu \norm{G}_{L^2}\le \norm{G}_{L^2},\]
-which is bounded in $\Ltwo$ (Condition 6). By Schaefer's theorem, $A$ has a fixed point, hence a solution pair $(u,m)$ exists.
+which is bounded in $\Ltwo$ (Assumption 6). By Schaefer's theorem, $A$ has a fixed point, hence a solution pair $(u,m)$ exists.
 
 \begin{remark}
 In hindsight, we see the order of composition was convenient because it provides a natural bound for the pseudo-fixed point set.
@@ -419,7 +441,7 @@ Under this new construction we must consider
 The corresponding system, with $A[u]$ substituted for $u/\mu$, is
 \[\frac{1}{\mu}\Bigl(-\Delta u + H(x,\nabla u) + \lambda u)\Bigr) = f(x,m), \qquad -\Delta m - \diver \bigl(m\,\Hp(x,\nabla u)\bigr) + \lambda m=G(x).\]
 
-\emph{wrong -} We note that allowing $m(x)$ to be variable makes no difference in this respect since $\norm{f(x,m(x))}_{L^2}$ is always bounded on $\Omega$ (Condition 5).
+\emph{wrong -} We note that allowing $m(x)$ to be variable makes no difference in this respect since $\norm{f(x,m(x))}_{L^2}$ is always bounded on $\Omega$ (Assumption 5).
 Thus the set of pseudo-fixed points is still bounded and Schaefer's Theorem carries over. 
 
 \section{Non-linear (KFP)}
@@ -434,9 +456,9 @@ Our new system of equations reads
 \end{equation}
 
 In this scenario we cannot apply the Lax-Milgram Theorem to (KFP). We will therefore adopt fixed point theorems 
-to find a solution but as with $f(x,m(x))$ we must impose conditions on $G(x,m(x))$.
+to find a solution but as with $f(x,m(x))$ we must impose Assumptions on $G(x,m(x))$.
 \begin{enumerate}[label=\arabic*., leftmargin=*, itemsep=0.35em, resume]
-\item $G(x,m):(\Omega,\Ltwo)\to \Ltwo$ is
+\item $G(x,m):\Omega \times \Ltwo \to \Ltwo$ is
   \begin{itemize}[leftmargin=*, itemsep=0.25em]
     \item Lipschitz continuous with respect to $m$ with Lipschitz constant $\tilde{B}$,
     \item bounded by $B\bigl(|x|+|m|+1\bigr)$ for a given constant $B$, for all $x\in \Omega$ and $m \in \Ltwo$.
@@ -459,7 +481,7 @@ If $\lambda>0$ is sufficiently large, there exists $m\in H^2(\Omega)\cap \Honez$
   \int_\Omega |\nabla m|^2 + \lambda |m|^2\,dx
   &= \mu\int_\Omega G(x,m)m - m \nabla m \Hp  \,dx\\
   &\le \int_\Omega |G(x,m)||m| + L|m||\nabla m|\,dx\\
-  &\le \int_\Omega B(|x|+|m|+1)|m| + L|m||\nabla m|\,dx \qquad \text{(Condition 7)}\\
+  &\le \int_\Omega B(|x|+|m|+1)|m| + L|m||\nabla m|\,dx \qquad \text{(Assumption 7)}\\
   &\le \int_\Omega B|m|^2 + \frac12(\frac{L^2}{\varepsilon^2}|m|^2 + \varepsilon^2|\nabla m|^2) + K \,dx 
   \qquad \varepsilon\in (0, \sqrt{2})\\
   &\le \int_\Omega (B +\frac{L^2}{2 \varepsilon^2})|m|^2 + \frac12(\varepsilon^2|\nabla m|^2) + K \,dx.\\
@@ -476,7 +498,7 @@ Suppose $m_1,m_2$ both solve (HJB). Taking the difference gives
 &\le \int_\Omega |\Hp|\,|m_1-m_2|\,|\nabla(m_1 -m_2)| + |G_1-G_2|\,|m_1-m_2|\,dx\\
 &\le L \norm{m_1-m_2}_{L^2}\norm{\nabla(m_1-m_2)}_{L^2} + \tilde{B}\,\norm{m_1-m_2}_{L^2}^2\\
 \end{align*}
-using Conditions 2, 7 and Cauchy--Schwarz. Hence, by our previous use of Young's inequality in \ref{prop:kfp-coercive},
+using Assumptions 2, 7 and Cauchy--Schwarz. Hence, by our previous use of Young's inequality in \ref{prop:kfp-coercive},
 \[\lambda - \tilde{B} >\frac{L^{\,2}}{4}\implies m_1=m_2 \text{ in }\Honez.\]
 \end{proof}
 
