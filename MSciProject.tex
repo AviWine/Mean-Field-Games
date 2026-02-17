@@ -227,7 +227,7 @@ which ensures coercivity.
 Thus $a(\cdot,\cdot)$ is bounded and coercive. 
 \begin{theorem}[Existence of unique (KFP) solution]
   \label{thm:solution_kfp}
-  Let the Kolmogorov-Fokker-Planck equation be as in \ref{eq:system} then for any fixed $u \in \Honez$, there exists
+  Let the Kolmogorov-Fokker-Planck equation be as in \ref{eq:system} and suppose that $\lambda > 0$ is sufficiently large. Then for any fixed $u \in \Honez$, there exists
   a unique $m \in \Honez$ solving the equation. 
 \end{theorem}
 \begin{proof}
@@ -288,10 +288,11 @@ We know $w$ exists by Lax--Milgram \ref{thm:lax-milgram}, so $A$ is well defined
   \norm{w}_{H^2(\Omega)}
   & \le C \norm{f(x,m)-H(x,\nabla u)}_{\Ltwo}\\
   & \le C \norm{f(x,m)}_{\Ltwo} + C\norm{H(x,\nabla u)}_{\Ltwo}\\
-  & \le C \norm{f(x,m)}_{\Ltwo} + \hat{C}\norm{|\nabla u| + 1}_{\Ltwo} 
-  \footnote{The constants $C$, $\hat{C}$ agree with but do not equal the constants above. Here they are just convenient notation.} 
-  \qquad \text{(Condition 2)}
+  & \le C \norm{f(x,m)}_{\Ltwo} + \hat{C}\norm{|\nabla u| + 1}_{\Ltwo} \qquad \text{(Condition 2)}
 \end{align*}
+\begin{remark}
+The constants $C$, $\hat{C}$ agree with but do not equal the constants in our list of assumptions. Here they are just convenient notation.
+\end{remark}
 \newpage
 \begin{theorem}[Existence of (HJB) Solution]
   \label{thm:existence_hjb}  
@@ -316,50 +317,71 @@ We know $w$ exists by Lax--Milgram \ref{thm:lax-milgram}, so $A$ is well defined
   By Lipschitz continuity of $H$ (Condition 2).
   \footnote{Indeed, $L^2$ continuity is also implied by the growth condition on $H$.}
   Thus, $w = A[u]$. Hence, $A[u_k] \to A[u]$ in $\Honez$, so $A$ is continuous. $A$ is compact by similar reasoning since 
-  a bounded sequence $(u_k)_{k=1}^\infty$ yields a bounded sequnece $(A[u_k])_{k=1}^\infty$ in $H^2(\Omega)$ which has a strongly convergent subsequence in $\Honez$.
+  a bounded sequence $(u_k)_{k=1}^\infty$ yields a bounded sequence $(A[u_k])_{k=1}^\infty$ in $H^2(\Omega)$ which has a strongly convergent subsequence in $\Honez$.
 
   It remains to show
   \[\{u\in \Honez: u=\mu A[u]\ \text{for some }0\le\mu\le 1\}\]
   is bounded.
 
-  Substituting $w=u/\mu$, we obtain
+  Substituting $w =u/\mu$ and setting $v = u$, we obtain
   \begin{align*}
-  \int_\Omega |\nabla u|^2 + \lambda |u|^2\,dx
-  &= \mu\int_\Omega f u - H(x,\nabla u)u\,dx\\
-  &\le \int_\Omega |fu| + |H(x,\nabla u)u|\,dx\\
-  &\le \frac12\int_\Omega |fu| + C(|x|+|\nabla u|+1)|u|\,dx \qquad \text{(Assumption 2)}\\
-  &\le \frac12\int_\Omega \frac{f^2}{\varepsilon^2} + \varepsilon^2 u^2
-  + \frac{1}{\delta^2}|Cu|^2 + \delta^2(|x|+|\nabla u|+1)^2\,dx,\\
-  &\hspace{7.3cm}\varepsilon\in (0, \infty),\ \delta\in(0,1)\\
-  &\le \frac12\int_\Omega \frac{f^2}{\varepsilon^2}
-  + \Bigl(\varepsilon^2+\frac{C^2}{\delta^2}\Bigr)u^2
-  + \delta^2(1+\gamma^2)|\nabla u|^2\,dx + K(\gamma), \qquad \gamma\in (0, \infty),
+    \int_\Omega |\nabla u|^2 + \lambda |u|^2\,dx
+    &= \mu\int_\Omega f u - H(x,\nabla u)u\,dx\\
+    &\le \int_\Omega |fu| + |H(x,\nabla u)u|\,dx\\
+    &\le \int_\Omega |fu| + C(|\nabla u|+1)|u|\,dx \qquad \text{(Assumption 2)}\\
   \end{align*}
-  after repeated applications of Young's inequality to isolate $|\nabla u|^2$ and $u^2$.
-  We require $\delta^2(1+\gamma^2)<1$ (in particular sufficiently small $\delta^2<1$ suffices for any $\gamma >0$).
-  Since $\varepsilon$ can be arbitrarily small, this yields a bound on $\norm{u}_{\Honez}$ provided $\lambda>\frac{C^2}{2}$.
+  To isolate $|\nabla u|^2$ and $u^2$ terms, we apply Young's inequality \ref{thm:youngs} twice over to give
+  \begin{align*}
+    \int_\Omega |\nabla u|^2 + \lambda |u|^2\,dx
+    &\le \frac12 \int_\Omega \frac{f^2}{\varepsilon^2} + \varepsilon^2 u^2
+    + \frac{1}{\delta^2}|Cu|^2 + \delta^2(|\nabla u|+1)^2\,dx, \qquad \varepsilon\in (0, \infty),\ \delta\in(0,1)\\
+    &\le \frac12\int_\Omega \frac{f^2}{\varepsilon^2} + \Bigl(\varepsilon^2+\frac{C^2}{\delta^2}\Bigr)u^2
+    + \delta^2(1+\gamma^2)|\nabla u|^2\,dx + \delta^2(1+\frac{1}{\gamma^2}), \qquad \gamma\in (0, \infty).
+  \end{align*}
+
+  We require $\delta^2(1+\gamma^2)<1$ (in particular, $\delta^2<1$ is necessary).
+  $\varepsilon, \gamma > 0$ can be arbitrarily small, so provided $\lambda>\frac{C^2}{2}$ there exist sufficiently small $\varepsilon, \gamma > 0$ and sufficiently large $\delta^2 < 1$ such that
+  \[\lambda > \frac12(\varepsilon^2 + \frac{C^2}{\delta^2}), \text{ and } 1 > \delta^2(1+\gamma^2)\]
+  hold simultaneously.
+  Thus we obtain 
+  \begin{align*}
+    \int_\Omega a|\nabla u|^2 + b|u|^2\,dx 
+    & \le  \int_\Omega \frac{f^2}{\varepsilon^2} + \delta^2(1+\frac{1}{\gamma^2}) \,dx \le \text{constant}
+  \end{align*}  
+  with $a, b > 0$ constants. Thus if $\lambda$ is sufficiently large, we have $\norm{u}_{\Honez} \le C$ for some constant 
+  $C$ that does not depend on $0 \le \mu \le 1$. 
 \end{proof}
 \begin{remark}
   We can always tune $\varepsilon, \delta \text{ and } \gamma$ for given $\lambda>\frac{C^2}{2}$ to satisfy boundedness. This utilises the
-  strictness of the inequality.
+  strictness of the inequality in the condition on $\lambda$.
 \end{remark}
 \begin{proposition}
 \label{prop:uniqueness}
 If $\lambda>0$ is sufficiently large, then the fixed point $u$ is unique.
 \end{proposition}
 \begin{proof}
-Suppose $u_1,u_2$ both solve (HJB). Taking the difference gives
+Suppose $u_1,u_2$ both solve (HJB) for a given $m \in \Honez$. Taking the weak difference gives
 \begin{align*}
-\norm{\nabla(u_1-u_2)}_{L^2}^2+\lambda\norm{u_1-u_2}_{L^2}^2
-&\le \int_\Omega |u_1-u_2|\,|H_1-H_2|\,dx\\
-&\le \tilde{C}\,\norm{u_1-u_2}_{L^2}\,\norm{\nabla(u_1-u_2)}_{L^2}\\
-&\le \frac12 \bigl(\frac{\tilde{C}^{\,2}}{\varepsilon^2}\,\norm{u_1-u_2}^2_{L^2} +\varepsilon^2 \norm{\nabla(u_1-u_2)}^2_{L^2}\bigr)
-\qquad \varepsilon\in (0, \sqrt{2})\\
+  \norm{\nabla(u_1-u_2)}_{L^2}^2+\lambda\norm{u_1-u_2}_{L^2}^2
+  &\le \int_\Omega |u_1-u_2|\,|H_1-H_2|\,dx\\
+  &\le \tilde{C}\,\norm{u_1-u_2}_{L^2}\,\norm{\nabla(u_1-u_2)}_{L^2}\\
 \end{align*}
 using Assumption 2 and Cauchy--Schwarz. Hence, by Young's inequality,
+\begin{align*}
+  \norm{\nabla(u_1-u_2)}_{L^2}^2+\lambda\norm{u_1-u_2}_{L^2}^2 
+  &\le \frac12 \bigl(\frac{\tilde{C}^{\,2}}{\varepsilon^2}\,\norm{u_1-u_2}^2_{L^2} +\varepsilon^2 \norm{\nabla(u_1-u_2)}^2_{L^2}\bigr)
+  \qquad \varepsilon\in (0, \sqrt{2}).\\
+\end{align*}
+
+Thus by the same reasoning as when we proved existence, 
 \[\lambda>\frac{\tilde{C}^{\,2}}{4}\implies u_1=u_2 \text{ in }\Ltwo\iff u_1=u_2 \text{ in }\Honez.\]
 \end{proof}
-
+The following theorem summarises our results. 
+\begin{theorem}[Existence of unique (HJB) solution]
+  \label{thm:solution_kfp}
+  Let the Hamilton-Jacobi equation be as in \ref{eq:system} and suppose that $\lambda > 0$ is sufficiently large. Then for any fixed $m \in \Honez$, there exists
+  a unique $u \in \Honez$ solving the equation. 
+\end{theorem}
 \begin{definition}
 \label{def:T-map}
 Define $T:\Honez\to\Honez$ by $T(m)=u$, where $u$ solves (HJB) for fixed $m$.
