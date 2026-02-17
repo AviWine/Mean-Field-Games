@@ -125,7 +125,7 @@ In addition, we consider a more general formulation of the system and prove an e
 \end{example}
 
 \paragraph{Main Result}
-\begin{theorem}[Existence of the MFG system solution]
+\begin{theorem}[Existence of the MFG solution]
 Let the Mean Field Game system be characterised by \ref{eq:system} and suppose the assumptions above are true. 
 Then a solution $(u,m) \in \Honez \times \Honez$ exists. 
 \end{theorem}
@@ -135,13 +135,10 @@ We will prove this theorem throughout the rest of this paper.
 
 Our proof consists of two stages. First, we demonstrate solvability for each equation separately, while fixing the other variable (HJB with fixed $m$, and KFP with fixed $u$).
 Second, we show the existence of a solution \emph{pair} solving both equations simultaneously.
-
-\subsection{Independent solutions}
-Before launching forward it's important to introduce the following inequalities. These are essential and will lend themselves
+Before starting our proof it's important to introduce the following inequalities. These are essential and will lend themselves
 to almost every proof throughout this paper.
-
 \begin{definition}
-  $p,\,q \in [1, \infty)$ are \emph{conjugate parameters} if ${\frac{1}{q}+ \frac{1}{p} = 1}$ 
+  $p,\,q \in [1, \infty]$ are \emph{conjugate parameters} if ${\frac{1}{q}+ \frac{1}{p} = 1}$ 
 \end{definition}
 \begin{theorem}[Hölder's inequality]
 \label{thm:holder}
@@ -157,12 +154,12 @@ Let $f \in L^p(\Omega) \text{ and } g \in L^q(\Omega)$ where $p, \,q$ are conjug
 Let $a,\, b \in \R$ then 
 \[2ab \le \frac{a^2}{\varepsilon^2} + \varepsilon^2 b^2 \qquad \forall \varepsilon > 0\]
 \end{theorem}
+
+\subsection{Independent unique solutions}
 \subsubsection{Solving Kolmogorov--Fokker--Planck}
 
 To solve
-\[
--\Delta m - \diver\!\bigl(m\,\Hp(x,\nabla u)\bigr) + \lambda m = G(x)
-\]
+\[-\Delta m - \diver\!\bigl(m\,\Hp(x,\nabla u)\bigr) + \lambda m = G(x)\]
 with fixed $u$, we note that the equation is linear in $m(x)$, so we appeal to the Lax--Milgram theorem \cite{lax_milgram}.
 
 \begin{theorem}[Lax--Milgram]
@@ -178,15 +175,14 @@ a(u,v)=l(v)\qquad\text{for all }v\in V.
 \]
 Moreover, $\norm{u}_V \le \frac{1}{c_0}\norm{l}_{V^\ast}$.
 \end{theorem}
-
+\label{eq:weak_form}
 For our purposes, we take $a(m,v)=l(v)$ for all $v\in\Honez$ to be the weak formulation of (KFP), i.e.
-\[
-a(m,v)=\int_\Omega \nabla m\cdot\nabla v + m\,\nabla v\cdot\Hp(x,\nabla u)+\lambda mv\,dx,
+\[a(m,v)=\int_\Omega \nabla m\cdot\nabla v + m\,\nabla v\cdot\Hp(x,\nabla u)+\lambda mv\,dx,
 \qquad
-l(v)=\int_\Omega G(x)\,v\,dx.
-\]
+l(v)=\int_\Omega G(x)\,v\,dx.\]
 
-\begin{proposition}
+We now go about showing that (KFP) meets the conditions for \ref{thm:lax-milgram}.
+\begin{proposition}[Boundedness of (KFP)]
 \label{prop:kfp-bounded}
 The form $a(m,v)$ is bounded on $\Honez\times\Honez$.
 \end{proposition}
@@ -196,45 +192,62 @@ For arbitrary $m,v\in\Honez$,
 |a(m,v)|
 &\le \int_{\Omega} |\nabla m||\nabla v| +|\nabla v||m||\Hp| + \lambda |m||v| \,dx\\
 &\le \norm{\nabla m}_{L^2}\norm{\nabla v}_{L^2} + L\norm{m}_{L^2}\norm{\nabla v}_{L^2} + \lambda\norm{m}_{L^2}\norm{v}_{L^2}\\
-&\le C\,\norm{m}_{H^1}\,\norm{v}_{H^1}.
 \end{align*}
-Making use of the Cauchy--Schwarz inequality in the second line.
+By the Cauchy--Schwarz inequality and Assumption 3. Therefore,
+\begin{align*}
+|a(m,v)| \le C\,\norm{m}_{H^1}\,\norm{v}_{H^1}.
+\end{align*}
+Thus, $a(m,v)$ is bounded.
 \end{proof}
 
-\begin{proposition}
+\begin{proposition}[Coercivity of (KFP)]
 \label{prop:kfp-coercive}
-If $\lambda$ is sufficiently large, then (KFP) is coercive.
+If $\lambda > 0$ is sufficiently large, then $a(m,v)$ is coercive.
 \end{proposition}
 \begin{proof}
 Consider
 \begin{align*}
 a(v,v)
+&= \int_\Omega \nabla v\cdot\nabla v + v\,\nabla v\cdot\Hp(x,\nabla u)+\lambda v^2\,dx\\
 &\ge \norm{\nabla v}_{L^2}^2 - L\norm{v}_{L^2}\norm{\nabla v}_{L^2} + \lambda\norm{v}_{L^2}^2\\
+\end{align*}
+By Assumption 3. Now applying Young's inequality we get 
+\begin{align*}
+a(v,v)
 &\ge \Bigl(1-\frac{\varepsilon^2}{2}\Bigr)\norm{\nabla v}_{L^2}^2
   + \Bigl(\lambda-\frac{L^2}{2\varepsilon^2}\Bigr)\norm{v}_{L^2}^2,
   \qquad \forall \varepsilon\in\R,
 \end{align*}
-by Young's inequality. To ensure $1-\varepsilon^2/2>0$, impose $\varepsilon^2<2$.
+To ensure $1-\varepsilon^2/2>0$, impose $\varepsilon^2<2$.
 Choosing $\varepsilon^2=2$ (as a limiting choice) gives the weakest requirement
 \[\lambda>\frac{L^2}{4},\]
 which ensures coercivity.
 \end{proof}
 
-\begin{remark}
-Both proofs use Assumption 3, namely $\lvert H_p\rvert\le L$.
-\end{remark}
-
-Thus $a(\cdot,\cdot)$ is bounded and coercive. Next,
+Thus $a(\cdot,\cdot)$ is bounded and coercive. 
+\begin{theorem}[Existence of unique (KFP) solution]
+  \label{thm:solution_kfp}
+  Let the Kolmogorov-Fokker-Planck equation be as in \ref{eq:system} then for any fixed $u \in \Honez$, there exists
+  a unique $m \in \Honez$ solving the equation. 
+\end{theorem}
+\begin{proof}
+  Let $a(m,v) = l(v)$ be the weak formulation of the (KFP) equation as defined above \ref{eq:weak_form}. By \ref{prop:kfp-bounded} and \ref{prop:kfp-coercive}
+  we know that $a(\cdot,\cdot)$ is bounded and coercive. 
+  Left to show is that $l(v)$ is bounded. Consider
 \begin{align*}
 \norm{l}
 &= \sup_{\norm{v}_{H^1}\le 1}\left|\int_\Omega Gv\,dx\right|
-\le \sup_{\norm{v}_{L^2}\le 1}\norm{v}_{L^2}\,\norm{G}_{L^2}
-= \norm{G}_{\Ltwo},
+\le \sup_{\norm{v}_{L^2}\le 1}\norm{v}_{L^2}\,\norm{G}_{L^2}.
 \end{align*}
-so $l$ is bounded. By Theorem \ref{thm:lax-milgram}, there exists a unique solution $m\in\Honez$.
-
+By Cauchy-Schwarz. Therefore,
+\begin{align*}
+\norm{l}
+&\le \norm{G}_{\Ltwo}.
+\end{align*}
+Thus, $l$ is bounded. By the Lax-Milgram Theorem \ref{thm:lax-milgram}, there exists a unique solution $m\in\Honez$ solving the equation.
+\end{proof}
 \begin{remark}
-This method applies here because (KFP) is linear in $m$ once $u\in\Honez$ is fixed.
+Lax-Milgram conveniently applies here only because (KFP) is linear in $m$ once $u\in\Honez$ is fixed.
 \end{remark}
 
 \begin{definition}
@@ -246,7 +259,9 @@ Define $S:\Honez\to\Honez$ by $S(u)=m$, where $m$ solves (KFP) for fixed $u$.
 
 Lax--Milgram does not apply directly to
 \[-\Delta u + H(x,\nabla u) + \lambda u = f(x,m)\]
-with fixed $m$, so we use fixed point methods. Throughout this section, $X$ denotes a real Banach space.
+with fixed $m$, because the equation is non-linear so we resort to fixed point methods instead. The idea, is to create some kind of map from (HJB) with the right properties such that 
+it has a fixed point and for that very fixed point to be our solution. Throughout this section, $X$ denotes a real Banach space.
+We now introduce the fixed point theorems that rely on suitable properties for the (HJB) context.
 
 \begin{theorem}[Schauder's fixed point theorem]
 If $K\subset X$ is compact and convex, and $A:K\to K$ is continuous, then $A$ has a fixed point in $K$.
@@ -258,48 +273,42 @@ the sequence $(A[u_k])_{k=1}^\infty$ is precompact in $X$.
 \end{definition}
 
 \begin{theorem}[Schaefer's fixed point theorem]
-\label{thm:schaefer}
-Suppose $A:X\to X$ is continuous and compact, and assume the set
-\[
-\{u\in X: u=\mu A[u]\ \text{for some }0\le\mu\le 1\}
-\]
-is bounded. Then $A$ has a fixed point.
+  \label{thm:schaefer}
+  Suppose $A:X\to X$ is continuous and compact, and assume the set
+  \[\{u\in X: u=\mu A[u]\ \text{for some }0\le\mu\le 1\}\]
+  is bounded. Then $A$ has a fixed point. \footnote{See \cite[Chapter~9]{evans_pde} for proofs.}
 \end{theorem}
-\footnote{See \cite[Chapter~9]{evans_pde} for proofs.}
 
-\begin{theorem}[Existence]
-\label{thm:existence}  
-If $\lambda>0$ is sufficiently large, there exists $u\in H^2(\Omega)\cap \Honez$ solving (HJB) with fixed $m$.
+\begin{theorem}[Existence of (HJB) Solution]
+  \label{thm:existence_hjb}  
+  If $\lambda>0$ is sufficiently large, then for any fixed $m \in \Honez$ there exists $u\in H^2(\Omega)\cap \Honez$ solving (HJB).
 \end{theorem}
 \begin{proof}
-Consider
-\[
-A:\Honez\to\Honez,\qquad A[u]=w
-\quad\text{where}\quad
--\Delta w+\lambda w = f(x,m)-H(x,\nabla u).
-\]
-We know $w$ exists by Lax--Milgram. We apply Theorem \ref{thm:schaefer}.
-Continuity and compactness are as in \cite[Chapter~9]{evans_pde} (with the addition of an $\norm{f}_{\Ltwo}$ term), so we omit them.
-It remains to show
-\[\{u\in \Honez: u=\mu A[u]\ \text{for some }0\le\mu\le 1\}\]
-is bounded.
+  \footnote{Proof is adapted from \cite{}}
+  Consider 
+  \[A:\Honez\to\Honez,\qquad A[u]=w \quad\text{where}\quad -\Delta w+\lambda w = f(x,m)-H(x,\nabla u).\]
+  We know $w$ exists by Lax--Milgram. We apply Theorem \ref{thm:schaefer}.
+  Continuity and compactness are as in \cite[Chapter~9]{evans_pde} (with the addition of an $\norm{f}_{\Ltwo}$ term), so we omit them.
+  It remains to show
+  \[\{u\in \Honez: u=\mu A[u]\ \text{for some }0\le\mu\le 1\}\]
+  is bounded.
 
-Substituting $w=u/\mu$, we obtain
-\begin{align*}
-\int_\Omega |\nabla u|^2 + \lambda |u|^2\,dx
-&= \mu\int_\Omega f u - H(x,\nabla u)u\,dx\\
-&\le \int_\Omega |fu| + |H(x,\nabla u)u|\,dx\\
-&\le \frac12\int_\Omega |fu| + C(|x|+|\nabla u|+1)|u|\,dx \qquad \text{(Assumption 2)}\\
-&\le \frac12\int_\Omega \frac{f^2}{\varepsilon^2} + \varepsilon^2 u^2
- + \frac{1}{\delta^2}|Cu|^2 + \delta^2(|x|+|\nabla u|+1)^2\,dx,\\
-&\hspace{7.3cm}\varepsilon\in (0, \infty),\ \delta\in(0,1)\\
-&\le \frac12\int_\Omega \frac{f^2}{\varepsilon^2}
- + \Bigl(\varepsilon^2+\frac{C^2}{\delta^2}\Bigr)u^2
- + \delta^2(1+\gamma^2)|\nabla u|^2\,dx + K(\gamma), \qquad \gamma\in (0, \infty),
-\end{align*}
-after repeated applications of Young's inequality to isolate $|\nabla u|^2$ and $u^2$.
-We require $\delta^2(1+\gamma^2)<1$ (in particular sufficiently small $\delta^2<1$ suffices for any $\gamma >0$).
-Since $\varepsilon$ can be arbitrarily small, this yields a bound on $\norm{u}_{\Honez}$ provided $\lambda>\frac{C^2}{2}$.
+  Substituting $w=u/\mu$, we obtain
+  \begin{align*}
+  \int_\Omega |\nabla u|^2 + \lambda |u|^2\,dx
+  &= \mu\int_\Omega f u - H(x,\nabla u)u\,dx\\
+  &\le \int_\Omega |fu| + |H(x,\nabla u)u|\,dx\\
+  &\le \frac12\int_\Omega |fu| + C(|x|+|\nabla u|+1)|u|\,dx \qquad \text{(Assumption 2)}\\
+  &\le \frac12\int_\Omega \frac{f^2}{\varepsilon^2} + \varepsilon^2 u^2
+  + \frac{1}{\delta^2}|Cu|^2 + \delta^2(|x|+|\nabla u|+1)^2\,dx,\\
+  &\hspace{7.3cm}\varepsilon\in (0, \infty),\ \delta\in(0,1)\\
+  &\le \frac12\int_\Omega \frac{f^2}{\varepsilon^2}
+  + \Bigl(\varepsilon^2+\frac{C^2}{\delta^2}\Bigr)u^2
+  + \delta^2(1+\gamma^2)|\nabla u|^2\,dx + K(\gamma), \qquad \gamma\in (0, \infty),
+  \end{align*}
+  after repeated applications of Young's inequality to isolate $|\nabla u|^2$ and $u^2$.
+  We require $\delta^2(1+\gamma^2)<1$ (in particular sufficiently small $\delta^2<1$ suffices for any $\gamma >0$).
+  Since $\varepsilon$ can be arbitrarily small, this yields a bound on $\norm{u}_{\Honez}$ provided $\lambda>\frac{C^2}{2}$.
 \end{proof}
 \begin{remark}
   We can always tune $\varepsilon, \delta \text{ and } \gamma$ for given $\lambda>\frac{C^2}{2}$ to satisfy boundedness. This utilises the
@@ -360,7 +369,7 @@ Also, from the energy estimate
 \norm{\nabla u_k}_{L^2}^2+\lambda\norm{u_k}_{L^2}^2
 &\le \int_\Omega  |u_k|\,|f_k| + |u_k|\,|H_k|\,dx.\\
 \end{align*}
-Reapplying the boundedness argument from \ref{thm:existence} and noting that by it's convegence to $f, \, f_k$ is bounded, we get that $(u_k)$ is bounded in $\Honez$.
+Reapplying the boundedness argument from \ref{thm:existence_hjb} and noting that by it's convegence to $f, \, f_k$ is bounded, we get that $(u_k)$ is bounded in $\Honez$.
 Thus $\norm{u-u_k}_{L^2}\norm{f-f_k}_{L^2}\to 0$, and the uniqueness argument above (\ref{prop:uniqueness}) implies $u_k\to u$.
 
 \paragraph{Continuity of $S$.}
@@ -435,7 +444,7 @@ Therefore $A$ has a fixed point and a solution pair $(u,m)\in \Honez$ exists.
 An equaly valid construction for $A$ is the reverse composition 
 \[A \coloneqq T\circ S.\] 
 $S$ and $T$ are unchanged yet crucially, we recall that $S$ is bounded. This ensures that bounded sets will remain bounded under $S$ and so the compactness of $A$ still holds. 
-In the proof of theorem \ref{thm:existence} we demonstrated that $\lambda > \frac{C^2}{2} \implies \norm{u}_{\Honez}$ is bounded when $m$ is fixed. 
+In the proof of theorem \ref{thm:existence_hjb} we demonstrated that $\lambda > \frac{C^2}{2} \implies \norm{u}_{\Honez}$ is bounded when $m$ is fixed. 
 Under this new construction we must consider 
 \[\{u\in\Honez: u=\mu A[u]\ \text{for some }\mu\in[0,1]\}.\]
 The corresponding system, with $A[u]$ substituted for $u/\mu$, is
@@ -471,8 +480,8 @@ to find a solution but as with $f(x,m(x))$ we must impose Assumptions on $G(x,m(
 If $\lambda>0$ is sufficiently large, there exists $m\in H^2(\Omega)\cap \Honez$ solving (KFP) with fixed $u$.
 \end{theorem}
 \begin{proof}
-  See \ref{thm:existence} and \cite[Chapter~9]{evans_pde}.
-  The only difference is in the thershold of $\lambda$ which we'll now derive. As in \ref{thm:existence} we want to show
+  See \ref{thm:existence_hjb} and \cite[Chapter~9]{evans_pde}.
+  The only difference is in the thershold of $\lambda$ which we'll now derive. As in \ref{thm:existence_hjb} we want to show
   \[\{m\in \Honez: m=\mu A[m]\ \text{for some }0\le\mu\le 1\}\]
   is bounded.
   \footnote{$A(\cdot)$ here is the map defined for fixed $u$ not to be confused with the composition of $S$ and $T$.}
