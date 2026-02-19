@@ -126,6 +126,7 @@ In addition, we consider a more general formulation of the system and prove an e
 
 \paragraph{Main Result}
 \begin{theorem}[Existence of the MFG solution]
+\label{thm:main_result}
 Let the Mean Field Game system be characterised by \ref{eq:system} and suppose the assumptions above are true. 
 Then a solution $(u,m) \in \Honez \times \Honez$ exists. 
 \end{theorem}
@@ -378,7 +379,7 @@ The following theorem summarises our results.
 \end{theorem}
 
 \subsection{Solving the Coupled System of Equations}
-Having solved the two equations in \ref{eq:system} in isolation we now look to solve them as a system. As stated above the fixed point theorems 
+Having solved the two equations in \ref{eq:system} in isolation, we now look to solve them as a system. As stated above, the fixed point theorems 
 will allow us to prove existence of a solution pair for the system as a whole. The challenge, is to define and 
 prove the existence of a fixed point for a suitable map.
 Our work in the previous subsection allows us to define the following maps.
@@ -403,16 +404,17 @@ If $A$ has a fixed point, then $m=\widetilde m$, and the coupled system has a so
 We verify the hypotheses of Schaefer's theorem.
 
 \begin{lemma}
+  \label{thm:A-cont}
   Let $A$ be defined as in \ref{def:A-map} and suppose that $\lambda > 0$ as it appears in \ref{eq:system} is sufficiently large.
   Then, $A$ is continuous. 
 \end{lemma}
-Since $A=S\circ T$, it suffices to show $S$ and $T$ are continuous.
+Since $A$ is simply a composition of $S \text{ and } T$, it suffices to show they both continuous.
 
 \begin{proposition}
   If $\lambda > 0$ is sufficiently large, $T$ is continuous. 
 \end{proposition}
+\label{thm:t-cont}
 \begin{proof}
-  \label{pf:t-cont}
   Let $(m_k)_{k=1}^\infty\to m$ in $\Honez$. Denote $u=T[m]$, $u_k=T[m_k]$ and $f_k = f(x, m_k)$.
   Taking the weak formulation of the difference in (HJB) gives
   \begin{align*}
@@ -438,10 +440,10 @@ for which $\lambda >0$ being sufficiently large implies $u_k\to u$ i.e $T$ is co
 \footnote{See the uniqueness argument above (\ref{prop:uniqueness}).}
 \end{proof}
 \begin{proposition}
+  \label{thm:s-cont}
   If $\lambda > 0$ is sufficiently large, $S$ is continuous. 
 \end{proposition}
 \begin{proof}
-  \label{pf:s-cont}
   Let $(u_k)_{k=1}^\infty\to u$ in $\Honez$. Denote $m=S[u]$, $m_k=S[u_k]$ and $\Hp_k=\Hp(x,\nabla u_k)$.
   Taking the weak formulation of the difference in (KFP) yields
   \begin{align*}
@@ -456,7 +458,7 @@ for which $\lambda >0$ being sufficiently large implies $u_k\to u$ i.e $T$ is co
   &\le \int_\Omega |\nabla(m-m_k)|\,\bigl|m\,\Hp - m_k\, \Hp\bigr| +|\nabla(m-m_k)|\,|m_k||\varepsilon_k|\,dx\\
   &\le L \int_\Omega |\nabla(m-m_k)|\,|m - m_k|\,dx + \int_\Omega |\nabla(m-m_k)|\,|m_k|\,|\varepsilon_k|\,dx.
   \end{align*}
-  $m$ and $m_k$ are bounded in $\Honez$ by \ref{thm:lax-milgram} so as $k$ gets large $|\nabla(m-m_k)|\,|m_k||\varepsilon_k| \to 0$. Therefore, by the largeness of
+  $m$ and $m_k$ are bounded in $\Honez$ so as $k$ gets large $|\nabla(m-m_k)|\,|m_k||\varepsilon_k| \to 0$. Therefore, by the largeness of
   $\lambda$ (see \ref{prop:kfp-coercive}), we get $m_k \to m$ i.e $S$ is continuous.
 \end{proof}
 
@@ -466,11 +468,15 @@ for which $\lambda >0$ being sufficiently large implies $u_k\to u$ i.e $T$ is co
 
 \subsubsection{Compactness of $A$}
 \begin{lemma}
+  \label{thm:A-comp}
   Let $A$ be defined as in \ref{def:A-map} and suppose that $\lambda > 0$ as it appears in \ref{eq:system} is sufficiently large.
   Then, $A$ is compact. 
 \end{lemma}
 Since $S$ is continuous, it suffices to show that $T$ is compact in $\Honez$:
 \[T \text{ compact } \implies A=S\circ T \text{ compact.}\]
+
+We introduce the following theroems. These will allow us to conclude convergence of a subsequence in a bigger space if we are 
+given a bounded sequence in a smaller space. The particular relationship that concerns us is the one between $\Ltwo$ and $\Honez$.
 
 \begin{definition}
 Let $X$ and $Y$ be Banach spaces with $X\subset Y$. We say that $X$ is compactly embedded in $Y$, written $X\subset\subset Y$, provided:
@@ -490,13 +496,30 @@ Observe $p^\ast>p$. In particular,
 \[W^{1,p}(U)\subset\subset L^p(U) \quad\text{for all }1\le p<n.\]
 \end{remark}
 
-Let $(m_k)_{k=1}^\infty$ be a bounded sequence in $\Honez$.
-Since $\Omega$ satisfies Assumption 1, there exists a subsequence $(m_{k_j})_{j=1}^\infty$ converging in $\Ltwo$ to some $m\in\Ltwo$.
-We want to show $T(m_{k_j})\to T(m)$.
-Because $f$ is $\Ltwo$-continuous (Assumption 5), $\Ltwo$ convergence is sufficient, and the continuity argument for $T$ applies with $m_{k_j}$.
-Thus $T$ is compact, and hence $A$ is compact.
+\begin{example}
+  The space we're interested in, is $\Honez$. We know that $\Honez \subset H^1(\Omega)$. Thus, by Rellich Kondrachov and Condition 1 
+  \[\Honez \subset\subset \Ltwo\].
+\end{example}
+\begin{proposition}
+  \label{thm:t-comp}
+  $T$ is compact. 
+\end{proposition}
+\begin{proof}
+  Let $(m_k)_{k=1}^\infty$ be a bounded sequence in $\Honez$.
+  Since $\Omega$ satisfies Assumption 1, there exists a subsequence $(m_{k_j})_{j=1}^\infty$ converging in $\Ltwo$ to some $m\in\Ltwo$.
+  We want to show $T(m_{k_j})\to T(m)$. Remember the weak form of $T(m) - T(m_{k_j})$ 
+  \begin{align*}
+  \norm{\nabla(u-u_{k_j})}_{L^2}^2+\lambda\norm{u-u_{k_j}}_{L^2}^2
+  &\le \int_\Omega |u-u_{k_j}|\,|H-H_{k_j}| + |u-u_{k_j}|\,|f-f_{k_j}|\,dx\\
+  \end{align*}
+  Because $f$ is $\Ltwo$-continuous (Assumption 5), $\Ltwo$ convergence is sufficient, and the continuity argument for $T$ applies with $m_{k_j}$.
+  Thus $T$ is compact, and hence $A$ is compact.
+\end{proof}
 
-\subsubsection{Boundedness of the pseudo-fixed point set}
+We have shown that $A$ is continuous and compact. The last step before we can apply Schauder's theorem is to prove 
+that if there were to exist a fixed point, it would be bounded. 
+
+\subsubsection{Boundedness of the Fixed Point}
 
 Consider
 \[\{m\in\Honez: m=\mu A[m]\ \text{for some }\mu\in[0,1]\}.\]
@@ -504,7 +527,14 @@ The corresponding system, with $A[m]$ substituted for $m/\mu$, is
 \[-\Delta u + H(x,\nabla u) + \lambda u = f(x,m), \qquad \frac{1}{\mu}\Bigl(-\Delta m - \diver\!\bigl(m\,\Hp(x,\nabla u)\bigr) + \lambda m\Bigr)=G(x).\]
 Rearranging the latter and using the Lax--Milgram bound implies
 \[\norm{m}_{L^2}\le \mu \norm{G}_{L^2}\le \norm{G}_{L^2},\]
-which is bounded in $\Ltwo$ (Assumption 6). By Schaefer's theorem, $A$ has a fixed point, hence a solution pair $(u,m)$ exists.
+which is bounded in $\Ltwo$ (Assumption 6). 
+By Schaefer's theorem, $A$ has a fixed point. We may conlclude our finding with the next theorem
+
+\paragraph{Proof of the Main Result}
+\begin{proof}[Proof of Theorem~\ref{thm:main_result}]
+Let A be as in \ref{def:A-map}. A is compact and continuous and has bounded fixed points (if they were to exist) by the above, \ref{thm:A-cont} and \ref{thm:A-comp}.
+By Schaefer's theorem (\ref{thm:schaefer}), $A$ has a fixed point. Thus, a solution pair $(u,m)$ to the MFG sytem exists.
+\end{proof}
 
 \begin{remark}
 In hindsight, we see the order of composition was convenient because it provides a natural bound for the pseudo-fixed point set.
