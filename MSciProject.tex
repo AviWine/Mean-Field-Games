@@ -250,17 +250,13 @@ Thus, $l$ is bounded. By the Lax-Milgram Theorem \ref{thm:lax-milgram}, there ex
 Lax-Milgram conveniently applies here only because (KFP) is linear in $m$ once $u\in\Honez$ is fixed.
 \end{remark}
 
-\begin{definition}
-\label{def:S-map}
-Define $S:\Honez\to\Honez$ by $S(u)=m$, where $m$ solves (KFP) for fixed $u$.
-\end{definition}
-
 \subsubsection{Solving Hamilton--Jacobi--Bellman}
 
 Lax--Milgram does not apply directly to
 \[-\Delta u + H(x,\nabla u) + \lambda u = f(x,m)\]
-with fixed $m$, because the equation is non-linear so we resort to fixed point methods instead. The idea, is to create some kind of map from (HJB) with the right properties such that 
-it has a fixed point and for that very fixed point to be our solution. Throughout this section, $X$ denotes a real Banach space.
+with fixed $m$, because the equation is non-linear so we resort to a fixed point method instead. The idea, is to create some kind of map from (HJB) with the right properties such that 
+it has a fixed point and for that very fixed point to be our solution. Remarkably, this fixed point method is general enough that we can 
+use it to solve for existence in the system as whole. Indeed, this will be the concern of the next subsection. Throughout this section, $X$ denotes a real Banach space.
 We now introduce the fixed point theorems that rely on suitable properties for the (HJB) context.
 
 \begin{theorem}[Schauder's fixed point theorem]
@@ -290,10 +286,9 @@ We know $w$ exists by Lax--Milgram \ref{thm:lax-milgram}, so $A$ is well defined
   & \le C \norm{f(x,m)}_{\Ltwo} + C\norm{H(x,\nabla u)}_{\Ltwo}\\
   & \le C \norm{f(x,m)}_{\Ltwo} + \hat{C}\norm{|\nabla u| + 1}_{\Ltwo} \qquad \text{(Condition 2)}
 \end{align*}
-\begin{remark}
-The constants $C$, $\hat{C}$ agree with but do not equal the constants in our list of assumptions. Here they are just convenient notation.
-\end{remark}
-\newpage
+Where $C$, $\hat{C}$ are constants - note that unless explicitly mentioned, these constants are not the same as the 
+ones appearing in our assumptions above.
+We now prove the existence of an (HJB) solution by way of our fixed point map.
 \begin{theorem}[Existence of (HJB) Solution]
   \label{thm:existence_hjb}  
   If $\lambda>0$ is sufficiently large, then for any fixed $m \in \Honez$ there exists $u\in H^2(\Omega)\cap \Honez$ solving (HJB).
@@ -301,7 +296,7 @@ The constants $C$, $\hat{C}$ agree with but do not equal the constants in our li
 \begin{proof}
   \footnote{Proof is adapted from \cite[Section~9.2]{evans_pde}}
   In other words, for sufficiently large $\lambda >0$, $A$ has a fixed point. 
-  We must show first that $A$ meets the right criteria for Schaefer's Theorem. We assert that $A$ is continuous and
+  We show first that $A$ meets the right criteria for Schaefer's Theorem. We assert that $A$ is continuous and
   compact.\\
   If $u_k \to u$ in $\Honez$ and we denote $w_k = A[u_k]$ then higher regularity tells us 
   \[\sup_k \norm{w_k}_{H^2(\Omega)} < \infty\]
@@ -310,12 +305,11 @@ The constants $C$, $\hat{C}$ agree with but do not equal the constants in our li
   \begin{align*}
     \int_\Omega \nabla w_{k_j}\cdot v + \lambda w_{k_j} \cdot v \,dx = \int_\Omega (f(x,m) - H(x,\nabla u_{k_j}))\cdot v \,dx, \text{ for any } v \in \Honez\\
   \end{align*}
-  Consequently
+  and consequently
   \begin{align*}
     \int_\Omega \nabla w\cdot v + \lambda w \cdot v \,dx = \int_\Omega (f(x,m) - H(x,\nabla u))\cdot v \,dx, \text{ for any } v \in \Honez\\
   \end{align*}
-  By Lipschitz continuity of $H$ (Condition 2).
-  \footnote{Indeed, $L^2$ continuity is also implied by the growth condition on $H$.}
+  by Lipschitz continuity of $H$ (Condition 2).
   Thus, $w = A[u]$. Hence, $A[u_k] \to A[u]$ in $\Honez$, so $A$ is continuous. $A$ is compact by similar reasoning since 
   a bounded sequence $(u_k)_{k=1}^\infty$ yields a bounded sequence $(A[u_k])_{k=1}^\infty$ in $H^2(\Omega)$ which has a strongly convergent subsequence in $\Honez$.
 
@@ -348,7 +342,7 @@ The constants $C$, $\hat{C}$ agree with but do not equal the constants in our li
     \int_\Omega a|\nabla u|^2 + b|u|^2\,dx 
     & \le  \int_\Omega \frac{f^2}{\varepsilon^2} + \delta^2(1+\frac{1}{\gamma^2}) \,dx \le \text{constant}
   \end{align*}  
-  with $a, b > 0$ constants. Thus if $\lambda$ is sufficiently large, we have $\norm{u}_{\Honez} \le C$ for some constant 
+  with $a, b > 0$ constants. Thus if $\lambda > 0$ is sufficiently large, we have $\norm{u}_{\Honez} \le C$ for some constant 
   $C$ that does not depend on $0 \le \mu \le 1$. 
 \end{proof}
 \begin{remark}
@@ -382,72 +376,99 @@ The following theorem summarises our results.
   Let the Hamilton-Jacobi equation be as in \ref{eq:system} and suppose that $\lambda > 0$ is sufficiently large. Then for any fixed $m \in \Honez$, there exists
   a unique $u \in \Honez$ solving the equation. 
 \end{theorem}
+
+\subsection{Solving the Coupled System of Equations}
+Having solved the two equations in \ref{eq:system} in isolation we now look to solve them as a system. As stated above the fixed point theorems 
+will allow us to prove existence of a solution pair for the system as a whole. The challenge, is to define and 
+prove the existence of a fixed point for a suitable map.
+Our work in the previous subsection allows us to define the following maps.
+
+\begin{definition}
+\label{def:S-map}
+Define $S:\Honez\to\Honez$ by $S(u)=m$, where $m$ solves (KFP) for given $u$.
+\end{definition}
 \begin{definition}
 \label{def:T-map}
-Define $T:\Honez\to\Honez$ by $T(m)=u$, where $u$ solves (HJB) for fixed $m$.
+Define $T:\Honez\to\Honez$ by $T(m)=u$, where $u$ solves (HJB) for given $m$.
 \end{definition}
-
-\subsection{Codependent solution}
-
-An equivalent formulation of finding a solution pair $(u,m)$ is to find a fixed point of a suitable map.
-
 \begin{definition}
+\label{def:A-map}
 Let $T$ and $S$ be as in definitions \ref{def:S-map} and \ref{def:T-map}. Define
 \[A:\Honez\to\Honez,\qquad A \coloneqq S\circ T.\]
 \end{definition}
 
-That is, $A$ takes $m\in\Honez$, produces $u=T(m)$ solving (HJB), and then produces $\widetilde m=S(u)$ solving (KFP).
-If $A$ has a fixed point, then $m=\widetilde m = A(m)$, and the coupled system has a solution pair.
+That is, $A$ takes $m\in\Honez$, converts it to $u=T(m)$ solving (HJB), and then produces $\widetilde m=S(u)$ solving (KFP).
+If $A$ has a fixed point, then $m=\widetilde m$, and the coupled system has a solution pair.
 
 We verify the hypotheses of Schaefer's theorem.
 
-\subsubsection{Continuity of $A$}
+\begin{lemma}
+  Let $A$ be defined as in \ref{def:A-map} and suppose that $\lambda > 0$ as it appears in \ref{eq:system} is sufficiently large.
+  Then, $A$ is continuous. 
+\end{lemma}
 Since $A=S\circ T$, it suffices to show $S$ and $T$ are continuous.
 
-\paragraph{Continuity of $T$.}
-\label{pf:t-cont}
-Let $(m_k)_{k=1}^\infty\to m$ in $\Honez$. Denote $u=T[m]$, $u_k=T[m_k]$ and $f_k = f(x, m_k)$.
-Taking the weak formulation of the difference in (HJB) gives
-\begin{align*}
-\norm{\nabla(u-u_k)}_{L^2}^2+\lambda\norm{u-u_k}_{L^2}^2
-&\le \int_\Omega |u-u_k|\,|H-H_k| + |u-u_k|\,|f-f_k|\,dx\\
-&\le \tilde{C}\norm{u-u_k}_{L^2}\norm{\nabla(u-u_k)}_{L^2}
- + \norm{u-u_k}_{L^2}\norm{f-f_k}_{L^2}.
-\end{align*}
-Since $f$ is $\Ltwo$-continuous (Assumption 5), $\norm{f-f_k}_{L^2}\to 0$.
-Also, from the energy estimate
-\begin{align*}
-\norm{\nabla u_k}_{L^2}^2+\lambda\norm{u_k}_{L^2}^2
-&\le \int_\Omega  |u_k|\,|f_k| + |u_k|\,|H_k|\,dx.\\
-\end{align*}
+\begin{proposition}
+  If $\lambda > 0$ is sufficiently large, $T$ is continuous. 
+\end{proposition}
+\begin{proof}
+  \label{pf:t-cont}
+  Let $(m_k)_{k=1}^\infty\to m$ in $\Honez$. Denote $u=T[m]$, $u_k=T[m_k]$ and $f_k = f(x, m_k)$.
+  Taking the weak formulation of the difference in (HJB) gives
+  \begin{align*}
+  \norm{\nabla(u-u_k)}_{L^2}^2+\lambda\norm{u-u_k}_{L^2}^2
+  &\le \int_\Omega |u-u_k|\,|H-H_k| + |u-u_k|\,|f-f_k|\,dx\\
+  &\le \tilde{C}\norm{u-u_k}_{L^2}\norm{\nabla(u-u_k)}_{L^2}
+  + \norm{u-u_k}_{L^2}\norm{f-f_k}_{L^2}.
+  \end{align*}
+  By Cauchy-Schwarz and Assumption 2. Since $f$ is $\Ltwo$-continuous (Assumption 5), $\norm{f-f_k}_{L^2}\to 0$.
+  Also, from the energy estimate
+  \begin{align*}
+  \norm{\nabla u_k}_{L^2}^2+\lambda\norm{u_k}_{L^2}^2
+  &\le \int_\Omega  |u_k|\,|f_k| + |u_k|\,|H_k|\,dx.\\
+  \end{align*}
+
 Reapplying the boundedness argument from \ref{thm:existence_hjb} and noting that by it's convegence to $f, \, f_k$ is bounded, we get that $(u_k)$ is bounded in $\Honez$.
-Thus $\norm{u-u_k}_{L^2}\norm{f-f_k}_{L^2}\to 0$, and the uniqueness argument above (\ref{prop:uniqueness}) implies $u_k\to u$.
-
-\paragraph{Continuity of $S$.}
-\label{pf:s-cont}
-Let $(u_k)_{k=1}^\infty\to u$ in $\Honez$. Denote $m=S[u]$, $m_k=S[u_k]$ and $\Hp_k=\Hp(x,\nabla u_k)$.
-Taking the weak formulation of the difference in (KFP) yields
+Thus, $\norm{u-u_k}_{L^2}\norm{f-f_k}_{L^2}\to 0$. Therefore, in the limit of $k$ we end up considering
 \begin{align*}
-\norm{\nabla(m-m_k)}_{L^2}^2+\lambda\norm{m-m_k}_{L^2}^2
-&\le \int_\Omega |\nabla(m-m_k)|\,\bigl|m\,\Hp - m_k\,\Hp_k\bigr|\,dx.
-\end{align*}
+  \norm{\nabla(u-u_k)}_{L^2}^2+\lambda\norm{u-u_k}_{L^2}^2
+  &\le \tilde{C}\norm{u-u_k}_{L^2}\norm{\nabla(u-u_k)}_{L^2}
+  \end{align*}
+for which $\lambda >0$ being sufficiently large implies $u_k\to u$ i.e $T$ is continuous.
+\footnote{See the uniqueness argument above (\ref{prop:uniqueness}).}
+\end{proof}
+\begin{proposition}
+  If $\lambda > 0$ is sufficiently large, $S$ is continuous. 
+\end{proposition}
+\begin{proof}
+  \label{pf:s-cont}
+  Let $(u_k)_{k=1}^\infty\to u$ in $\Honez$. Denote $m=S[u]$, $m_k=S[u_k]$ and $\Hp_k=\Hp(x,\nabla u_k)$.
+  Taking the weak formulation of the difference in (KFP) yields
+  \begin{align*}
+  \norm{\nabla(m-m_k)}_{L^2}^2+\lambda\norm{m-m_k}_{L^2}^2
+  &\le \int_\Omega |\nabla(m-m_k)|\,\bigl|m\,\Hp - m_k\,\Hp_k\bigr|\,dx.
+  \end{align*}
 
-Define the correction factor $\varepsilon_k \coloneqq \Hp - \Hp_k$. Note that since $\Hp_k$ is continuous w.r.t. $u_k$ we have
-$\lim_{k \to \infty} \varepsilon_k = 0$. Then, 
-\begin{align*}
-\norm{\nabla(m-m_k)}_{L^2}^2+\lambda\norm{m-m_k}_{L^2}^2
-&\le \int_\Omega |\nabla(m-m_k)|\,\bigl|m\,\Hp - m_k\, \Hp\bigr| +|\nabla(m-m_k)|\,|m_k||\varepsilon_k|\,dx\\
-&\le L \int_\Omega |\nabla(m-m_k)|\,|m - m_k|\,dx + \int_\Omega |\nabla(m-m_k)|\,|m_k|\,|\varepsilon_k|\,dx.
-\end{align*}
-$m$ and $m_k$ are bounded in $\Honez$ by \ref{thm:lax-milgram} so as $k$ gets large $|\nabla(m-m_k)|\,|m_k||\varepsilon_k| \to 0$. Therefore, by the largeness of
-$\lambda$ (see \ref{prop:kfp-coercive}), we get $m_k \to m$ i.e $S$ is continuous.
+  Define the correction factor $\varepsilon_k \coloneqq \Hp - \Hp_k$. Note that since $\Hp_k$ is continuous w.r.t. $u_k$ we have
+  $\lim_{k \to \infty} \varepsilon_k = 0$. Then, 
+  \begin{align*}
+  \norm{\nabla(m-m_k)}_{L^2}^2+\lambda\norm{m-m_k}_{L^2}^2
+  &\le \int_\Omega |\nabla(m-m_k)|\,\bigl|m\,\Hp - m_k\, \Hp\bigr| +|\nabla(m-m_k)|\,|m_k||\varepsilon_k|\,dx\\
+  &\le L \int_\Omega |\nabla(m-m_k)|\,|m - m_k|\,dx + \int_\Omega |\nabla(m-m_k)|\,|m_k|\,|\varepsilon_k|\,dx.
+  \end{align*}
+  $m$ and $m_k$ are bounded in $\Honez$ by \ref{thm:lax-milgram} so as $k$ gets large $|\nabla(m-m_k)|\,|m_k||\varepsilon_k| \to 0$. Therefore, by the largeness of
+  $\lambda$ (see \ref{prop:kfp-coercive}), we get $m_k \to m$ i.e $S$ is continuous.
+\end{proof}
 
 \begin{remark}
-  The image of $S$ is bounded as a direct consequence of Lax-Milgram. 
+  The image of $S$ is always bounded as a direct consequence of Lax-Milgram (\ref{thm:lax-milgram}). 
 \end{remark}
 
 \subsubsection{Compactness of $A$}
-
+\begin{lemma}
+  Let $A$ be defined as in \ref{def:A-map} and suppose that $\lambda > 0$ as it appears in \ref{eq:system} is sufficiently large.
+  Then, $A$ is compact. 
+\end{lemma}
 Since $S$ is continuous, it suffices to show that $T$ is compact in $\Honez$:
 \[T \text{ compact } \implies A=S\circ T \text{ compact.}\]
 
