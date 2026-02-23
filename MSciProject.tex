@@ -336,15 +336,17 @@ We now prove the existence of an (HJB) solution by way of our fixed point map.
 
   We require $\delta^2(1+\gamma^2)<1$ (in particular, $\delta^2<1$ is necessary).
   $\varepsilon, \gamma > 0$ can be arbitrarily small, so provided $\lambda>\frac{C^2}{2}$ there exist sufficiently small $\varepsilon, \gamma > 0$ and sufficiently large $\delta^2 < 1$ such that
-  \[\lambda > \frac12(\varepsilon^2 + \frac{C^2}{\delta^2}), \text{ and } 1 > \delta^2(1+\gamma^2)\]
+  \[\lambda > \frac12(\varepsilon^2 + \frac{C^2}{\delta^2}) \text{ and } 1 > \delta^2(1+\gamma^2)\]
   hold simultaneously.
-  Thus we obtain 
+  Taking the difference of both sides and denoting the constant factor as $K$ which is independent of $m \text{ or }u$ yields 
   \begin{align*}
-    \int_\Omega a|\nabla u|^2 + b|u|^2\,dx 
-    & \le  \int_\Omega \frac{f^2}{\varepsilon^2} + \delta^2(1+\frac{1}{\gamma^2}) \,dx \le \text{constant}
-  \end{align*}  
-  with $a, b > 0$ constants. Thus if $\lambda > 0$ is sufficiently large, we have $\norm{u}_{\Honez} \le C$ for some constant 
-  $C$ that does not depend on $0 \le \mu \le 1$. 
+      \epsilon \int_\Omega |\nabla u|^2 + |u|^2\,dx
+      &\le \frac{1}{2\varepsilon ^2}\int_\Omega f(x,m)^2 \,dx + K,
+    \end{align*}
+  where $\epsilon$ is the minimum of both factors of $u^2\text{ and } \nabla u^2$. 
+  Equivalently, 
+\[\epsilon \norm{u}_{\Honez} \le \frac{1}{2\varepsilon ^2} \norm{f(x,m)}_{\Ltwo}+ K.\]
+Thus if $\lambda > 0$ is sufficiently large, the set is bounded. By \ref{thm:schaefer}, $A$ has a fixed point and thus (HJB) has a solution.
 \end{proof}
 \begin{remark}
   We can always tune $\varepsilon, \delta \text{ and } \gamma$ for given $\lambda>\frac{C^2}{2}$ to satisfy boundedness. This utilises the
@@ -561,20 +563,9 @@ We obtain the weak form of (HJB) with $v = u$.
   \end{align*}
 
 This is the same form as the inequality in the proof of \ref{thm:existence_hjb}. There we arrived at the following bound 
-  \begin{align*}
-    \int_\Omega |\nabla u|^2 + \lambda |u|^2\,dx
-    &\le \frac12\int_\Omega \frac{f^2}{\varepsilon^2} + \Bigl(\varepsilon^2+\frac{C^2}{\delta^2}\Bigr)u^2
-    + \delta^2(1+\gamma^2)|\nabla u|^2 + \delta^2(1+\frac{1}{\gamma^2}) \,dx,
-  \end{align*}
-where $\varepsilon, \gamma \text{ and } \delta$ are fixed and $\lambda$ is sufficiently large. Taking the difference of both sides and denoting
-the constant factor which is independent of $m \text{ or }u$ as $K$ yields 
-\begin{align*}
-    \epsilon \int_\Omega |\nabla u|^2 + |u|^2\,dx
-    &\le \frac{1}{2\varepsilon ^2}\int_\Omega f(x,m)^2 \,dx + K,
-  \end{align*}
-where $\epsilon$ is the minimum of both factors of $u^2\text{ and } \nabla u^2$. 
-Equivalently, 
+
 \[\epsilon \norm{u}_{\Honez} \le \frac{1}{2\varepsilon ^2} \norm{f(x,m)}_{\Ltwo}+ K.\]
+
 The bound of $u$ must be independent of $m$ so we introduce a growth condition on $f$.
 \begin{proposition}
   \label{thm:f_bounded}
@@ -603,6 +594,7 @@ We summarise the analysis of this subsection with a lemma.
   The set of fixed points is bounded by \ref{thm:f_bounded}. 
   Thus, there exists a fixed point by Schaefer's Theorem. 
 \end{proof}
+\emph{use simplified inequality in HJB existence proof}
 \section{Extension to Non-linear (KFP)}
 
 The following is an analysis on a variation of \ref{eq:system} with the $G(\cdot)$ in question being dependent on $m$. 
