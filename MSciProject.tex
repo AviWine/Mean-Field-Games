@@ -331,7 +331,7 @@ We now prove the existence of an (HJB) solution by way of our fixed point map.
     &\le \frac12 \int_\Omega \frac{f^2}{\varepsilon^2} + \varepsilon^2 u^2
     + \frac{1}{\delta^2}|Cu|^2 + \delta^2(|\nabla u|+1)^2\,dx, \qquad \varepsilon\in (0, \infty),\ \delta\in(0,1)\\
     &\le \frac12\int_\Omega \frac{f^2}{\varepsilon^2} + \Bigl(\varepsilon^2+\frac{C^2}{\delta^2}\Bigr)u^2
-    + \delta^2(1+\gamma^2)|\nabla u|^2\,dx + \delta^2(1+\frac{1}{\gamma^2}), \qquad \gamma\in (0, \infty).
+    + \delta^2(1+\gamma^2)|\nabla u|^2 + \delta^2(1+\frac{1}{\gamma^2})\,dx, \qquad \gamma\in (0, \infty).
   \end{align*}
 
   We require $\delta^2(1+\gamma^2)<1$ (in particular, $\delta^2<1$ is necessary).
@@ -373,7 +373,7 @@ Thus by the same reasoning as when we proved existence,
 \end{proof}
 The following theorem summarises our results. 
 \begin{theorem}[Existence of unique (HJB) solution]
-  \label{thm:solution_kfp}
+  \label{thm:solution_hjb}
   Let the Hamilton-Jacobi equation be as in \ref{eq:system} and suppose that $\lambda > 0$ is sufficiently large. Then for any fixed $m \in \Honez$, there exists
   a unique $u \in \Honez$ solving the equation. 
 \end{theorem}
@@ -519,14 +519,14 @@ Observe $p^\ast>p$. In particular,
 We have shown that $A$ is continuous and compact. The last step before we can apply Schauder's theorem is to prove 
 that if there were to exist a fixed point, it would be bounded. 
 
-\subsubsection{Boundedness of the Fixed Point}
+\subsubsection{Boundedness of the Fixed Point Set}
 
 Consider
 \[\{m\in\Honez: m=\mu A[m]\ \text{for some }\mu\in[0,1]\}.\]
 The corresponding system, with $A[m]$ substituted for $m/\mu$, is
 \[-\Delta u + H(x,\nabla u) + \lambda u = f(x,m), \qquad \frac{1}{\mu}\Bigl(-\Delta m - \diver\!\bigl(m\,\Hp(x,\nabla u)\bigr) + \lambda m\Bigr)=G(x).\]
 Rearranging the latter and using the Lax--Milgram bound implies
-\[\norm{m}_{L^2}\le \mu \norm{G}_{L^2}\le \norm{G}_{L^2},\]
+\[\norm{m}_{L^2}\le \frac{1}{c_0}\mu \norm{G}_{L^2}\le \frac{1}{c_0}\norm{G}_{L^2},\]
 which is bounded in $\Ltwo$ (Assumption 6). 
 By Schaefer's theorem, $A$ has a fixed point. We may conlclude our finding with the next theorem.
 
@@ -536,24 +536,75 @@ Let A be as in \ref{def:A-map}. A is compact and continuous and has bounded fixe
 By Schaefer's theorem (\ref{thm:schaefer}), $A$ has a fixed point. Thus, a solution pair $(u,m) \in \Honez \times \Honez$ to the MFG sytem exists.
 \end{proof}
 
-\begin{remark}
-In hindsight, we see the order of composition of $S \text{ and } T$ was convenient because it provided a natural bound for the fixed point.
-\end{remark}
-
-\subsection{Swapping Composition Order}
-An equaly valid construction for $A$ is the reverse composition 
+\subsection{Swapping Composition Order of $T$ and $S$}
+In hindsight, we can see that the composition of $T \text{ followed by } S$ was convenient because it provided a natural bound for the fixed point. We relied on the the fact that
+the image of $S$ is always bounded (\ref{thm:lax-milgram}) independent of $m$.
+An equaly valid construction for $A$ however, is the reverse composition 
 \[A \coloneqq T\circ S.\] 
-$S$ and $T$ are unchanged yet crucially, we recall that $S$ is bounded. This ensures that bounded sets will remain bounded under $S$ and so the compactness of $A$ still holds. 
-In the proof of theorem \ref{thm:existence_hjb} we demonstrated that $\lambda > \frac{C^2}{2} \implies \norm{u}_{\Honez}$ is bounded when $m$ is fixed. 
-Under this new construction we must consider 
+
+Here too the existence of a fixed point proves \ref{thm:main_result} yet crucially, recall that $T$ has no obvious bound. 
+We note that bounded sets under $S$ remain bounded so $A$ retains its continuity and compactness. 
+Therefore, we need only demonstrate boundedness of the fixed point set for us to use Schaefer's Theorem. 
+Under this new construction consider
 \[\{u\in\Honez: u=\mu A[u]\ \text{for some }\mu\in[0,1]\}.\]
-The corresponding system, with $A[u]$ substituted for $u/\mu$, is
-\[\frac{1}{\mu}\Bigl(-\Delta u + H(x,\nabla u) + \lambda u)\Bigr) = f(x,m), \qquad -\Delta m - \diver \bigl(m\,\Hp(x,\nabla u)\bigr) + \lambda m=G(x).\]
 
-\emph{wrong -} We note that allowing $m(x)$ to be variable makes no difference in this respect since $\norm{f(x,m(x))}_{L^2}$ is always bounded on $\Omega$ (Assumption 5).
-Thus the set of pseudo-fixed points is still bounded and Schaefer's Theorem carries over. 
+The corresponding system, with $A[u]$ substituted for $u/ \mu$, is
+\[-\frac{\Delta u}{\mu} + H(x,\frac{\nabla u}{\mu}) + \frac{\lambda u}{\mu} = f(x,m), \qquad -\Delta m - \diver \bigl(m\,\Hp(x,\nabla u)\bigr) + \lambda m=G(x).\]
 
+We obtain the weak form of (HJB) with $v = u$.
+  \begin{align*}
+    \int_\Omega |\nabla u|^2 + \lambda |u|^2\,dx
+    &= \mu\int_\Omega f u - H(x,\frac{\nabla u}{\mu})u\,dx\\
+    &\le \int_\Omega |fu| + \mu\,|H(x,\frac{\nabla u}{\mu})u|\,dx\\
+    &\le \int_\Omega |fu| + \mu \,C(|\frac{\nabla u}{\mu}|+1)|u|\,dx \qquad \text{(Assumption 2)}\\
+    &= \int_\Omega |fu| + C(|\nabla u|+1)|u|\,dx
+  \end{align*}
+
+This is the same form as the inequality in the proof of \ref{thm:existence_hjb}. There we arrived at the following bound 
+  \begin{align*}
+    \int_\Omega |\nabla u|^2 + \lambda |u|^2\,dx
+    &\le \frac12\int_\Omega \frac{f^2}{\varepsilon^2} + \Bigl(\varepsilon^2+\frac{C^2}{\delta^2}\Bigr)u^2
+    + \delta^2(1+\gamma^2)|\nabla u|^2 + \delta^2(1+\frac{1}{\gamma^2}) \,dx,
+  \end{align*}
+where $\varepsilon, \gamma \text{ and } \delta$ are fixed and $\lambda$ is sufficiently large. Taking the difference of both sides and denoting
+the constant factor which is independent of $m \text{ or }u$ as $K$ yields 
+\begin{align*}
+    \epsilon \int_\Omega |\nabla u|^2 + |u|^2\,dx
+    &\le \frac{1}{2\varepsilon ^2}\int_\Omega f(x,m)^2 \,dx + K,
+  \end{align*}
+where $\epsilon$ is the minimum of both factors of $u^2\text{ and } \nabla u^2$. 
+Equivalently, 
+\[\epsilon \norm{u}_{\Honez} \le \frac{1}{2\varepsilon ^2} \norm{f(x,m)}_{\Ltwo}+ K.\]
+The bound of $u$ must be independent of $m$ so we introduce a growth condition on $f$.
+\begin{proposition}
+  \label{thm:f_bounded}
+  Let $|f(x,m)| \le (|m| + 1)$ then ${\{u\in\Honez: u=\mu A[u]\ \text{for some }\mu\in[0,1]\}}$ is bounded. 
+\end{proposition} 
+\begin{proof}
+  We have
+  \begin{align*}
+    \epsilon \norm{u}_{\Honez}
+    &\le \frac{1}{2\varepsilon ^2} \norm{f(x,m)}_{\Ltwo}+ K\\
+    &\le \frac{1}{2\varepsilon ^2} \bigl(\norm{m}_{\Ltwo} + |\Omega|\bigr)+ K \\
+    &\le \frac{1}{2\varepsilon ^2} \bigl(\norm{m}_{\Honez} + |\Omega|\bigr)+ K\\
+    &\le \frac{1}{2\varepsilon ^2} \bigl(\frac{1}{c_0}\norm{G}_{\Ltwo} + |\Omega|\bigr)+ K
+  \end{align*}
+  by the Lax-Milgram bound (\ref{thm:lax-milgram}). Thus the set is bounded.
+\end{proof}
+
+We summarise the analysis of this subsection with a lemma. 
+\begin{lemma}
+  Let $A= T \circ S$ and suppose that $\lambda > 0$ as it appears in \ref{eq:system} is sufficiently large. 
+  Then, 
+  \[|f(x,m)| \le (|m| + 1) \implies A \text{ has a fixed point.} \]
+\end{lemma}
+\begin{proof}
+  $A$ is compact and continuous since $T$ is compact and continuous (\ref{thm:t-comp}, \ref{thm:t-cont}) and $S$ is bounded continuous (\ref{thm:s-cont}).
+  The set of fixed points is bounded by \ref{thm:f_bounded}. 
+  Thus, there exists a fixed point by Schaefer's Theorem. 
+\end{proof}
 \section{Extension to Non-linear (KFP)}
+
 The following is an analysis on a variation of \ref{eq:system} with the $G(\cdot)$ in question being dependent on $m$. 
 Our new system of equations reads
 \begin{equation}
