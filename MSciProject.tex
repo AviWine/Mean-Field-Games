@@ -285,9 +285,9 @@ We know $w$ exists by Lax--Milgram \ref{thm:lax-milgram}, so $A$ is well defined
   \norm{w}_{H^2(\Omega)}
   & \le C \norm{f(x,m)-H(x,\nabla u)}_{\Ltwo}\\
   & \le C \norm{f(x,m)}_{\Ltwo} + C\norm{H(x,\nabla u)}_{\Ltwo}\\
-  & \le C \norm{f(x,m)}_{\Ltwo} + \hat{C}\norm{|\nabla u| + 1}_{\Ltwo} \qquad \text{(Condition 2)}
+  & \le C \norm{f(x,m)}_{\Ltwo} + \hat{C}\norm{|\nabla u| + 1}_{\Ltwo} \qquad \text{(Assumption 2)}
 \end{align*}
-Where $C$, $\hat{C}$ are constants - note that unless explicitly mentioned, these constants are not the same as the 
+Where $C$, $\hat{C}$ are constants - note that these constants are not the same as the 
 ones appearing in our assumptions above.
 We now prove the existence of an (HJB) solution by way of our fixed point map.
 \begin{theorem}[Existence of (HJB) Solution]
@@ -310,7 +310,7 @@ We now prove the existence of an (HJB) solution by way of our fixed point map.
   \begin{align*}
     \int_\Omega \nabla w\cdot v + \lambda w \cdot v \,dx = \int_\Omega (f(x,m) - H(x,\nabla u))\cdot v \,dx, \text{ for any } v \in \Honez\\
   \end{align*}
-  by Lipschitz continuity of $H$ (Condition 2).
+  by Lipschitz continuity of $H$ (Assumption 2).
   Thus, $w = A[u]$. Hence, $A[u_k] \to A[u]$ in $\Honez$, so $A$ is continuous. $A$ is compact by similar reasoning since 
   a bounded sequence $(u_k)_{k=1}^\infty$ yields a bounded sequence $(A[u_k])_{k=1}^\infty$ in $H^2(\Omega)$ which has a strongly convergent subsequence in $\Honez$.
 
@@ -325,20 +325,20 @@ We now prove the existence of an (HJB) solution by way of our fixed point map.
     &\le \int_\Omega |fu| + |H(x,\nabla u)u|\,dx\\
     &\le \int_\Omega |fu| + C(|\nabla u|+1)|u|\,dx \qquad \text{(Assumption 2)}\\
   \end{align*}
-  To isolate $|\nabla u|^2$ and $u^2$ terms, we apply Young's inequality \ref{thm:youngs} twice over to give
+  To isolate $|\nabla u|^2$ and $u^2$ terms, we apply Young's inequality \ref{thm:youngs} twice over to give\\
   \begin{align*}
     \int_\Omega |\nabla u|^2 + \lambda |u|^2\,dx
     &\le \frac12 \int_\Omega \frac{f^2}{\varepsilon^2} + \varepsilon^2 u^2
-    + \frac{1}{\delta^2}|Cu|^2 + \delta^2(|\nabla u|+1)^2\,dx, \qquad \varepsilon\in (0, \infty),\ \delta\in(0,1)\\
+    + \frac{1}{\delta^2}|Cu|^2 + \delta^2(|\nabla u|+1)^2\,dx, \qquad \varepsilon\in (0, \infty),\ \delta\in(0,1)\\[0.9em]
     &\le \frac12\int_\Omega \frac{f^2}{\varepsilon^2} + \Bigl(\varepsilon^2+\frac{C^2}{\delta^2}\Bigr)u^2
-    + \delta^2(1+\gamma^2)|\nabla u|^2 + \delta^2(1+\frac{1}{\gamma^2})\,dx, \qquad \gamma\in (0, \infty).
+    + \delta^2(1+\gamma^2)|\nabla u|^2 + \delta^2(1+\frac{1}{\gamma^2})\,dx, \qquad \gamma\in (0, \infty).\\
   \end{align*}
 
   We require $\delta^2(1+\gamma^2)<1$ (in particular, $\delta^2<1$ is necessary).
   $\varepsilon, \gamma > 0$ can be arbitrarily small, so provided $\lambda>\frac{C^2}{2}$ there exist sufficiently small $\varepsilon, \gamma > 0$ and sufficiently large $\delta^2 < 1$ such that
   \[\lambda > \frac12(\varepsilon^2 + \frac{C^2}{\delta^2}) \text{ and } 1 > \delta^2(1+\gamma^2)\]
   hold simultaneously.
-  Taking the difference of both sides and denoting the constant factor as $K$ which is independent of $m \text{ or }u$ yields 
+  Taking the difference of both sides and denoting the constant factor as $K$ yields 
   \begin{align*}
       \epsilon \int_\Omega |\nabla u|^2 + |u|^2\,dx
       &\le \frac{1}{2\varepsilon ^2}\int_\Omega f(x,m)^2 \,dx + K,
@@ -346,7 +346,7 @@ We now prove the existence of an (HJB) solution by way of our fixed point map.
   where $\epsilon$ is the minimum of both factors of $u^2\text{ and } \nabla u^2$. 
   Equivalently, 
 \[\epsilon \norm{u}_{\Honez} \le \frac{1}{2\varepsilon ^2} \norm{f(x,m)}_{\Ltwo}+ K.\]
-Thus if $\lambda > 0$ is sufficiently large, the set is bounded. By \ref{thm:schaefer}, $A$ has a fixed point and thus (HJB) has a solution.
+Thus if $\lambda>\frac{C^2}{2}$, the set is bounded. By \ref{thm:schaefer}, $A$ has a fixed point and thus (HJB) has a solution.
 \end{proof}
 \begin{remark}
   We can always tune $\varepsilon, \delta \text{ and } \gamma$ for given $\lambda>\frac{C^2}{2}$ to satisfy boundedness. This utilises the
@@ -379,7 +379,9 @@ The following theorem summarises our results.
   Let the Hamilton-Jacobi equation be as in \ref{eq:system} and suppose that $\lambda > 0$ is sufficiently large. Then for any fixed $m \in \Honez$, there exists
   a unique $u \in \Honez$ solving the equation. 
 \end{theorem}
-
+\begin{proof}
+  There exists a solution by \ref{thm:existence_hjb} and it is unique by \ref{prop:uniqueness}.
+\end{proof}
 \subsection{Solving the Coupled System of Equations}
 Having solved the two equations in \ref{eq:system} in isolation, we now look to solve them as a system. As stated above, the fixed point theorems 
 will allow us to prove existence of a solution pair for the system as a whole. The challenge, is to define and 
@@ -415,7 +417,7 @@ Since $A$ is simply a composition of $S \text{ and } T$, it suffices to show the
 \begin{proposition}
   If $\lambda > 0$ is sufficiently large, $T$ is continuous. 
 \end{proposition}
-\label{thm:t-cont}
+\label{prop:t-cont}
 \begin{proof}
   Let $(m_k)_{k=1}^\infty\to m$ in $\Honez$. Denote $u=T[m]$, $u_k=T[m_k]$ and $f_k = f(x, m_k)$.
   Taking the weak formulation of the difference in (HJB) gives
@@ -442,7 +444,7 @@ for which $\lambda >0$ being sufficiently large implies $u_k\to u$ i.e $T$ is co
 \footnote{See the uniqueness argument above (\ref{prop:uniqueness}).}
 \end{proof}
 \begin{proposition}
-  \label{thm:s-cont}
+  \label{prop:s-cont}
   If $\lambda > 0$ is sufficiently large, $S$ is continuous. 
 \end{proposition}
 \begin{proof}
@@ -499,11 +501,11 @@ Observe $p^\ast>p$. In particular,
 \end{remark}
 
 \begin{example}
-  The space we're interested in, is $\Honez$. We know that $\Honez \subset H^1(\Omega)$. Thus, by Rellich Kondrachov and Condition 1 
+  The space we're interested in, is $\Honez$. We know that $\Honez \subset H^1(\Omega)$. Thus, by Rellich Kondrachov and Assumption 1 
   \[\Honez \subset\subset \Ltwo\].
 \end{example}
 \begin{proposition}
-  \label{thm:t-comp}
+  \label{prop:t-comp}
   If $\lambda >0$ is sufficiently large, $T$ is compact. 
 \end{proposition}
 \begin{proof}
@@ -568,7 +570,7 @@ This is the same form as the inequality in the proof of \ref{thm:existence_hjb}.
 
 The bound of $u$ must be independent of $m$ so we introduce a growth condition on $f$.
 \begin{proposition}
-  \label{thm:f_bounded}
+  \label{prop:f_bounded}
   Let $|f(x,m)| \le (|m| + 1)$ then ${\{u\in\Honez: u=\mu A[u]\ \text{for some }\mu\in[0,1]\}}$ is bounded. 
 \end{proposition} 
 \begin{proof}
@@ -590,14 +592,14 @@ We summarise the analysis of this subsection with a lemma.
   \[|f(x,m)| \le (|m| + 1) \implies A \text{ has a fixed point.} \]
 \end{lemma}
 \begin{proof}
-  $A$ is compact and continuous since $T$ is compact and continuous (\ref{thm:t-comp}, \ref{thm:t-cont}) and $S$ is bounded continuous (\ref{thm:s-cont}).
-  The set of fixed points is bounded by \ref{thm:f_bounded}. 
+  $A$ is compact and continuous since $T$ is compact and continuous (\ref{prop:t-comp}, \ref{prop:t-cont}) and $S$ is bounded continuous (\ref{prop:s-cont}).
+  The set of fixed points is bounded by \ref{prop:f_bounded}. 
   Thus, there exists a fixed point by Schaefer's Theorem. 
 \end{proof}
-\emph{use simplified inequality in HJB existence proof}
+
 \section{Extension to Non-linear (KFP)}
 
-The following is an analysis on a variation of \ref{eq:system} with the $G(\cdot)$ in question being dependent on $m$. 
+The following is an analysis on a variation of \ref{eq:system} with the $G(\cdot)$ in question being $m$ dependent. 
 Our new system of equations reads
 \begin{equation}
 \label{eq:system2}
@@ -608,14 +610,14 @@ Our new system of equations reads
 \end{equation}
 
 In this scenario we cannot apply the Lax-Milgram Theorem to (KFP). We will therefore adopt fixed point theorems 
-to find a solution but as with $f(x,m(x))$ we must impose Assumptions on $G(x,m(x))$.
+to find a solution but as with $H(x,\nabla u)$ we impose assumptions on $G(x,m)$.
 \begin{enumerate}[label=\arabic*., leftmargin=*, itemsep=0.35em, resume]
 \item $G(x,m):\Omega \times \Ltwo \to \Ltwo$ is
   \begin{itemize}[leftmargin=*, itemsep=0.25em]
     \item Lipschitz continuous with respect to $m$ with Lipschitz constant $\tilde{B}$,
-    \item bounded by $B\bigl(|x|+|m|+1\bigr)$ for a given constant $B$, for all $x\in \Omega$ and $m \in \Ltwo$.
+    \item bounded by $B\bigl(|m|+1\bigr)$ for a given constant $B$, for all $x\in \Omega$ and $m \in \Ltwo$.
   \end{itemize}
-\item In addition to our previous constraint on $\lambda$, we have $\lambda > \max(\,B + \frac{L^2}{4},\,\tilde{B} +\frac{L^2}{4})$
+\item In \emph{addition} to our previous constraint on $\lambda$, we have $\lambda > \max(\,B + \frac{L^2}{4},\,\tilde{B} +\frac{L^2}{4})$
 \end{enumerate}
 
 \begin{theorem}[Existence of Non-linear KFP Solution]
@@ -623,6 +625,11 @@ to find a solution but as with $f(x,m(x))$ we must impose Assumptions on $G(x,m(
 If $\lambda>0$ is sufficiently large, there exists $m\in H^2(\Omega)\cap \Honez$ solving (KFP) with fixed $u$.
 \end{theorem}
 \begin{proof}
+  We design the map whose fixed point is a solution to the non-linear equation. 
+
+  \[A:\Honez\to\Honez,\qquad A[m]=w \quad\text{where}\quad -\Delta w+\lambda w = G(x,m).\]
+
+  We know $w$ exists by Lax--Milgram \ref{thm:lax-milgram}, so $A$ is well defined. \emph{more to fix}..
   See \ref{thm:existence_hjb} and \cite[Chapter~9]{evans_pde}.
   The only difference is in the thershold of $\lambda$ which we'll now derive. As in \ref{thm:existence_hjb} we want to show
   \[\{m\in \Honez: m=\mu A[m]\ \text{for some }0\le\mu\le 1\}\]
