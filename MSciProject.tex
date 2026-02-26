@@ -357,7 +357,7 @@ Thus if $\lambda>\frac{C^2}{2}$, the set is bounded. By \ref{thm:schaefer}, $A$ 
 If $\lambda>0$ is sufficiently large, then the fixed point $u$ is unique.
 \end{proposition}
 \begin{proof}
-Suppose $u_1,u_2$ both solve (HJB) for a given $m \in \Honez$. Taking the weak difference gives
+Suppose $u_1,u_2$ both solve (HJB) for a given $m \in \Honez$. Taking the weak difference and setting $v=u_1-u_2$ gives
 \begin{align*}
   \norm{\nabla(u_1-u_2)}_{L^2}^2+\lambda\norm{u_1-u_2}_{L^2}^2
   &\le \int_\Omega |u_1-u_2|\,|H_1-H_2|\,dx\\
@@ -617,7 +617,7 @@ to find a solution but as with $H(x,\nabla u)$ we impose assumptions on $G(x,m)$
     \item Lipschitz continuous with respect to $m$ with Lipschitz constant $\tilde{B}$,
     \item bounded by $B\bigl(|m|+1\bigr)$ for a given constant $B$, for all $x\in \Omega$ and $m \in \Ltwo$.
   \end{itemize}
-\item In \emph{addition} to our previous constraint on $\lambda$, we have $\lambda > \max(\,B + \frac{L^2}{4},\,\tilde{B} +\frac{L^2}{4})$
+\item In \emph{addition} to our previous constraint on $\lambda$, we have $\lambda > \max(\,B, \,\tilde{B}) +\frac{L^2}{4}$
 \end{enumerate}
 
 \begin{theorem}[Existence of Non-linear KFP Solution]
@@ -665,31 +665,75 @@ If $\lambda>0$ is sufficiently large, there exists $m\in H^2(\Omega)\cap \Honez$
 \begin{proposition}
 If $\lambda>0$ is sufficiently large, then the fixed point $m$ is unique.
 \end{proposition}
+\label{prop:uniqueness2}
 \begin{proof}
-Suppose $m_1,m_2$ both solve (HJB). Taking the difference gives
+Suppose $m_1,m_2$ both solve (HJB). Taking the difference and setting $v=m_1-m_2$ gives
 \begin{align*}
 \norm{\nabla(m_1-m_2)}_{L^2}^2 +\lambda\norm{m_1-m_2}_{L^2}^2
 &\le \int_\Omega |\Hp|\,|m_1-m_2|\,|\nabla(m_1 -m_2)| + |G_1-G_2|\,|m_1-m_2|\,dx\\
 &\le L \norm{m_1-m_2}_{L^2}\norm{\nabla(m_1-m_2)}_{L^2} + \tilde{B}\,\norm{m_1-m_2}_{L^2}^2\\
 \end{align*}
-using Assumptions 2, 7 and Cauchy--Schwarz. Hence, by our previous use of Young's inequality in \ref{prop:kfp-coercive},
+using Assumptions 3, 7 and Cauchy--Schwarz. Hence, by our previous use of Young's inequality in \ref{prop:kfp-coercive},
 \[\lambda - \tilde{B} >\frac{L^{\,2}}{4}\implies m_1=m_2 \text{ in }\Honez.\]
 \end{proof}
 
-Thus our definition of $S(\,\cdot\,)$ in \ref{def:S-map} remains well defined for (KFP) in its new form.
-We have left to prove that $S$ is still continuous after which our previous results will hold for compactness of $A$.
+As with the linear version of (KFP) we define a map $\tilde{S}$ that will now take the place of $S$ in \ref{def:S-map}.
+\begin{definition}
+\label{def:s_tilde}
+Define $\tilde{S}:\Honez\to\Honez$ by $S(u)=m$, where $m$ solves non-linear (KFP) for given $u$.
+\end{definition}
+Since (HJB) is the same, we're interested in the fixed point of the map $\tilde{A}$.
+\begin{definition}
+\label{def:A_tilde}
+Let $T$ and $\tilde{S}$ be as in definitions \ref{def:s_tilde} and \ref{def:T-map}. Define
+\[\tilde{A}:\Honez\to\Honez,\qquad A \coloneqq \tilde{S}\circ T.\]
+\end{definition}
 
-\paragraph{Continuity of S \#2}
-\label{pf:s-cont2}
-Oncemore, let $(u_k)_{k=1}^\infty\to u$ in $\Honez$. Denote $m=S[u]$, $m_k=S[u_k]$, $\Hp_k=\Hp(x,\nabla u_k)$ and $G_k = G(x,m_k)$.
-Taking the weak formulation of the difference in (KFP) yields
-\begin{align*}
-\norm{\nabla(m-m_k)}_{L^2}^2+\lambda\norm{m-m_k}_{L^2}^2
-&\le \int_\Omega |\nabla(m-m_k)|\,\bigl|m\,\Hp - m_k\,\Hp_k\bigr| + |G - G_k|\,|m-m_k|\,dx\\
-&\le \int_\Omega |\nabla(m-m_k)|\,\bigl|m\,\Hp - m_k\,\Hp_k\bigr| + \tilde{B}|m-m_k|^2\,dx.
-\end{align*}
-By $\lambda$ being sufficiently large to account for the $\tilde{B}$ term and following the same line of reasoning in \ref{pf:s-cont} we conclude that 
-$S$ is continuous. 
+A fixed point of $\tilde{A}$ means a solution to the new sytem of equations. 
+\paragraph{Main Result for Non-linear (KFP)}
+\begin{theorem}[Existence of MFG Solution with Non-linear (KFP)]
+Let the Mean Field Game system be characterised by \ref{eq:system2} and suppose the assumptions above are true. 
+Then a solution $(u,m) \in \Honez \times \Honez$ exists. 
+\end{theorem}
+\begin{proof}
+  We proof the theorem via showing $\tilde{A}$ has a fixed point. 
+  Once again, we wish to use Schaefer's theorem. We need to show that $\tilde{S}$ is continuous. 
+  Let $(u_k)_{k=1}^\infty\to u$ in $\Honez$. Denote $m=\tilde{S}[u]$, $m_k=\tilde{S}[u_k]$, $\Hp_k=\Hp(x,\nabla u_k)$ and $G_k = G(x,m_k)$.
+  Taking the weak formulation of the difference in (KFP) and setting $v=m-m_k$ yields
+  \begin{align*}
+  \norm{\nabla(m-m_k)}_{L^2}^2+\lambda\norm{m-m_k}_{L^2}^2
+  &\le \int_\Omega |\nabla(m-m_k)|\,\bigl|m\,\Hp - m_k\,\Hp_k\bigr| +\, |G - G_k|\,|m-m_k|\,dx.
+  \end{align*}
+  Applying the Lipschitz condition (Assumption 7) to $G,G_k$ gives
+  \begin{align*}
+  \norm{\nabla(m-m_k)}_{L^2}^2+\lambda\norm{m-m_k}_{L^2}^2
+  &\le \int_\Omega |\nabla(m-m_k)|\,\bigl|m\,\Hp - m_k\,\Hp_k\bigr| +\, \tilde{B}|m-m_k|^2\,dx.
+  \end{align*}
+
+  By $\lambda$ being sufficiently large to account for the $\tilde{B}$ term (Assumption 8) and recalling the same line of reasoning in \ref{prop:s-cont} we conclude that 
+  $\tilde{S}$ is continuous. 
+  We also have that $\tilde{S}$ is bounded (\ref{thm:existence2}) and that $T$ is both compact (\ref{prop:t-comp}) and continuous (\ref{prop:t-cont}). $\tilde{A}$ is therefore
+  compact.
+  \paragraph{}
+  To meet the final condition of Schaefer's theorem, we must show 
+  \[\{m\in\Honez: m=\mu \tilde{A}[m]\ \text{for some }\mu\in[0,1]\}\]
+  is bounded. 
+  The corresponding system, with $\tilde{A}[m]$ substituted for $m/\mu$, is
+  \[-\Delta u + H(x,\nabla u) + \lambda u = f(x,m), \qquad \frac{1}{\mu}\Bigl(-\Delta m - \diver\!\bigl(m\,\Hp(x,\nabla u)\bigr) + \lambda m\Bigr)=G(x,\,\frac{m}{\mu}).\]
+  
+  Taking the weak form of the latter and setting $v=m$ implies
+  \begin{align*}
+  \int_\Omega |\nabla m|^2 + \lambda |m|^2\,dx
+  &\le \int_\Omega \mu|G(x,\,\frac{m}{\mu})||m| + L|m||\nabla m|\,dx \qquad \text{See \ref{thm:existence2}}\\
+  &\le \int_\Omega B(|m|+1)|m| + L|m||\nabla m|\,dx \qquad \text{(Assumption 7)}\\
+  \end{align*}
+  In \ref{thm:existence2} we showed that when $\lambda>0$ is sufficiently large, the inequality simplifies to 
+  \begin{align*}
+    \tilde{\epsilon} \norm{m}_{\Honez} \le K(\varepsilon,\delta)|\Omega|
+  \end{align*}
+  Thus, the set is bounded. 
+  By Schaefer's theorem, $\tilde{A}$ has a fixed point.
+\end{proof}
 \bibliographystyle{plain}
 \bibliography{references}
 
