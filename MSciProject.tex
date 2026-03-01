@@ -119,7 +119,9 @@ This report studies a stationary mean field game system given by a Hamilton--Jac
 \section{Introduction}
 
 \paragraph{Context and Motivation}
-Mean field games is a branch of game theory devoted to the analysis of a special subset of games. These systems are distinguished by having a very large number of players, each of whom is considered almost insignificant, with minimal influence on the system as a whole. In measure theory this corresponds to nullifying sets with countable measure and thinking of functions in the distributional sense. Furthermore, each player is a rational observer and the general trend around them informs their decision on how to act, with the aim of achieving an optimal outcome.
+Mean field games is a branch of game theory devoted to the analysis of a special subset of games. These systems are distinguished by having a very large number of players, each of whom is considered almost insignificant, with minimal influence on the system as a whole. 
+In measure theory this corresponds to nullifying sets with countable measure and thinking of functions in the distributional sense. 
+Furthermore, each player is a rational observer and the general trend around them informs their decision on how to act, with the aim of achieving an optimal outcome.
 The famous example in economics of such a game, introduced by Aumann, is the behaviour of stock traders whom we treat as a continuum \cite{aumann}.
 In this paper we consider the equilibrium problem characterised by a coupled pair of equations: a Hamilton--Jacobi--Bellman (HJB) equation and a Kolmogorov--Fokker--Planck (KFP) equation.
 
@@ -675,6 +677,15 @@ to find a solution but as with $H(x,\nabla u)$ we impose assumptions on $G(x,m)$
   \end{itemize}
 \item In \emph{addition} to our previous constraint on $\lambda$, we have $\lambda > \max(\,B, \,\tilde{B}) +\frac{L^2}{4}$
 \end{enumerate}
+\begin{example}
+For a source term $G$ satisfying Assumption 7, one may consider
+\[
+G(x,m) = a(x)\,\tanh(m),
+\]
+where $a \in L^\infty(\Omega)$. From a modelling perspective, this choice corresponds to density-dependent entry 
+or exit with saturation: for small $m$ the response is approximately linear, 
+while for large $m$ the source term remains bounded.
+\end{example}
 
 \begin{theorem}[Existence of Non-linear KFP Solution]
 \label{thm:existence2}  
