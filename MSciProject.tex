@@ -1,33 +1,48 @@
 \documentclass[11pt]{article}
 
-% ---------- Fonts & page ----------
+% =========================================================
+%                    Page / Font / Typography
+% =========================================================
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
 \usepackage[a4paper,margin=1.15in]{geometry}
 \usepackage{microtype}
-\usepackage{soul}
-% ---------- Global line spacing ----------
-\usepackage{setspace}
-\setstretch{1.18} % try 1.12–1.18
 
-% ---------- Math ----------
+% Optional highlighting (remove if unused)
+\usepackage{soul}
+
+% Global line spacing
+\usepackage{setspace}
+\setstretch{1.18}
+
+% =========================================================
+%                          Math
+% =========================================================
 \usepackage{mathtools}   % includes amsmath
 \usepackage{amssymb,amsfonts,amsthm,amsopn}
 
-% ---------- Spacing for display math ----------
+% Display-math spacing
 \setlength{\abovedisplayskip}{14pt}
 \setlength{\belowdisplayskip}{14pt}
 \setlength{\abovedisplayshortskip}{10pt}
 \setlength{\belowdisplayshortskip}{10pt}
 
-% ---------- Extra breathing room inside align/gather (optional) ----------
+% Extra breathing room inside align/gather
 \setlength{\jot}{8pt}
 
-% ---------- Lists / links ----------
+% Allow page breaks in long align blocks
+\allowdisplaybreaks
+
+% =========================================================
+%                    Lists / Links / References
+% =========================================================
 \usepackage{enumitem}
 \usepackage[hidelinks]{hyperref}
+\usepackage[noabbrev,nameinlink]{cleveref}
 
-% ---------- Theorems ----------
+% =========================================================
+%                    Theorems / Environments
+% =========================================================
 \numberwithin{equation}{section}
 
 \newtheorem{theorem}{Theorem}[section]
@@ -37,15 +52,39 @@
 
 \theoremstyle{definition}
 \newtheorem{definition}[theorem]{Definition}
-\newtheorem{example}{Example}
+\newtheorem{example}[theorem]{Example} % number examples consistently
 
 \theoremstyle{remark}
 \newtheorem{remark}[theorem]{Remark}
 
-% ---------- Footnotes ----------
+% Slightly tighter theorem spacing (looks nicer with 1.18 line spacing)
+\makeatletter
+\def\thm@space@setup{%
+  \thm@preskip=8pt plus 2pt minus 2pt
+  \thm@postskip=8pt plus 2pt minus 2pt
+}
+\makeatother
+
+% Footnotes pinned to bottom
 \usepackage[bottom]{footmisc}
 
-% ---------- Notation helpers ----------
+% =========================================================
+%                       Headings / Layout
+% =========================================================
+\usepackage{titlesec}
+
+% Make \paragraph a proper heading (not run-in)
+\titleformat{\paragraph}[hang]{\bfseries}{\theparagraph}{0.75em}{}
+\titlespacing*{\paragraph}{0pt}{0.75em}{0.35em}
+
+% Optional: a bit more whitespace around section headers
+\titlespacing*{\section}{0pt}{1.2em}{0.7em}
+\titlespacing*{\subsection}{0pt}{1.0em}{0.5em}
+\titlespacing*{\subsubsection}{0pt}{0.8em}{0.35em}
+
+% =========================================================
+%                       Notation helpers
+% =========================================================
 \DeclareMathOperator{\diver}{div}
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\Ltwo}{L^2(\Omega)}
@@ -53,118 +92,137 @@
 \newcommand{\Hp}{\frac{\partial H}{\partial p}}
 \newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
 
-% Allow page breaks inside long align blocks (prevents ugly overflow)
-\allowdisplaybreaks
-
+% =========================================================
+%                           Title
+% =========================================================
 \title{On the Existence of a Solution to the Coupled HJB--KFP System}
 \author{Avi Wine}
 \date{\today}
 
 \begin{document}
+
+% -------------------- Title + ToC -------------------------
 \maketitle
+\thispagestyle{empty}
 
-\newpage
+\begin{abstract}
+This report studies a stationary mean field game system given by a Hamilton--Jacobi--Bellman equation coupled with a Kolmogorov--Fokker--Planck equation. Under suitable assumptions, we establish the existence of a weak solution pair in $H_0^1(\Omega)\times H_0^1(\Omega)$, and we extend the argument to a variant with a non-linear source term in the KFP equation.
+\end{abstract}
+
+\tableofcontents
+\clearpage
+
+% =========================================================
+%                         CONTENT
+% =========================================================
+
 \section{Introduction}
-\paragraph{Context and Motivation}
-Mean field games is a branch of game theory devoted to the analysis of a special subset of 'games' within the discipline. 
-These systems or 'games' are distinguished by having a very large number of players, each of whom is considered almost
-insignificant with minimal influence on the system as a whole. In measure theory this corresponds to nullifying sets with countable measure and 
-thinking of functions in the distributional sense. Furthemore, each player is a rational observer and the general trend around them will inform their decision on how to act, 
-with the aim of acheiving the most optimal outcome.
-The famous example in economics of such a game, introduced by Aumann, is the behaviour of stock traders whom we treat as a continuum \cite{aumann}.
-In this paper we consider the equilibrium problem characterised by a coupled pair of equations. These are a Hamilton--Jacobi--Bellman (HJB) equation with a Kolmogorov--Fokker--Planck (KFP) equation
 
-\begin{equation}
-\label{eq:system}
+\paragraph{Context and Motivation}
+Mean field games is a branch of game theory devoted to the analysis of a special subset of games. These systems are distinguished by having a very large number of players, each of whom is considered almost insignificant, with minimal influence on the system as a whole. In measure theory this corresponds to nullifying sets with countable measure and thinking of functions in the distributional sense. Furthermore, each player is a rational observer and the general trend around them informs their decision on how to act, with the aim of achieving an optimal outcome.
+The famous example in economics of such a game, introduced by Aumann, is the behaviour of stock traders whom we treat as a continuum \cite{aumann}.
+In this paper we consider the equilibrium problem characterised by a coupled pair of equations: a Hamilton--Jacobi--Bellman (HJB) equation and a Kolmogorov--Fokker--Planck (KFP) equation.
+
+\begin{equation}\label{eq:system}
 \begin{aligned}
 -\Delta u + H(x,\nabla u) + \lambda u &= f(x,m) && \text{in } \Omega \text{ (HJB)},\\
--\Delta m - \diver\!\bigl(m\,\Hp(x,\nabla u)\bigr) + \lambda m &= G(x) && \text{in } \Omega \text{ (KFP)},
+-\Delta m - \diver\!\bigl(m\,\Hp(x,\nabla u)\bigr) + \lambda m &= G(x) && \text{in } \Omega \text{ (KFP)}.
 \end{aligned}
 \end{equation}
-together with homogeneous Dirichlet boundary Assumptions $u=0$ and $m=0$ on $\partial\Omega$.
+This is supplemented with homogeneous Dirichlet boundary conditions $u=0$ and $m=0$ on $\partial\Omega$.
 
 \paragraph{Interpretation of Equations}
-$m(x)$ represents the player density and $u(x)$ the value function of a representative agent in the mean field game. In other words, $u(x)$ is a player's optimal solution achieved by minimising the expected cost at position $x$.
-Here $\Hp$ denotes the partial derivative of $H$ with respect to the momentum variable (i.e.\ the $\nabla u$ argument), and $\lambda>0$.
-\\
-(HJB) describes a representative player's optimal control behaviour for a given player density, $m$, in the game. On the other hand, (KFP) takes the macroscopic view and gives us the evolution of $m(\cdot)$ when every individual player satisfies the optimal solution $u$.\\
-Each player tries to minimise their cost function $f(x,m)$ (in HJB) and the optimal control for an individual player is given by $\alpha^* = -\Hp (x, \nabla u)$ which we can see makes up the (KFP).
-The $\Delta$ terms are called 'diffusion’ terms which account for the randomness in the game (determined by Brownian motion) and prevent the perfect alignment of players even if they all adopt the same strategy. 
-Lastly, $G()$ is an exogenous function, controlling the entry /exit of players to and from the system and as such will directly affect $m$ which is why it appears in the (KFP).
-\cite{lasry_lions, pierre}
+Here $m(x)$ represents the player density and $u(x)$ the value function of a representative agent in the mean field game. In other words, $u(x)$ is a player's optimal solution achieved by minimising the expected cost at position $x$.
+The term $\Hp$ denotes the partial derivative of $H$ with respect to the momentum variable (i.e.\ the $\nabla u$ argument), and $\lambda>0$.
+(HJB) describes a representative player's optimal control behaviour for a given player density $m$. On the other hand, (KFP) gives the evolution of $m(\cdot)$ when every player satisfies the optimal solution $u$.
+Each player tries to minimise their cost function $f(x,m)$ (in HJB), and the optimal control for an individual player is given by $\alpha^\ast = -\Hp(x,\nabla u)$, which makes up the drift term in (KFP).
+The Laplacian terms are diffusion terms accounting for randomness (e.g.\ Brownian motion) and preventing perfect alignment of players even under a shared strategy.
+Finally, $G(\cdot)$ is an exogenous term controlling entry/exit of players and therefore directly affects $m$ in (KFP). \cite{lasry_lions, pierre}
 
 \paragraph{Mathematical Contribution}
-
-In this paper we analyse this coupled system of equations and in particular we investigate the existence of a  weak solution pair $(u,m)$ in $\Honez \times \Honez$. 
+In this paper we analyse the coupled system \cref{eq:system} and investigate the existence of a weak solution pair $(u,m)\in\Honez\times\Honez$.
 In addition, we consider a more general formulation of the system and prove an existence result in this extended setting, which constitutes an original contribution of this work.
-\newpage
+
 \paragraph{Assumptions}
 \begin{enumerate}[label=\arabic*., leftmargin=*, itemsep=0.35em]
   \item $\Omega$ is bounded and $\partial\Omega$ is smooth.
   \item $H(x,\nabla u):\R^{n+1}\to\R$ is
   \begin{itemize}[leftmargin=*, itemsep=0.25em]
     \item Lipschitz continuous with respect to $\nabla u$ with Lipschitz constant $\tilde{C}$,
-    \item bounded by $C\bigl(|\nabla u|+1\bigr)$ for a given constant $C$, for all $x\in\R$ and $\nabla u\in\R^n$.
+    \item bounded by $C\bigl(|\nabla u|+1\bigr)$ for a constant $C$, for all $x\in\R$ and $\nabla u\in\R^n$.
   \end{itemize}
   \item The partial derivative $H_p$ is continuous with respect to $\nabla u$ and essentially bounded by some constant $L$.
   \item $\lambda$ is sufficiently large (in particular $\lambda>\max(\,\frac{L^2}{4},\,\frac{C^2}{2},\,\frac{\tilde{C}^2}{4})$).
-  \item $f(x,m(x)):\Omega \times \Ltwo \to \Ltwo$ and is continuous w.r.t. $m$.
+  \item $f(x,m(x)):\Omega \times \Ltwo \to \Ltwo$ and is continuous with respect to $m$.
   \item $G(x): \Omega \to \Ltwo$.
 \end{enumerate}
 
 \begin{example}
-  A Hamiltonian satisfying Assumption 2 is
-  \[H(x,p) = p + V(x) \text{ on } \Omega = (0,1),\] 
-  where $V \in L^\infty(\Omega)$. In this case, the associated drift, $\Hp$, is constant.
+A Hamiltonian satisfying Assumption 2 is
+\[
+H(x,p) = p + V(x)\quad \text{on } \Omega = (0,1),
+\]
+where $V \in L^\infty(\Omega)$. In this case, the associated drift $\Hp$ is constant.
 \end{example}
-\begin{example}
-  For a coupling term satisfying Assumption 3, one may consider
-  \[f(x,m) = a(x)\,\phi(m),\]
-  where $a(x) \in L^\infty(\Omega) \text{ and } \phi \in \Ltwo \text{ is continuous.}$
 
+\begin{example}
+For a coupling term satisfying Assumption 5, one may consider
+\[
+f(x,m) = a(x)\,\phi(m),
+\]
+where $a(x) \in L^\infty(\Omega)$ and $\phi:\Ltwo\to\Ltwo$ is continuous.
 \end{example}
 
 \paragraph{Main Result}
-\begin{theorem}[Existence of the MFG solution]
-\label{thm:main_result}
-Let the Mean Field Game system be characterised by \ref{eq:system} and suppose the assumptions above are true. 
-Then a solution $(u,m) \in \Honez \times \Honez$ exists. 
+\begin{theorem}[Existence of the MFG solution]\label{thm:main_result}
+Let the Mean Field Game system be characterised by \cref{eq:system} and suppose the assumptions above hold.
+Then a solution $(u,m) \in \Honez \times \Honez$ exists.
 \end{theorem}
 
-We will prove this theorem throughout the rest of this paper. 
+We prove this theorem throughout the rest of this paper.
+
+\clearpage
 \section{Method}
 
 Our proof consists of two stages. First, we demonstrate solvability for each equation separately, while fixing the other variable (HJB with fixed $m$, and KFP with fixed $u$).
-Second, we show the existence of a solution \emph{pair} solving both equations simultaneously.
-Before starting our proof it's important to introduce the following inequalities. These are essential and will lend themselves
-to almost every proof throughout this paper.
+Second, we show the existence of a solution pair solving both equations simultaneously.
+Before starting our proof it is important to introduce the following inequalities, which will be used repeatedly.
+
 \begin{definition}
-  $p,\,q \in [1, \infty]$ are \emph{conjugate parameters} if ${\frac{1}{q}+ \frac{1}{p} = 1}$ 
+Parameters $p,q\in[1,\infty]$ are \emph{conjugate} if $\frac{1}{p}+\frac{1}{q}=1$.
 \end{definition}
-\begin{theorem}[Hölder's inequality]
-\label{thm:holder}
-Let $f \in L^p(\Omega) \text{ and } g \in L^q(\Omega)$ where $p, \,q$ are conjugate parameters. Then
-\[\norm{fg}_1 \le \norm{f}_p\,\norm{g}_q\]
+
+\begin{theorem}[Hölder's inequality]\label{thm:holder}
+Let $f \in L^p(\Omega)$ and $g \in L^q(\Omega)$ where $p,q$ are conjugate. Then
+\[
+\norm{fg}_1 \le \norm{f}_p\,\norm{g}_q.
+\]
 \end{theorem}
+
 \begin{remark}
-  In particular, when $p,\,q = 2$ we get the Cauchy--Schwarz inequality
-  \[\norm{fg}_1 \le \norm{f}_2\,\norm{g}_2\]
+In particular, when $p=q=2$ we obtain the Cauchy--Schwarz inequality
+\[
+\norm{fg}_1 \le \norm{f}_2\,\norm{g}_2.
+\]
 \end{remark}
-\begin{theorem}[Young's inequality]
-\label{thm:youngs}
-Let $a,\, b \in \R$ then 
-\[2ab \le \frac{a^2}{\varepsilon^2} + \varepsilon^2 b^2 \qquad \forall \varepsilon > 0\]
+
+\begin{theorem}[Young's inequality]\label{thm:youngs}
+Let $a,b\in\R$. Then
+\[
+2ab \le \frac{a^2}{\varepsilon^2} + \varepsilon^2 b^2 \qquad \forall \varepsilon > 0.
+\]
 \end{theorem}
 
 \subsection{Independent unique solutions}
 \subsubsection{Solving Kolmogorov--Fokker--Planck}
 
 To solve
-\[-\Delta m - \diver\!\bigl(m\,\Hp(x,\nabla u)\bigr) + \lambda m = G(x)\]
+\[
+-\Delta m - \diver\!\bigl(m\,\Hp(x,\nabla u)\bigr) + \lambda m = G(x)
+\]
 with fixed $u$, we note that the equation is linear in $m(x)$, so we appeal to the Lax--Milgram theorem \cite{lax_milgram}.
 
-\begin{theorem}[Lax--Milgram]
-\label{thm:lax-milgram}
+\begin{theorem}[Lax--Milgram]\label{thm:lax-milgram}
 Let $V$ be a Hilbert space and let $a:V\times V\to\R$ be a bilinear form such that for all $u,v\in V$,
 \begin{enumerate}[label=(\roman*), leftmargin=*, itemsep=0.25em]
   \item (boundedness) $|a(u,v)|\le c_1\norm{u}\,\norm{v}$,
@@ -176,79 +234,77 @@ a(u,v)=l(v)\qquad\text{for all }v\in V.
 \]
 Moreover, $\norm{u}_V \le \frac{1}{c_0}\norm{l}_{V^\ast}$.
 \end{theorem}
-\label{eq:weak_form}
-For our purposes, we take $a(m,v)=l(v)$ for all $v\in\Honez$ to be the weak formulation of (KFP), i.e.
-\[a(m,v)=\int_\Omega \nabla m\cdot\nabla v + m\,\nabla v\cdot\Hp(x,\nabla u)+\lambda mv\,dx,
-\qquad
-l(v)=\int_\Omega G(x)\,v\,dx.\]
 
-We now go about showing that (KFP) meets the conditions for \ref{thm:lax-milgram}.
-\begin{proposition}[Boundedness of (KFP)]
-\label{prop:kfp-bounded}
+\begin{equation}\label{eq:weak_form}
+a(m,v)=\int_\Omega \nabla m\cdot\nabla v + m\,\nabla v\cdot\Hp(x,\nabla u)+\lambda mv\,dx,
+\qquad
+l(v)=\int_\Omega G(x)\,v\,dx.
+\end{equation}
+
+We now show that (KFP) meets the conditions of \cref{thm:lax-milgram}.
+
+\begin{proposition}[Boundedness of (KFP)]\label{prop:kfp-bounded}
 The form $a(m,v)$ is bounded on $\Honez\times\Honez$.
 \end{proposition}
-\begin{proof} 
+
+\begin{proof}
 For arbitrary $m,v\in\Honez$,
 \begin{align*}
 |a(m,v)|
 &\le \int_{\Omega} |\nabla m||\nabla v| +|\nabla v||m||\Hp| + \lambda |m||v| \,dx\\
-&\le \norm{\nabla m}_{L^2}\norm{\nabla v}_{L^2} + L\norm{m}_{L^2}\norm{\nabla v}_{L^2} + \lambda\norm{m}_{L^2}\norm{v}_{L^2}\\
+&\le \norm{\nabla m}_{L^2}\norm{\nabla v}_{L^2} + L\norm{m}_{L^2}\norm{\nabla v}_{L^2} + \lambda\norm{m}_{L^2}\norm{v}_{L^2}.
 \end{align*}
-By the Cauchy--Schwarz inequality and Assumption 3. Therefore,
-\begin{align*}
+By Cauchy--Schwarz and Assumption 3, there exists $C>0$ such that
+\[
 |a(m,v)| \le C\,\norm{m}_{H^1}\,\norm{v}_{H^1}.
-\end{align*}
-Thus, $a(m,v)$ is bounded.
+\]
+Thus $a(m,v)$ is bounded.
 \end{proof}
 
-\begin{proposition}[Coercivity of (KFP)]
-\label{prop:kfp-coercive}
-If $\lambda > 0$ is sufficiently large, then $a(m,v)$ is coercive.
+\begin{proposition}[Coercivity of (KFP)]\label{prop:kfp-coercive}
+If $\lambda > 0$ is sufficiently large, then $a(\cdot,\cdot)$ is coercive.
 \end{proposition}
+
 \begin{proof}
 Consider
 \begin{align*}
 a(v,v)
-&= \int_\Omega \nabla v\cdot\nabla v + v\,\nabla v\cdot\Hp(x,\nabla u)+\lambda v^2\,dx\\
-&\ge \norm{\nabla v}_{L^2}^2 - L\norm{v}_{L^2}\norm{\nabla v}_{L^2} + \lambda\norm{v}_{L^2}^2\\
+&= \int_\Omega |\nabla v|^2 + v\,\nabla v\cdot\Hp(x,\nabla u)+\lambda v^2\,dx\\
+&\ge \norm{\nabla v}_{L^2}^2 - L\norm{v}_{L^2}\norm{\nabla v}_{L^2} + \lambda\norm{v}_{L^2}^2.
 \end{align*}
-By Assumption 3. Now applying Young's inequality we get 
+Applying Young's inequality yields
 \begin{align*}
 a(v,v)
 &\ge \Bigl(1-\frac{\varepsilon^2}{2}\Bigr)\norm{\nabla v}_{L^2}^2
   + \Bigl(\lambda-\frac{L^2}{2\varepsilon^2}\Bigr)\norm{v}_{L^2}^2,
-  \qquad \forall \varepsilon\in\R,
+  \qquad \forall \varepsilon\in\R.
 \end{align*}
-To ensure $1-\varepsilon^2/2>0$, impose $\varepsilon^2<2$.
-Choosing $\varepsilon^2=2$ (as a limiting choice) gives the weakest requirement
-\[\lambda>\frac{L^2}{4},\]
+To ensure $1-\varepsilon^2/2>0$, impose $\varepsilon^2<2$. Choosing $\varepsilon^2=2$ (as a limiting choice) gives the weakest requirement
+\[
+\lambda>\frac{L^2}{4},
+\]
 which ensures coercivity.
 \end{proof}
 
-Thus $a(\cdot,\cdot)$ is bounded and coercive. 
-\begin{theorem}[Existence of unique (KFP) solution]
-  \label{thm:solution_kfp}
-  Let the Kolmogorov-Fokker-Planck equation be as in \ref{eq:system} and suppose that $\lambda > 0$ is sufficiently large. Then for any fixed $u \in \Honez$, there exists
-  a unique $m \in \Honez$ solving the equation. 
+\begin{theorem}[Existence of unique (KFP) solution]\label{thm:solution_kfp}
+Let the Kolmogorov--Fokker--Planck equation be as in \cref{eq:system} and suppose that $\lambda > 0$ is sufficiently large.
+Then for any fixed $u \in \Honez$, there exists a unique $m \in \Honez$ solving the equation.
 \end{theorem}
+
 \begin{proof}
-  Let $a(m,v) = l(v)$ be the weak formulation of the (KFP) equation as defined above \ref{eq:weak_form}. By \ref{prop:kfp-bounded} and \ref{prop:kfp-coercive}
-  we know that $a(\cdot,\cdot)$ is bounded and coercive. 
-  Left to show is that $l(v)$ is bounded. Consider
+Let $a(m,v)=l(v)$ be the weak formulation \cref{eq:weak_form}. By \cref{prop:kfp-bounded,prop:kfp-coercive}, $a(\cdot,\cdot)$ is bounded and coercive.
+It remains to show $l$ is bounded. By Cauchy--Schwarz,
 \begin{align*}
 \norm{l}
 &= \sup_{\norm{v}_{H^1}\le 1}\left|\int_\Omega Gv\,dx\right|
-\le \sup_{\norm{v}_{L^2}\le 1}\norm{v}_{L^2}\,\norm{G}_{L^2}.
+\le \sup_{\norm{v}_{L^2}\le 1}\norm{v}_{L^2}\,\norm{G}_{L^2}
+\le \norm{G}_{\Ltwo}.
 \end{align*}
-By Cauchy-Schwarz. Therefore,
-\begin{align*}
-\norm{l}
-&\le \norm{G}_{\Ltwo}.
-\end{align*}
-Thus, $l$ is bounded. By the Lax-Milgram Theorem \ref{thm:lax-milgram}, there exists a unique solution $m\in\Honez$ solving the equation.
+Thus $l$ is bounded. By \cref{thm:lax-milgram}, there exists a unique $m\in\Honez$.
 \end{proof}
+
 \begin{remark}
-Lax-Milgram conveniently applies here only because (KFP) is linear in $m$ once $u\in\Honez$ is fixed.
+Lax--Milgram applies here because (KFP) is linear in $m$ once $u\in\Honez$ is fixed.
 \end{remark}
 
 \subsubsection{Solving Hamilton--Jacobi--Bellman}
