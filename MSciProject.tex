@@ -120,10 +120,10 @@ This report studies a stationary mean field game system given by a Hamilton--Jac
 
 \paragraph{Context and Motivation}
 Mean field games is a branch of game theory devoted to the analysis of a special subset of games. These systems are distinguished by having a very large number of players, each of whom is considered almost insignificant, with minimal influence on the system as a whole. 
-In measure theory this corresponds to nullifying sets with countable measure and thinking of functions in the distributional sense. 
+In measure theory this corresponds to nullifying sets with countable measure and thinking of functions in the distributional sense. \\ \\
 Furthermore, each player is a rational observer and the general trend around them informs their decision on how to act, with the aim of achieving an optimal outcome.
 The famous example in economics of such a game, introduced by Aumann, is the behaviour of stock traders whom we treat as a continuum \cite{aumann}.
-In this paper we consider the equilibrium problem characterised by a coupled pair of equations: a Hamilton--Jacobi--Bellman (HJB) equation and a Kolmogorov--Fokker--Planck (KFP) equation.
+In this paper we consider the Nash equilibrium problem characterised by a coupled pair of equations: a Hamilton--Jacobi--Bellman (HJB) equation and a Kolmogorov--Fokker--Planck (KFP) equation.
 
 \begin{equation}\label{eq:system}
 \begin{aligned}
@@ -136,13 +136,14 @@ This is supplemented with homogeneous Dirichlet boundary conditions $u=0$ and $m
 \paragraph{Interpretation of Equations}
 Here $m(x)$ represents the player density and $u(x)$ the value function of a representative agent in the mean field game. In other words, $u(x)$ is a player's optimal solution achieved by minimising the expected cost at position $x$.
 The term $\Hp$ denotes the partial derivative of $H$ with respect to the momentum variable (i.e.\ the $\nabla u$ argument), and $\lambda>0$.
-(HJB) describes a representative player's optimal control behaviour for a given player density $m$. On the other hand, (KFP) gives the evolution of $m(\cdot)$ when every player satisfies the optimal solution $u$.
+(HJB) describes a representative player's optimal control behaviour for a given player density $m$. \\ \\
+On the other hand, (KFP) gives the evolution of $m(\cdot)$ when every player satisfies the optimal solution $u$.
 Each player tries to minimise their cost function $f(x,m)$ (in HJB), and the optimal control for an individual player is given by $\alpha^\ast = -\Hp(x,\nabla u)$, which makes up the drift term in (KFP).
 The Laplacian terms are diffusion terms accounting for randomness (e.g.\ Brownian motion) and preventing perfect alignment of players even under a shared strategy.
 Finally, $G(\cdot)$ is an exogenous term controlling entry/exit of players and therefore directly affects $m$ in (KFP). \cite{lasry_lions, pierre}
 
 \paragraph{Mathematical Contribution}
-In this paper we analyse the coupled system \cref{eq:system} and investigate the existence of a weak solution pair $(u,m)\in\Honez\times\Honez$.
+In this paper we analyse the coupled system \cref{eq:system} and investigate the existence of a weak solution pair $(u,m)\in\Honez\times\Honez$. Whether 
 In addition, we consider a more general formulation of the system and prove an existence result in this extended setting, which constitutes an original contribution of this work.
 
 \paragraph{Assumptions}
