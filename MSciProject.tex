@@ -583,6 +583,7 @@ for which $\lambda >0$ being sufficiently large implies $u_k\to u$ i.e $T$ is co
 \end{proof}
 
 \begin{remark}
+  \label{rm:s-bounded}
   The image of $S$ is always bounded as a direct consequence of Lax-Milgram (\Cref{thm:lax-milgram}). 
 \end{remark}
 
@@ -649,17 +650,17 @@ The corresponding system, with $A[m]$ substituted for $m/\mu$, is
 Rearranging the latter and using the Lax--Milgram bound implies
 \[\norm{m}_{L^2}\le \frac{1}{c_0}\mu \norm{G}_{L^2}\le \frac{1}{c_0}\norm{G}_{L^2},\]
 which is bounded in $\Ltwo$ (Assumption 6). 
-By Schaefer's theorem, $A$ has a fixed point. We may conlclude our finding with the next theorem.
+By Schaefer's theorem, $A$ has a fixed point. We may conlclude our finding with the proof of \Cref{thm:main_result}.
 
 \paragraph{Proof of the Main Result}
 \begin{proof}[Proof of \Cref{thm:main_result}]
 Let A be as in \cref{def:A-map}. A is compact and continuous and has bounded fixed points (if they were to exist) by the above, \Cref{thm:A-cont} and \Cref{thm:A-comp}.
-By Schaefer's theorem (\Cref{thm:schaefer}), $A$ has a fixed point. Thus, a solution pair $(u,m) \in \Honez \times \Honez$ to the MFG sytem exists.
+By Schaefer's theorem (\Cref{thm:schaefer}), $A$ has a fixed point. Thus, a solution pair $(u,m) \in \Honez \times \Honez$ to the stationary MFG sytem exists.
 \end{proof}
 
 \subsection{Swapping Composition Order of $T$ and $S$}
 In hindsight, we can see that the composition of $T$ (\cref{def:T-map}) followed by $S$ (\cref{def:S-map}) was convenient because it provided a natural bound for the fixed point. We relied on the fact that
-the image of $S$ is always bounded (\Cref{thm:lax-milgram}) independent of $m$.
+the image of $S$ is always bounded (\cref{rm:s-bounded}) independent of $m$.
 An equaly valid construction for $A$ however, is the reverse composition 
 \[A \coloneqq T\circ S.\] 
 
@@ -864,6 +865,20 @@ Then a solution $(u,m) \in \Honez \times \Honez$ exists.
   is bounded independently of $\mu$. 
   By Schaefer's theorem (\ref{thm:schaefer}), $\tilde{A}$ has a fixed point.
 \end{proof}
+
+\section{Conclusion}
+We briefly summarise the strategy used to establish the existence of steady state solutions to the coupled system. 
+Our approach proceeds by analysing the two equations separately and then combining the resulting solution operators. 
+For a fixed density $m$, the Hamilton--Jacobi--Bellman equation is solved to obtain $u \in H^1_0(\Omega)$, while for a fixed $u$ the Kolmogorov--Fokker--Planck equation determines the corresponding density $m$. 
+These steps define two operators between the relevant function spaces. By composing these operators we obtain a map whose fixed points correspond to solution pairs $(u,m)$ of the coupled system.\\
+
+A key feature of this construction is that one ordering of the composition allows the existence result to be obtained without imposing a growth 
+condition on the coupling term $f$. The fixed point framework therefore provides a flexible mechanism for 
+passing from solvability of the individual equations to the existence of a solution for the full mean field game system. We further extend this analysis by incorporating 
+nonlinear source terms $G(x,m)$ in the KFP equation and show that, under suitable structural assumptions, the same argument yields existence of steady state solutions in this more general setting. \\
+Finally, since $\Omega$ is bounded, continuity assumptions on the coupling terms may equivalently be formulated in $L^1$ or $L^2$ (since \Cref{thm:holder} makes the two conditions interchangeable up to a constant), 
+illustrating the robustness of the functional analytic approach employed here.
+
 \bibliographystyle{plain}
 \bibliography{references}
 \end{document}
