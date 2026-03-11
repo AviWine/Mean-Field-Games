@@ -156,7 +156,7 @@ Under suitable assumptions, we establish the existence of a weak solution pair i
 
 \paragraph{Context and Motivation}
 Mean field games is a branch of game theory devoted to the analysis of a special subset of games. These systems are distinguished by having a very large number of players, each of whom is considered almost insignificant, with minimal influence on the system as a whole. 
-In measure theory this corresponds to nullifying sets with countable measure and thinking of functions in the distributional sense. \\ \\
+In this framework the discrete population of agents is replaced by a continuum distribution, allowing the system to be described using density functions and weak (distributional) solutions of partial differential equations. \\ \\
 Furthermore, each player is a rational observer and the general trend around them informs their decision on how to act, with the aim of achieving an optimal outcome.
 The famous example in economics of such a game, introduced by Aumann, is the behaviour of stock traders whom we treat as a continuum \cite{aumann}.
 In this paper we consider the stationary equilibrium problem characterised by a coupled pair of equations: a Hamilton--Jacobi--Bellman (HJB) equation and a Kolmogorov--Fokker--Planck (KFP) equation.
@@ -193,14 +193,14 @@ In addition, we consider a more general formulation of the system and prove an e
     \item Lipschitz continuous with respect to $\nabla u$ with Lipschitz constant $\tilde{C}$,
     \item bounded by $C\bigl(|\nabla u|+1\bigr)$ for a constant $C$, for all $x\in \Omega$ and $\nabla u\in\R^n$.
   \end{itemize}
-  \item The partial derivative $\Hp(x,p)$ is continuous and essentially bounded by some constant $L$.
+  \item The partial derivative $\Hp(x,p)$ is $L^2$ continuous and essentially bounded by some constant $L$.
   \item $\lambda$ is sufficiently large (in particular $\lambda>\max(\,\frac{L^2}{4},\,\frac{C^2}{2},\,\frac{\tilde{C}^2}{4})$).
   \item $f(x,m(x)):\Omega \times \Ltwo \to \Ltwo$ is
   \begin{itemize}[leftmargin=*, itemsep=0.25em]
     \item continuous with respect to $m$.
-    \item bounded by $D\bigl(|m|+1\bigr)$ for a constant $D$, for all $x\in \Omega$ and $\nabla u\in\R^n$.
+    \item bounded by $D\bigl(|m|+1\bigr)$ for a constant $D$, for all $x\in \Omega$ and $m\in \Ltwo$.
   \end{itemize}
-  \item $G(x): \Omega \to \Ltwo$.
+  \item $G(x) \in \Ltwo$.
 \end{enumerate}
 
 \begin{example}
@@ -575,8 +575,8 @@ for which $\lambda >0$ being sufficiently large implies $u_k\to u$ i.e $T$ is co
   &\le \int_\Omega |\nabla(m-m_k)|\,\bigl|m\,b - m_k\,b_k\bigr|\,dx.
   \end{align*}
 
-  Define the correction vector field $\varepsilon_k \coloneqq b - b_k$. Note that since $b_k$ is continuous w.r.t. $u_k$ we have
-  $\lim_{k \to \infty} \norm{\varepsilon_k}_{\Ltwo(\Omega)} = 0$. Then, 
+  Define the correction vector field $\varepsilon_k \coloneqq b - b_k$. Note that since $b_k$ is $L^2$ continuous w.r.t. $u_k$ we have
+  $\norm{\varepsilon_k}_{\Ltwo} \to 0$ (Assumption 3). Then, 
   \begin{align*}
   \norm{\nabla(m-m_k)}_{L^2}^2+\lambda\norm{m-m_k}_{L^2}^2
   &\le \int_\Omega |\nabla(m-m_k)|\,\bigl|m\,b - m_k\, b\bigr| +|\nabla(m-m_k)|\,|m_k||\varepsilon_k|\,dx\\
@@ -614,7 +614,7 @@ Let $X$ and $Y$ be Banach spaces with $X\subset Y$. We say that $X$ is compactly
 \end{definition}
 
 \begin{theorem}[Rellich--Kondrachov compactness theorem]
-Assume $U$ is a bounded open subset of $\R^n$ and $\partial U$ is $C^1$. Suppose $1<p<n$. Then
+Assume $U$ is a bounded open subset of $\R^n$ and $\partial U$ is $C^1$. Suppose $1\le p<n$. Then
 \[W^{1,p}(U)\subset\subset L^q(U) \quad\text{for each }1\le q<p^\ast, \qquad p^\ast=\frac{np}{n-p}.\]
 \end{theorem}
 
@@ -696,7 +696,7 @@ that if there were to exist a fixed point, it would be bounded.
 The corresponding system, with $A[m]$ substituted for $m/\mu$, is
 \[-\Delta u + H(x,\nabla u) + \lambda u = f(x,m), \qquad \frac{1}{\mu}\Bigl(-\Delta m - \diver\!\bigl(m\,\Hp(x,\nabla u)\bigr) + \lambda m\Bigr)=G(x).\]
 Rearranging the latter and using the Lax--Milgram bound implies
-\[\norm{m}_{L^2}\le \frac{1}{c_0}\mu \norm{G}_{L^2}\le \frac{1}{c_0}\norm{G}_{L^2},\]
+\[\norm{m}_{\Honez}\le \frac{1}{c_0}\mu \norm{G}_{L^2}\le \frac{1}{c_0}\norm{G}_{L^2},\]
 which is bounded in $\Ltwo$ (Assumption 6). 
 \end{proof}
 By Schaefer's theorem, $A$ has a fixed point. We may conlclude our finding with the proof of \Cref{thm:main_result}.
@@ -716,7 +716,7 @@ An equaly valid construction for $A$ however, is the reverse composition
 \[A \coloneqq T\circ S.\] 
 
 Here too the existence of a fixed point proves \Cref{thm:main_result} yet crucially, 
-recall that we have not shown the image of $T$ to have any natural bound in $\Honez$. 
+recall that we have not shown the image of $T$ to have any constant bound in $\Honez$. 
 We note that bounded sets under $S$ remain bounded and $A$ retains its continuity and compactness.
 \footnote{Maps $S$ and $T$ themeselves are unchanged. We have already shown that $S$ is continuous (\Cref{prop:s-cont}) and that $T$ is continuous and compact (\Cref{prop:t-cont,prop:t-comp}).} 
 Therefore, we need only demonstrate boundedness of the fixed point set for us to use Schaefer's Theorem. 
@@ -834,10 +834,10 @@ If $\lambda>0$ is sufficiently large, there exists $m\in H^2(\Omega)\cap \Honez$
   To isolate $|\nabla m|^2$ and $m^2$ terms on the RHS, we apply Young's inequality \ref{thm:youngs} to give\\
   \begin{align*}
   \int_\Omega |\nabla m|^2 + \lambda |m|^2\,dx
-  &\le \int_\Omega \frac12\delta ^2\,|\nabla m|^2 + \bigl(B+\frac12 \varepsilon^2 +\frac{L^2}{2\delta ^2}\bigr)\,|m|^2 \,dx  + K
+  &\le \int_\Omega \frac12\delta ^2\,|\nabla m|^2 + \bigl(B+\frac12 \varepsilon^2 +\frac{L^2}{2\delta ^2}\bigr)\,|m|^2 \,dx  + K^2
   \qquad \varepsilon, \,\delta \in (0, \sqrt{2})\\[0.9em]
   \end{align*}
-  where $K$ are the terms independent of $m, \nabla m$.
+  where $K^2$ is the sum of terms independent of $m, \nabla m$.
   If $\lambda > B + \frac{L^2}{4}$ then we can find suitable $\varepsilon, \delta$ such that $\norm{m}_{\Honez}$ is bounded. \footnote{See \Cref{thm:existence_hjb} for further elaboration on this point.}
   After taking the difference of both sides, the inequality simplifies to 
   \begin{align*}
@@ -853,7 +853,7 @@ If $\lambda>0$ is sufficiently large, then the fixed point $m$ is unique.
 \end{proposition}
 \label{prop:uniqueness2}
 \begin{proof}
-Suppose $m_1,m_2$ both solve HJB. Taking the difference and setting $v=m_1-m_2$ gives
+Suppose $m_1,m_2$ both solve the non-linear KFP equation. Taking the difference and setting $v=m_1-m_2$ gives
 \begin{align*}
 \norm{\nabla(m_1-m_2)}_{L^2}^2 +\lambda\norm{m_1-m_2}_{L^2}^2
 &\le \int_\Omega |\Hp|\,|m_1-m_2|\,|\nabla(m_1 -m_2)| + |G_1-G_2|\,|m_1-m_2|\,dx\\
@@ -866,7 +866,7 @@ using Assumptions 3, 7 and Cauchy--Schwarz. Hence, by our previous use of Young'
 As with the linear version of KFP we define a map $\tilde{S}$ that will now take the place of $S$ in \cref{def:S-map}.
 \begin{definition}
 \label{def:s_tilde}
-Define $\tilde{S}:\Honez\to\Honez$ by $S(u)=m$, where $m$ solves non-linear KFP for given $u$.
+Define $\tilde{S}:\Honez\to\Honez$ by $\tilde{S}(u)=m$, where $m$ solves non-linear KFP for given $u$.
 \end{definition}
 Since the form of HJB in \cref{eq:system2} is the same as that in \cref{eq:system}, we can investigate the existence of a fixed point of the map $\tilde{A}$.
 \begin{definition}
