@@ -142,7 +142,7 @@
 
 \begin{abstract}
 This report studies a stationary mean field game system given by a Hamilton--Jacobi--Bellman equation coupled with a Kolmogorov--Fokker--Planck equation. 
-Under suitable assumptions, we establish the existence of a weak solution pair in $H_0^1(\Omega)\times H_0^1(\Omega)$, and we extend the argument to a variant with a non-linear source term in the KFP equation.
+Under suitable assumptions, we establish the existence of a weak solution pair in $H_0^1(\Omega)\times H_0^1(\Omega)$, and we extend the argument to a variant with a nonlinear source term in the KFP equation.
 \end{abstract}
 
 \tableofcontents
@@ -171,11 +171,12 @@ This is supplemented with homogeneous Dirichlet boundary conditions $u=0$ and $m
 
 \paragraph{Interpretation of Equations}
 Here $m(x)$ represents the player density and $u(x)$ the value function of a representative agent in the mean field game. In other words, $u(x)$ is a player's optimal solution achieved by minimising the expected cost at position $x$.
-The term $\Hp$ denotes the partial derivative of $H$ with respect to the momentum variable (i.e.\ the $\nabla u$ argument), and $\lambda>0$.
+The term $\Hp$ denotes the partial derivative of $H$ with respect to the momentum variable (i.e.\ the $\nabla u$ argument).
 HJB describes a representative player's optimal control behaviour for a given player density $m$. \\ \\
-On the other hand, KFP gives the evolution of $m(\cdot)$ when every player satisfies the optimal solution $u$.
+On the other hand, KFP gives the evolution of $m(x)$ when every player satisfies the optimal solution $u$.
 Each player tries to minimise their cost function $f(x,m)$ (in HJB), and the optimal control for an individual player is given by $\alpha^\ast = -\Hp(x,\nabla u)$, which makes up the drift term in KFP.
 The Laplacian terms are diffusion terms accounting for randomness (e.g.\ Brownian motion) and preventing perfect alignment of players even under a shared strategy.
+The parameter $\lambda>0$ acts as a discount factor in the optimisation problem and plays an important analytical role by ensuring coercivity and boundedness of the associated operators.
 Finally, $G(\cdot)$ is an exogenous term controlling entry/exit of players and therefore directly affects $m$ in KFP. \cite{lasry_lions, pierre}
 
 \paragraph{Mathematical Contribution}
@@ -183,7 +184,10 @@ In this paper we analyse the coupled system \cref{eq:system} and investigate the
 Establishing the existence of a solution pair $(u,m)$ is important because such solutions correspond to Nash equilibria of the mean field game. 
 The function $u$ determines the optimal strategy of a representative agent, while $m$ describes the distribution of agents when all players adopt this strategy. 
 A solution of the coupled system therefore represents a self-consistent equilibrium of the game. 
-In addition, we consider a more general formulation of the system and prove an existence result in this extended setting, which constitutes an original contribution of this work.
+
+While the general analytical framework relies on classical PDE tools such as the Lax--Milgram theorem, elliptic regularity, and Schaefer's fixed point theorem,
+several intermediate estimates and calculations appearing in Sections~2.1--2.3 
+are carried out explicitly for the present system. These derivations form an original technical contribution of this work.
 
 \paragraph{Assumptions}
 \begin{enumerate}[label=\arabic*., leftmargin=*, itemsep=0.35em]
@@ -194,7 +198,7 @@ In addition, we consider a more general formulation of the system and prove an e
     \item bounded by $C\bigl(|\nabla u|+1\bigr)$ for a constant $C$, for all $x\in \Omega$ and $\nabla u\in\R^n$.
   \end{itemize}
   \item The partial derivative $\Hp(x,\, \nabla u)$ is $L^2$ continuous and essentially bounded by some constant $L$.
-  \item $\lambda$ is sufficiently large (in particular $\lambda>\max(\,\frac{L^2}{4},\,\frac{C^2}{2},\,\frac{\tilde{C}^2}{4})$).
+  \item $\lambda >0$ is sufficiently large (in particular $\lambda>\max(\,\frac{L^2}{4},\,\frac{C^2}{2},\,\frac{\tilde{C}^2}{4})$).
   \item $f(x,m(x)):\Omega \times \Ltwo \to \Ltwo$ is
   \begin{itemize}[leftmargin=*, itemsep=0.25em]
     \item continuous with respect to $m$.
@@ -227,8 +231,6 @@ Then a solution $(u,m) \in \Honez \times \Honez$ exists.
 \end{theorem}
 
 We prove this theorem throughout the rest of this paper.
-
-\clearpage
 \section{Method}
 
 Our proof consists of two stages. First, we demonstrate solvability for each equation separately, while fixing the other variable (HJB with fixed $m$, and KFP with fixed $u$).
@@ -302,7 +304,7 @@ For arbitrary $m,v\in\Honez$,
 &\le \int_{\Omega} |\nabla m||\nabla v| +|\nabla v||m||\Hp| + \lambda |m||v| \,dx\\
 &\le \norm{\nabla m}_{L^2}\norm{\nabla v}_{L^2} + L\norm{m}_{L^2}\norm{\nabla v}_{L^2} + \lambda\norm{m}_{L^2}\norm{v}_{L^2}.
 \end{align*}
-By Cauchy--Schwarz and Assumption 3, there exists $c_1>0$ such that
+By Cauchy--Schwarz and Assumption 3. So there exists $c_1>0$ such that
 \[
 |a(m,v)| \le c_1\,\norm{m}_{H^1}\,\norm{v}_{H^1}.
 \]
@@ -334,7 +336,7 @@ To ensure $1-\varepsilon^2/2>0$, impose $\varepsilon^2<2$. Choosing $\varepsilon
 which ensures coercivity.
 \end{proof}
 
-We state the main result of this chapter. 
+The following theorem summarises the main result of this subsection. 
 \begin{theorem}[Existence of unique KFP solution]\label{thm:solution_kfp}
 Let the Kolmogorov--Fokker--Planck equation be as in \cref{eq:system} and suppose that $\lambda > 0$ is sufficiently large.
 Then for any fixed $u \in \Honez$, there exists a unique $m \in \Honez$ solving the equation.
@@ -356,7 +358,7 @@ Thus $l$ is bounded. By \Cref{thm:lax-milgram}, there exists a unique $m\in\Hone
 
 Lax--Milgram does not apply directly to
 \[-\Delta u + H(x,\nabla u) + \lambda u = f(x,m)\]
-with fixed $m$, because the equation is non-linear so we resort to a fixed point method instead. The idea, is to create a map from the HJB equation with the right properties such that 
+with fixed $m$, because the equation is nonlinear so we resort to a fixed point method instead. The idea is to construct a map from the HJB equation with the right properties such that 
 it has a fixed point and for that very fixed point to be our solution. Remarkably, this fixed point method is general enough that we can 
 use it to solve for existence in the system as whole. Indeed, this will be the concern of the next subsection. Throughout this section, $X$ denotes a real Banach space.
 We now introduce the fixed point theorems that rely on suitable properties for the HJB context.
@@ -369,7 +371,7 @@ the sequence $(A[u_k])_{k=1}^\infty$ is precompact in $X$.
 \begin{theorem}[Schaefer's fixed point theorem]
   \label{thm:schaefer}
   Suppose $A:X\to X$ is continuous and compact, and assume the set
-  \[\{u\in X: u=\mu A[u] \text{ for some }0\le\mu\le 1\}\]
+  \[\{u\in X: u=\mu A[u] \text{ for some } \mu \in [0,1]\}\]
   is bounded. Then $A$ has a fixed point. \footnote{See \cite[Section~9.2]{evans_pde}.}
 \end{theorem}
 
@@ -377,7 +379,7 @@ Let us now design the map whose fixed point is a solution to the HJB equation.
 Consider
 
 \[A:\Honez\to\Honez,\qquad A[u]=w \quad\text{where}\quad -\Delta w+\lambda w = f(x,m)-H(x,\nabla u).\]
-We know $w$ exists by Lax--Milgram (\Cref{thm:lax-milgram}), so $A$ is well defined.\footnote{LHS is bounded and coercive  and RHS is bounded by linear growth condition on $H$.} Furthermore by regularity theory \footnote{See \cite[Section~6.3]{evans_pde}} we have 
+We know $w$ exists by Lax--Milgram (\Cref{thm:lax-milgram}), so $A$ is well defined.\footnote{LHS is bounded and coercive  and RHS is bounded by linear growth condition on $H$.} Furthermore, by regularity theory \footnote{See \cite[Section~6.3]{evans_pde}.} we have 
 \begin{align*}
   \norm{w}_{H^2(\Omega)}
   & \le C \norm{f(x,m)-H(x,\nabla u)}_{\Ltwo}\\
@@ -409,13 +411,13 @@ We now prove the existence of an HJB solution by way of our fixed point map.
   \end{align*}
   by Lipschitz continuity of $H$ (Assumption 2).
   Thus, $w = A[u]$. Hence, $A[u_k] \to A[u]$ in $\Honez$, so $A$ is continuous. $A$ is compact by similar reasoning since 
-  a bounded sequence $(u_k)_{k=1}^\infty$ yields a bounded sequence $(A[u_k])_{k=1}^\infty$ in $H^2(\Omega)$ which has a strongly convergent subsequence in $\Honez$.
+  a bounded sequence $(u_k)_{k=1}^\infty$ yields a bounded sequence $(A[u_k])_{k=1}^\infty$ in $H^2(\Omega) \cap \Honez$ which has a strongly convergent subsequence in $\Honez$.
 
   It remains to show
-  \[\{u\in \Honez: u=\mu A[u]\ \text{for some }0\le\mu\le 1\}\]
+  \[\{u\in \Honez: u=\mu A[u]\ \text{for some } \mu \in [0,1]\}\]
   is bounded.
 
-  Substituting $w =u/\mu$ \footnote{\label{fn:mu} We ignore $\mu =0$ since then $w=0$} and setting $v = u$, we obtain
+  Substituting $w =u/\mu$ \footnote{\label{fn:mu} We ignore $\mu =0$ since then $w=0$.} and setting $v = u$, we obtain
   \begin{align*}
     \int_\Omega |\nabla u|^2 + \lambda |u|^2\,dx
     &= \mu\int_\Omega f u - H(x,\nabla u)u\,dx\\
@@ -441,8 +443,8 @@ We now prove the existence of an HJB solution by way of our fixed point map.
     + 2\delta^2|\nabla u|^2 + 2\delta^2\,dx.\\
   \end{align*}
 
-  Provided $\lambda>\frac{C^2}{2}$ there exist sufficiently small $\varepsilon> 0$ and sufficiently large $\delta < 1$ such that
-  \[\lambda > \frac12(\varepsilon^2 + \frac{C^2}{\delta^2}) \text{ and } 1 > \delta^2\]
+  Provided $\lambda>\frac{C^2}{2}$, there exist sufficiently small $\varepsilon> 0$ and suitable $\delta < 1$ such that
+  \[\lambda > \frac12(\varepsilon^2 + \frac{C^2}{\delta^2}) \qquad\text{ and } \qquad1 > \delta^2\]\\
   hold simultaneously.
   Taking the difference of both sides and denoting the constant factor as $K^2 \coloneqq \int_\Omega \delta^2 \,dx$, yields 
   \begin{align*}
@@ -453,7 +455,7 @@ We now prove the existence of an HJB solution by way of our fixed point map.
 Consequently, 
 \[\alpha \norm{u}_{\Honez} \le \frac{1}{\varepsilon\sqrt{2}} \norm{f(x,m)}_{\Ltwo}+ K.\]
 Thus if $\lambda>\frac{C^2}{2}$, the set 
-\[\{u\in \Honez: u=\mu A[u]\ \text{for some }0\le\mu\le 1\}\]
+\[\{u\in \Honez: u=\mu A[u]\ \text{for some } \mu \in[0,1]\}\]
 is bounded independently of $\mu$. By \Cref{thm:schaefer}, $A$ has a fixed point $u \in \Honez$ and thus the HJB equation has a solution.
 \end{proof}
 \begin{remark}
@@ -491,8 +493,8 @@ The following theorem summarises our results.
   There exists a solution by \Cref{thm:existence_hjb} and it is unique by \Cref{prop:uniqueness}.
 \end{proof}
 \subsection{Solving the Coupled System of Equations}
-Having solved the two equations in \ref{eq:system} in isolation, we now look to solve them as a system. As stated above, the fixed point theorems 
-will allow us to prove existence of a solution pair for the system as a whole. The challenge, is to define and 
+Having solved the two equations in (\ref{eq:system}) in isolation, we now look to solve them as a system. As stated above, the fixed point theorems 
+will allow us to prove existence of a solution pair for the system as a whole. The challenge is to define and 
 prove the existence of a fixed point for a suitable map.
 Our work in the previous subsection allows us to define the following maps.
 
@@ -506,7 +508,7 @@ Define $T:\Honez\to\Honez$ by $T[m]=u$, where $u$ solves HJB for given $m$.
 \end{definition}
 \begin{definition}
 \label{def:A-map}
-Let $T$ and $S$ be as in definitions \cref{def:S-map} and \cref{def:T-map}. Define
+Let $T$ and $S$ be as in \cref{def:S-map} and \cref{def:T-map}. Define
 \[A:\Honez\to\Honez,\qquad A \coloneqq S\circ T.\]
 \end{definition}
 
@@ -527,8 +529,8 @@ Since $A$ is simply a composition of $S \text{ and } T$, it suffices to show the
   If $\lambda > 0$ is sufficiently large, $T$ is continuous in $\Honez$. 
 \end{proposition}
 \begin{proof}
-  Let $(m_k)$ converege to $m \in \Honez$. Denote $u=T[m]$, $u_k=T[m_k]$, $H=H(x,\nabla u)$, $H_k = H(x, \nabla u_k)$ and $f_k = f(x, m_k)$.
-  Taking the weak formulation of the difference in HJB gives\\
+  Let $(m_k)$ converge to $m \in \Honez$. Denote $u=T[m]$, $u_k=T[m_k]$, $H=H(x,\nabla u)$, $H_k = H(x, \nabla u_k)$ and $f_k = f(x, m_k)$.
+  Taking the weak formulation of the difference in HJB and setting $v=u-u_k$ gives\\
   \begin{align*}
   \norm{\nabla(u-u_k)}_{L^2}^2+\lambda\norm{u-u_k}_{L^2}^2
   &\le \int_\Omega |u-u_k|\,|H-H_k| + |u-u_k|\,|f-f_k|\,dx\\[0.9em]
@@ -537,7 +539,7 @@ Since $A$ is simply a composition of $S \text{ and } T$, it suffices to show the
   \end{align*}
   By Cauchy-Schwarz and Assumption 2. Since $f$ is $\Ltwo$-continuous (Assumption 5) and 
   \[m_k \to m \text{ in } \Honez \implies m_k \to m \text{ in } \Ltwo,\]
-  $\norm{f-f_k}_{L^2}\to 0$.
+  we get $\norm{f-f_k}_{L^2}\to 0$.
   Also, from the energy estimate
   \begin{align*}
   \norm{\nabla u_k}_{L^2}^2+\lambda\norm{u_k}_{L^2}^2
@@ -545,7 +547,7 @@ Since $A$ is simply a composition of $S \text{ and } T$, it suffices to show the
   \end{align*}
 
 Adopting the same argument for boundedness as in \Cref{thm:existence_hjb} gives the inequality
-\[\alpha \norm{u_k}_{\Honez} \le \frac{1}{\varepsilon \sqrt{2}} \norm{f_k}_{\Ltwo}+ K.\]
+\[\alpha \norm{u_k}_{\Honez} \le \frac{1}{\varepsilon \sqrt{2}} \norm{f_k}_{\Ltwo}+ K\]
  where $K, \,\alpha $ and $\varepsilon$ are independent (positive) constants. By the fact that $f_k \to f$ we know that $\norm{f_k}_{\Ltwo}$ 
  is bounded and so therefore $(u_k)$ is bounded in $\Honez$.
 Thus, ${\norm{u-u_k}_{L^2}\norm{f-f_k}_{L^2}\to 0}$. Thus, in the limit of $k$, (1) becomes
@@ -553,7 +555,7 @@ Thus, ${\norm{u-u_k}_{L^2}\norm{f-f_k}_{L^2}\to 0}$. Thus, in the limit of $k$, 
   \norm{\nabla(u-u_k)}_{L^2}^2+\lambda\norm{u-u_k}_{L^2}^2
   &\le \tilde{C}\norm{u-u_k}_{L^2}\norm{\nabla(u-u_k)}_{L^2}
   \end{align*}
-for which $\lambda >0$ being sufficiently large implies $u_k\to u$ i.e $T$ is continuous on $\Honez$.
+for which $\lambda >0$ being sufficiently large implies $u_k\to u$ i.e. $T$ is continuous in $\Honez$.
 \footnote{See the uniqueness argument above (\Cref{prop:uniqueness}).}
 \end{proof}
 \begin{proposition}
@@ -562,7 +564,7 @@ for which $\lambda >0$ being sufficiently large implies $u_k\to u$ i.e $T$ is co
 \end{proposition}
 \begin{proof}
   Let $(u_k)$ converge to $u$ in $\Honez$. Denote $m=S[u]$, $m_k=S[u_k]$, $b = \Hp(x, \nabla u)$ and $b_k=\Hp(x,\nabla u_k)$.
-  Taking the weak formulation of the difference in KFP yields
+  Taking the weak formulation of the difference in KFP and setting $v=m-m_k$ yields
   \begin{align*}
   \norm{\nabla(m-m_k)}_{L^2}^2+\lambda\norm{m-m_k}_{L^2}^2
   &\le \int_\Omega |\nabla(m-m_k)|\,\bigl|m\,b - m_k\,b_k\bigr|\,dx.
@@ -575,14 +577,14 @@ for which $\lambda >0$ being sufficiently large implies $u_k\to u$ i.e $T$ is co
   &\le \int_\Omega |\nabla(m-m_k)|\,\bigl|m\,b - m_k\, b\bigr| +|\nabla(m-m_k)|\,|m_k||\beta_k|\,dx\\
   &\le L \int_\Omega |\nabla(m-m_k)|\,|m - m_k|\,dx + \int_\Omega |\nabla(m-m_k)|\,|m_k|\,|\beta_k|\,dx.
   \end{align*}
-  $m$ and $m_k$ are bounded in $\Honez$ so as $k$ gets large \[\int_\Omega|\nabla(m-m_k)|\,|m_k||\beta_k|\,dx \to 0.\] 
+  $m$ and $m_k$ are bounded in $\Honez$ by \Cref{thm:lax-milgram} so as $k$ gets large \[\int_\Omega|\nabla(m-m_k)|\,|m_k||\beta_k|\,dx \to 0.\] 
   Therefore, by the largeness of
-  $\lambda$ (see \Cref{prop:kfp-coercive}), we get $m_k \to m$ i.e $S$ is continuous in $\Honez$.
+  $\lambda$ (see \Cref{prop:kfp-coercive}), we get $m_k \to m$ i.e. $S$ is continuous in $\Honez$.
 \end{proof}
 
 \begin{remark}
   \label{rm:s-bounded}
-  The image of $S$ is always bounded as a direct consequence of Lax-Milgram (\Cref{thm:lax-milgram}). 
+  The image of $S$ is always bounded as a direct consequence of Lax--Milgram (\Cref{thm:lax-milgram}). 
 \end{remark}
 \begin{proof}[Proof of \Cref{thm:A-cont}]
   T is continuous (\Cref{prop:t-cont}) and S is continuous (\Cref{prop:s-cont}) so their composition is continuous in $\Honez$.
@@ -596,7 +598,7 @@ for which $\lambda >0$ being sufficiently large implies $u_k\to u$ i.e $T$ is co
 Since $S$ is continuous, it suffices to show that $T$ is compact in $\Honez$:
 \[T \text{ compact } \implies A=S\circ T \text{ compact.}\]
 
-We introduce the following theroems. These will allow us to conclude convergence of a subsequence in a bigger space if we are 
+We introduce the following theorems. These will allow us to conclude convergence of a subsequence in a bigger space if we are 
 given a bounded sequence in a smaller space. The particular relationship that concerns us is the one between $H^2(\Omega) \cap H_0^1(\Omega)$ and $\Honez$.
 
 \begin{definition}
@@ -640,7 +642,7 @@ and for each $i$,
 \]
 
 Since weak derivatives are closed under $L^2$ convergence, it follows 
-that $v_i=\partial_i u$. Therefore, by a diagonal argument there exists a common subsequence still denoted $(u_k)$
+that $v_i=\partial_i u$. Therefore, by a diagonal argument there exists a common subsequence still denoted $(u_k)$ with
 \[
 u_k \to u \quad \text{strongly in } H^1(\Omega).
 \]
@@ -667,7 +669,7 @@ We now have enough to show $T$ is compact.
   \end{align*}
   which is uniformly bounded by our choice of a bounded sequence $(m_k)$ in $\Honez$.
   We also have that 
-  \[\norm{H(x,\,\nabla u_k)}_{\Ltwo} \le C(\norm{\nabla u_k}_{\Ltwo} + |\Omega|^\frac12)\] which is uniformly bounded by Assumption 2 and the boundedness of $(u_k)$ in $\Honez$. This means that both $f_k =f(x,m_k)$
+  \[\norm{H(x,\,\nabla u_k)}_{\Ltwo} \le C(\norm{\nabla u_k}_{\Ltwo} + |\Omega|^\frac12)\] by Assumption 2. This too is uniformly bounded by the boundedness of $(u_k)$ in $\Honez$. This means that both $f_k =f(x,m_k)$
   and $H_k = H(x,\nabla u_k)$ are bounded in $\Ltwo$.
   Recall that $u_k$ weakly solves 
   \[-\Delta u_k +\lambda u_k = g_k,\, g_k \coloneqq f_k - H_k.\]
@@ -677,7 +679,7 @@ We now have enough to show $T$ is compact.
   Thus $T$ is compact, and hence $A$ is compact in $\Honez$.
 \end{proof}
 
-We have shown that $A$ is continuous and compact in $\Honez$. The last step before we can apply Schauder's theorem is to prove 
+We have shown that $A$ is continuous and compact in $\Honez$. The last step before we can apply Schaefer's theorem is to prove 
 that if there were to exist a fixed point, it would be bounded. 
 
 \subsubsection{Boundedness of the Fixed Point Set}
@@ -689,35 +691,35 @@ that if there were to exist a fixed point, it would be bounded.
 \end{lemma}
 \begin{proof}Consider
 \[\{m\in\Honez: m=\mu A[m]\ \text{for some }\mu\in[0,1]\}.\]
-The corresponding system, with $A[m]$ substituted for $m/\mu$ \footnote{See \ref{fn:mu}}, is
+The corresponding system, with $A[m]$ substituted for $m/\mu$ \footnote{See \ref{fn:mu}.}, is
 \[-\Delta u + H(x,\nabla u) + \lambda u = f(x,m), \qquad \frac{1}{\mu}\Bigl(-\Delta m - \diver\!\bigl(m\,\Hp(x,\nabla u)\bigr) + \lambda m\Bigr)=G(x).\]
 Rearranging the latter and using the Lax--Milgram bound implies
 \[\norm{m}_{\Honez}\le \frac{1}{c_0}\mu \norm{G}_{L^2}\le \frac{1}{c_0}\norm{G}_{L^2},\]
 which is bounded in $\Ltwo$ (Assumption 6). 
 \end{proof}
-By Schaefer's theorem, $A$ has a fixed point. We may conlclude our finding with the proof of \Cref{thm:main_result}.
+By Schaefer's theorem, $A$ has a fixed point. We may conclude our finding with the proof of \Cref{thm:main_result}.
 
 \paragraph{Proof of the Main Result}
 \begin{proof}[Proof of \Cref{thm:main_result}]
 Let A be as in \cref{def:A-map}. A is compact and continuous and has bounded fixed points (if they were to exist) by \Cref{thm:A-bounded}, \Cref{thm:A-cont} and \Cref{thm:A-comp}.
-By Schaefer's theorem (\Cref{thm:schaefer}), $A$ has a fixed point. Thus, a solution pair $(u,m) \in \Honez \times \Honez$ to the stationary Mean Field Game sytem exists.
+By Schaefer's theorem (\Cref{thm:schaefer}), $A$ has a fixed point. Thus, a solution pair $(u,m) \in \Honez \times \Honez$ to the stationary mean field game system exists.
 \end{proof}
 
 \subsection{Swapping Composition Order of $T$ and $S$}
 In hindsight, we can see that the composition of $T$ (\cref{def:T-map}) followed by $S$ (\cref{def:S-map}) was convenient because it provided a natural bound for the fixed point. We relied on the fact that
-the image of $S$ is always bounded (\cref{rm:s-bounded}) independently of $m$.
-An equaly valid construction for $A$ however, is the reverse composition 
+the image of $S$ is always bounded (\cref{rm:s-bounded}) independently of $u$.
+An equally valid construction for $A$ however, is the reverse composition 
 \[A \coloneqq T\circ S.\] 
 
 Here too the existence of a fixed point proves \Cref{thm:main_result} yet crucially, 
 recall that we have not shown the image of $T$ to have any constant bound in $\Honez$ rather it depends on the boundedness of its arguments. 
-We note that bounded sets under $S$ remain bounded so $A$ retains its continuity and compactness.
+We note that bounded sets under $S$ remain bounded so the new $A$ retains its continuity and compactness.
 \footnote{Maps $S$ and $T$ themeselves are unchanged. We have already shown that $S$ is continuous (\Cref{prop:s-cont}) and that $T$ is continuous and compact (\Cref{prop:t-cont,prop:t-comp}).} 
 Therefore, we need only demonstrate boundedness of the fixed point set for us to use Schaefer's Theorem. 
 Under this new construction consider
 \[\{u\in\Honez: u=\mu A[u]\ \text{for some }\mu\in[0,1]\}.\]
 
-The corresponding system, with $A[u]$ substituted for $u/ \mu$ \footnote{See \ref{fn:mu}}, is
+The corresponding system, with $A[u]$ substituted for $u/ \mu$ \footnote{See \ref{fn:mu}.}, is
 \[-\frac{\Delta u}{\mu} + H(x,\frac{\nabla u}{\mu}) + \frac{\lambda u}{\mu} = f(x,m), \qquad -\Delta m - \diver \bigl(m\,\Hp(x,\nabla u)\bigr) + \lambda m=G(x).\]
 
 We obtain the weak form of HJB with $v = u$
@@ -747,7 +749,7 @@ The bound of $u$ must be independent of $m$ so we use the growth condition on $f
     &\le \frac{1}{\varepsilon \sqrt{2}} \bigl(\norm{m}_{\Honez} + |\Omega|^\frac12\bigr)+ K\\
     &\le \frac{1}{\varepsilon \sqrt{2}} \bigl(\frac{1}{c_0}\norm{G}_{\Ltwo} + |\Omega|^\frac12\bigr)+ K
   \end{align*}
-  by the Lax-Milgram bound (\Cref{thm:lax-milgram}) since $m \in \operatorname{Im}(S)$. Thus, the set is bounded.
+  by the Lax--Milgram bound (\Cref{thm:lax-milgram}) since $m \in \operatorname{Im}(S)$. Thus, the set is bounded.
 \end{proof}
 \begin{remark}
   Notice the similarity in the proofs of \Cref{prop:t-comp} and \Cref{prop:revA_bounded}. They both illustrate that the image of $T$ is bounded on a bounded domain. 
@@ -765,7 +767,7 @@ We summarise the analysis of this subsection with a lemma.
   Thus, there exists a fixed point by Schaefer's Theorem. 
 \end{proof}
 
-\section{Extension to Non-linear KFP}
+\section{Extension to Nonlinear KFP}
 In certain applications it is natural to allow for the entry or exit of agents from the system. 
 This can be represented by introducing a source term $G(x,m)$ in place of $G(x)$ in \cref{eq:system}. 
 Such terms may model, for example, external recruitment of agents into the population, departures from the system, or density–dependent entry and exit effects. 
@@ -779,8 +781,8 @@ Our new system of equations reads
 \end{aligned}
 \end{equation}
 
-In this scenario we cannot apply the Lax-Milgram Theorem to the KFP equation. We will therefore adopt fixed point theorems 
-to find a solution but as with $H(x,\nabla u)$ we impose assumptions on $G(x,m)$.
+In this scenario we cannot apply the Lax--Milgram Theorem to the KFP equation. We will therefore adopt fixed point theorems 
+to find a solution but as with $H$ and $f$ we impose assumptions on $G(x,m)$.
 \begin{enumerate}[label=\arabic*., leftmargin=*, itemsep=0.35em, resume]
 \item $G(x,m):\Omega \times \Ltwo \to \Ltwo$ is
   \begin{itemize}[leftmargin=*, itemsep=0.25em]
@@ -798,22 +800,29 @@ where $a \in L^\infty(\Omega)$. From a modelling perspective, this choice corres
 or exit with saturation: for small $m$ the response is approximately linear, 
 while for large $m$ the source term remains bounded.
 \end{example}
+\paragraph{Originality of the extension.}
+To the best of the author's knowledge, the existence result established in this
+section for the system with a nonlinear source term $G(x,m)$ does not appear
+explicitly in the references cited above. The argument presented here adapts
+the fixed-point framework developed for the linear case and shows that the same
+method extends under suitable structural assumptions on $G$. The derivation of
+the required estimates is carried out explicitly for the present system.
 
-\begin{theorem}[Existence of Non-linear KFP Solution]
+\begin{theorem}[Existence of Nonlinear KFP Solution]
 \label{thm:existence2}  
-If $\lambda>0$ is sufficiently large, there exists $m\in H^2(\Omega)\cap \Honez$ solving KFP with fixed $u$.
+If $\lambda>0$ is sufficiently large, there exists $m\in H^2(\Omega)\cap \Honez$ solving KFP with fixed $u \in \Honez$.
 \end{theorem}
 \begin{proof}
-  We design the map whose fixed point is a solution to the non-linear equation. 
+  We design the map whose fixed point is a solution to the nonlinear equation. 
 
   \[A:\Honez\to\Honez,\qquad A[m]=w \quad\text{where}\quad -\Delta w -\diver\!\bigl(w\,\Hp(x,\nabla u)\bigr)+\lambda w = G(x,m).\]
 
   We know $w$ exists by Lax--Milgram \Cref{thm:lax-milgram}, so $A$ is well defined.
   Continuity and compactness are the same as in \Cref{thm:existence_hjb} so we omit them.
-  The only difference is in the thershold of $\lambda$ which we'll now derive. As in \Cref{thm:existence_hjb} we want to show
+  The only difference is in the threshold of $\lambda$ which we'll now derive. As in \Cref{thm:existence_hjb} we want to show
   \[\{m\in \Honez: m=\mu A[m]\ \text{for some } \mu \in [0,1]\}\]
   is bounded.
-  Substituting $w=m/\mu$\footnote{See \ref{fn:mu}} and taking $v=m$, we obtain the weak form
+  Substituting $w=m/\mu$\footnote{See \ref{fn:mu}.} and taking $v=m$, we obtain the weak form
   \begin{align*}
   \int_\Omega |\nabla m|^2 + m \nabla m \Hp + \lambda |m|^2\,dx
   &= \mu\int_\Omega G(x,m)m \,dx\\
@@ -828,7 +837,7 @@ If $\lambda>0$ is sufficiently large, there exists $m\in H^2(\Omega)\cap \Honez$
   \begin{align*}
   \int_\Omega |\nabla m|^2 + \lambda |m|^2\,dx
   &\le \int_\Omega \frac12\delta ^2\,|\nabla m|^2 + \bigl(B+\frac12 \varepsilon^2 +\frac{L^2}{2\delta ^2}\bigr)\,|m|^2 \,dx  + K^2
-  \qquad \varepsilon, \,\delta \in (0, \sqrt{2})\\[0.9em]
+  \qquad \varepsilon >0, \,\delta \in (0, \sqrt{2})\\[0.9em]
   \end{align*}
   where $K^2$ is the sum of terms independent of $m, \nabla m$.
   If $\lambda > B + \frac{L^2}{4}$ then we can find suitable $\varepsilon, \delta$ such that $\norm{m}_{\Honez}$ is bounded. \footnote{See \Cref{thm:existence_hjb} for further elaboration on this point.}
@@ -839,14 +848,14 @@ If $\lambda>0$ is sufficiently large, there exists $m\in H^2(\Omega)\cap \Honez$
   where $\tilde{\alpha}$ is the minimum of both factors of $m^2\text{ and } \nabla m^2$. 
 \end{proof}
 \begin{remark}
-  This result has a very important implication. It tells us that any solution $m \in \Honez$ is still bounded by a constant despite $G(\cdot)$ being non-linear. 
+  This result has a very important implication. It tells us that any solution $m \in \Honez$ is still bounded by a constant despite $G(\cdot)$ being nonlinear. 
 \end{remark}
 \begin{proposition}
 If $\lambda>0$ is sufficiently large, then the fixed point $m$ is unique.
 \end{proposition}
 \label{prop:uniqueness2}
 \begin{proof}
-Suppose $m_1,m_2$ both solve the non-linear KFP equation. Taking the difference and setting $v=m_1-m_2$ gives
+Suppose $m_1,m_2$ both solve the nonlinear KFP equation. Taking the difference and setting $v=m_1-m_2$ gives
 \begin{align*}
 \norm{\nabla(m_1-m_2)}_{L^2}^2 +\lambda\norm{m_1-m_2}_{L^2}^2
 &\le \int_\Omega |\Hp|\,|m_1-m_2|\,|\nabla(m_1 -m_2)| + |G_1-G_2|\,|m_1-m_2|\,dx\\
@@ -859,7 +868,7 @@ using Assumptions 3, 7 and Cauchy--Schwarz. Hence, by our previous use of Young'
 As with the linear version of the KFP equation we define a map $\tilde{S}$ to take the place of $S$ in \cref{def:S-map}.
 \begin{definition}
 \label{def:s_tilde}
-Define $\tilde{S}:\Honez\to\Honez$ by $\tilde{S}(u)=m$, where $m$ solves non-linear KFP for given $u$.
+Define $\tilde{S}:\Honez\to\Honez$ by $\tilde{S}(u)=m$, where $m$ solves nonlinear KFP for given $u$.
 \end{definition}
 Since the form of HJB in \cref{eq:system2} is the same as that in \cref{eq:system}, we can investigate the existence of a fixed point of the map $\tilde{A}$.
 \begin{definition}
@@ -868,9 +877,9 @@ Let $T$ and $\tilde{S}$ be as in definitions \ref{def:S-map} and \ref{def:T-map}
 \[\tilde{A}:\Honez\to\Honez,\qquad A \coloneqq \tilde{S}\circ T.\]
 \end{definition}
 
-A fixed point of $\tilde{A}$ means a solution to the new sytem of equations exists. 
-\paragraph{Main Result for Non-linear KFP}
-\begin{theorem}[Existence of MFG Solution with Non-linear KFP]
+A fixed point of $\tilde{A}$ means a solution to the new system of equations exists. 
+\paragraph{Main Result for Nonlinear KFP}
+\begin{theorem}[Existence of MFG Solution with Nonlinear KFP]
 Let the Mean Field Game system be characterised by \cref{eq:system2} and suppose the assumptions above are true. 
 Then a solution $(u,m) \in \Honez \times \Honez$ exists. 
 \end{theorem}
@@ -897,7 +906,7 @@ Then a solution $(u,m) \in \Honez \times \Honez$ exists.
   To meet the final condition of Schaefer's theorem, we must show 
   \[\{m\in\Honez: m=\mu \tilde{A}[m]\ \text{for some }\mu\in[0,1]\}\]
   is bounded. 
-  The corresponding system, with $\tilde{A}[m]$ substituted for $m/\mu$ \footnote{See \ref{fn:mu}}, is
+  The corresponding system, with $\tilde{A}[m]$ substituted for $m/\mu$ \footnote{See \ref{fn:mu}.}, is
   \[-\Delta u + H(x,\nabla u) + \lambda u = f(x,m), \qquad \frac{1}{\mu}\Bigl(-\Delta m - \diver\!\bigl(m\,\Hp(x,\nabla u)\bigr) + \lambda m\Bigr)=G(x,\,\frac{m}{\mu}).\]
   
   Taking the weak form of the latter and setting $v=m$ implies
