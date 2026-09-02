@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+message: "If you use this software or its results, please cite the paper below."
+type: software
+title: "Mean-Field-Games"
+authors:
+  - family-names: "Wine"
+    given-names: "Avi"
+    affiliation: "University College London"
+    orcid: "https://orcid.org/0000-0000-0000-0000"  
+repository-code: "https://github.com/AviWine/Mean-Field-Games"
+version: "1.0.0"
+date-released: 2026-09-02
+license: Apache-2.0
+preferred-citation:
+  type: unpublished
+  title: "Mean-Field-Games"
+  authors:
+    - family-names: "Wine"
+      given-names: "Avi"
+  year: 2026
